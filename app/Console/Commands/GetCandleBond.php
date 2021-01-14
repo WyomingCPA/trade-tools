@@ -52,7 +52,7 @@ class GetCandleBond extends Command
      */
     public function handle()
     {
-        $limit = 1;
+        $limit = 10;
         $client = new TIClient(env('TOKEN_TINKOFF'), TISiteEnum::EXCHANGE);
         $bonds = Bond::where('faceValue', '!=', 0)->orderBy('updated_at')->take($limit)->get();
         $i = 0;
