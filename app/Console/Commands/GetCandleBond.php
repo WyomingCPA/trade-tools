@@ -64,7 +64,7 @@ class GetCandleBond extends Command
             $from = new \DateTime();
             $from->sub(new \DateInterval("P7D"));
             $to = new \DateTime();
-            $candles = $client->getHistoryCandles($bond->figi, $from, $to, TIIntervalEnum::MIN15);
+            $candles = $client->getHistoryCandles($bond->figi, $from, $to, TIIntervalEnum::HOUR);
             foreach ($candles as $candle)
             {
                 $model = Candle::firstOrCreate(['tools_id' => $bond->id], 
