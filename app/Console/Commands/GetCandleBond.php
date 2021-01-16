@@ -18,6 +18,8 @@ use \jamesRUS52\TinkoffInvest\TIInstrumentInfo;
 
 use App\Bond;
 use App\Candle;
+use Exception;
+use Mockery\CountValidator\Exact;
 
 class GetCandleBond extends Command
 {
@@ -67,21 +69,23 @@ class GetCandleBond extends Command
             $candles = $client->getHistoryCandles($bond->figi, $from, $to, TIIntervalEnum::HOUR);
             foreach ($candles as $candle)
             {
-                if (!is_float($candle->getOpen()))
-                {
-                    continue;
+                try {
+                    $model = Candle::firstOrCreate(['tools_id' => $bond->id], 
+                    [                
+                        'tools_id' => $bond->id,
+                        'open' => $candle->getOpen() ? $candle->getOpen() : 0,
+                        'close' => $candle->getClose() ? $candle->getClose() : 0,
+                        'high' => $candle->getHigh() ? $candle->getHigh() : 0,
+                        'low' => $candle->getLow() ? $candle->getLow() : 0,
+                        'volume' => $candle->getVolume() ? $candle->getVolume() : 0,
+                        'time' => $candle->getTime() ? $candle->getTime() : 0, 
+                        'interval' => $candle->getInterval() ? $candle->getInterval() : 0,                  
+                    ]);
                 }
-                $model = Candle::firstOrCreate(['tools_id' => $bond->id], 
-                [                
-                    'tools_id' => $bond->id,
-                    'open' => $candle->getOpen() ? $candle->getOpen() : 0,
-                    'close' => $candle->getClose() ? $candle->getClose() : 0,
-                    'high' => $candle->getHigh() ? $candle->getHigh() : 0,
-                    'low' => $candle->getLow() ? $candle->getLow() : 0,
-                    'volume' => $candle->getVolume() ? $candle->getVolume() : 0,
-                    'time' => $candle->getTime() ? $candle->getTime() : 0, 
-                    'interval' => $candle->getInterval() ? $candle->getInterval() : 0,                  
-                ]);
+                catch(\Illuminate\Database\QueryException $exception) 
+                {
+                    echo "Ошибка\n";
+                }
             }
 
             echo $bond->figi . "\n";
