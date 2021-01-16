@@ -68,6 +68,7 @@ Route::group(['prefix' => 'parent', 'middleware' => 'auth'], function () {
 Route::group(['prefix' => 'bond', 'middleware' => 'auth'], function () {
 	//Route::get('/', ['as' => 'dashboard_parent', 'uses' => 'ParentController@index']);
 	Route::get('all', ['as' => 'bond.all', 'uses' => 'BondController@all']);
+	Route::get('new', ['as' => 'bond.new', 'uses' => 'BondController@newBond']);
 });
 
 

@@ -1,3 +1,9 @@
+@php
+    use Carbon\Carbon;
+    use App\Bond;
+    $new_count = Bond::where('created_at', '>=', Carbon::now()->subDays(1)->startOfDay())->count();
+
+@endphp
 <div class="sidebar" data-color="orange" data-background-color="white" data-image="{{ asset('material') }}/img/sidebar-1.jpg">
   <!--
       Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
@@ -28,14 +34,14 @@
           <ul class="nav">
             <li class="nav-item{{ $activePage == 'all_bond' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('bond.all') }}">
-                <span class="sidebar-mini"> UP </span>
+                <span class="sidebar-mini"> All </span>
                 <span class="sidebar-normal">{{ __('Все') }} </span>
               </a>
             </li>
-            <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('user.index') }}">
-                <span class="sidebar-mini"> UM </span>
-                <span class="sidebar-normal"> {{ __('Other') }} </span>
+            <li class="nav-item{{ $activePage == 'new_bond' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('bond.new') }}">
+                <span class="sidebar-mini"> New7</span>
+                <span class="sidebar-normal"> {{ __('Новые') }} ({{ $new_count }})</span>
               </a>
             </li>
           </ul>
