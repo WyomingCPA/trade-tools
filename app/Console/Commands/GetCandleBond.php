@@ -62,9 +62,9 @@ class GetCandleBond extends Command
             $deleteCandleRows = Candle::where('tools_id', '=', $bond->id)->delete();
 
             $from = new \DateTime();
-            $from->sub(new \DateInterval("P1M"));
+            $from->sub(new \DateInterval("P7D"));
             $to = new \DateTime();
-            $candles = $client->getHistoryCandles($bond->figi, $from, $to, TIIntervalEnum::DAY);
+            $candles = $client->getHistoryCandles($bond->figi, $from, $to, TIIntervalEnum::MIN15);
             foreach ($candles as $candle)
             {
                 $model = Candle::firstOrCreate(['tools_id' => $bond->id], 
