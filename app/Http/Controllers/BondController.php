@@ -39,7 +39,7 @@ class BondController extends Controller
         if ($request->has('perPage')) $perPage = $request->query('perPage');
         if ($request->has('q')) $q = $request->query('q');
           
-        $bonds = Bond::search($q)->where('created_at', '>=', Carbon::now()->subDays(1)->startOfDay())->orderBy('updated_at', $orderBy)->paginate($perPage);
+        $bonds = Bond::search($q)->where('created_at', '>=', Carbon::now()->subDays(7)->startOfDay())->orderBy('updated_at', $orderBy)->paginate($perPage);
 
         return view('bond.new', compact('bonds', 'orderBy', 'sortBy', 'q', 'perPage'));
     }
