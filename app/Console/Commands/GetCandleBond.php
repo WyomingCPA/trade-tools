@@ -67,6 +67,10 @@ class GetCandleBond extends Command
             $candles = $client->getHistoryCandles($bond->figi, $from, $to, TIIntervalEnum::HOUR);
             foreach ($candles as $candle)
             {
+                if (!is_float($candle->getOpen()))
+                {
+                    continue;
+                }
                 $model = Candle::firstOrCreate(['tools_id' => $bond->id], 
                 [                
                     'tools_id' => $bond->id,
