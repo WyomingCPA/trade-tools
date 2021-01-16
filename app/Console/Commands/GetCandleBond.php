@@ -52,19 +52,22 @@ class GetCandleBond extends Command
      */
     public function handle()
     {
-        $limit = 10;
+        $limit = 50;
         $client = new TIClient(env('TOKEN_TINKOFF'), TISiteEnum::EXCHANGE);
         $bonds = Bond::where('faceValue', '!=', 0)->orderBy('updated_at')->take($limit)->get();
         $i = 0;
-        foreach ($bonds as $bond) {
+        foreach ($bonds as $bond) 
+        {
+            //Перед записью удаляем все старые свечи.
+            $deleteCandleRows = Candle::where('tools_id', '=', $bond->id)->delete();
 
             $from = new \DateTime();
-            $from->sub(new \DateInterval("P7D"));
+            $from->sub(new \DateInterval("P1M"));
             $to = new \DateTime();
-            $candles = $client->getHistoryCandles($bond->figi, $from, $to, TIIntervalEnum::HOUR);
+            $candles = $client->getHistoryCandles($bond->figi, $from, $to, TIIntervalEnum::DAY);
             foreach ($candles as $candle)
             {
-                $model = Candle::firstOrCreate(['tools_id' => $bond->id, 'time' => $candle->getTime() ? $candle->getTime() : 0], 
+                $model = Candle::firstOrCreate(['tools_id' => $bond->id], 
                 [                
                     'tools_id' => $bond->id,
                     'open' => $candle->getOpen() ? $candle->getOpen() : 0,
