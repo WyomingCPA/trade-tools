@@ -1,7 +1,7 @@
 @php
 use Carbon\Carbon;
 use App\Bond;
-$new_count = Bond::where('created_at', '>=', Carbon::now()->subDays(1)->startOfDay())->count();
+$new_count = Bond::where('created_at', '>=', Carbon::now()->subDays(7)->startOfDay())->count();
 
 @endphp
 <div class="sidebar" data-color="orange" data-background-color="white" data-image="{{ asset('material') }}/img/sidebar-1.jpg">

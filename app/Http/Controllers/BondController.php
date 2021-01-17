@@ -28,7 +28,6 @@ class BondController extends Controller
     }
     public function newBond(Request $request)
     {
-        //$bonds = Bond::where('created_at', '>=', Carbon::now()->subDays(1)->startOfDay())->get();
         $sortBy = 'id';
         $orderBy = 'desc';
         $perPage = 100;
