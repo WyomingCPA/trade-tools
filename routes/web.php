@@ -69,6 +69,13 @@ Route::group(['prefix' => 'bond', 'middleware' => 'auth'], function () {
 	//Route::get('/', ['as' => 'dashboard_parent', 'uses' => 'ParentController@index']);
 	Route::get('all', ['as' => 'bond.all', 'uses' => 'BondController@all']);
 	Route::get('new', ['as' => 'bond.new', 'uses' => 'BondController@newBond']);
+
+	Route::get('favorites', ['as' => 'bond.favorites', 'uses' => 'BondController@favorites']);
+	Route::post('favorite', ['as' => 'bond.favorites.post', 'uses' => 'BondController@favoriteBond']);
+	Route::post('unfavorite', ['as' => 'bond.unfavorite', 'uses' => 'BondController@unFavoriteBond']);
+	Route::get('trash', ['as' => 'bond.trash', 'uses' => 'BondController@trash']);
+	Route::post('trash/{bond}', 'BondController@TrashBond');
+	Route::post('untrash/{bond}', 'BondController@unTrashBond');
 });
 
 

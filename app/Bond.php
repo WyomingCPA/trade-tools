@@ -12,6 +12,7 @@ class Bond extends Model
     {
         return $this->hasMany(Candle::class, 'tools_id');
     }
+
     public function scopeSearch($query, $q)
     {
         if ($q == null) return $query;

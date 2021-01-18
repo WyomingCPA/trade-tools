@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'all_bond', 'titlePage' => __('Все облигаций') ])
+@extends('layouts.app', ['activePage' => 'favorites_bond', 'titlePage' => __('Избранные') ])
 
 @section('content')
 <div class="content">
@@ -14,7 +14,7 @@
                     <div class="card">
                         <h3 class="card-header text-center font-weight-bold text-uppercase py-4"></h3>
                         <div class="card-body">
-                            <form class="form" method="post" action="{{ route('bond.favorites.post') }}">
+                            <form class="form" method="post" action="{{ route('bond.unfavorite') }}">
                                 @csrf
                                 <table class="table">
                                     <thead>
@@ -47,13 +47,12 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-
                                 <div class="col-md-12">
-                                    {{ $bonds->links('pagination.default') }}
+
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button type="submit" class="btn btn-primary btn-link btn-lg">Прменить</button>
+                                        <button type="submit" class="btn btn-primary btn-link btn-lg">Убрать из избранного</button>
                                     </div>
                                 </div>
                             </form>
@@ -64,9 +63,6 @@
         </div>
     </div>
 </div>
-<script>
-
-</script>
 @endsection
 @section('scripts')
 <script>

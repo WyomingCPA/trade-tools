@@ -36,4 +36,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function favoritesBond()
+    {
+        return $this->belongsToMany(Bond::class, 'favorite_bonds', 'user_id', 'bond_id')->withTimeStamps();
+    }
+
+    public function trashBond()
+    {
+        return $this->belongsToMany(Bond::class, 'trash_bonds', 'user_id', 'bond_id')->withTimeStamps();
+    }
 }
