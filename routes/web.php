@@ -75,7 +75,7 @@ Route::group(['prefix' => 'bond', 'middleware' => 'auth'], function () {
 	Route::post('unfavorite', ['as' => 'bond.unfavorite', 'uses' => 'BondController@unFavoriteBond']);
 	Route::get('trash', ['as' => 'bond.trash', 'uses' => 'BondController@trash']);
 	Route::post('trash/{bond}', 'BondController@TrashBond');
-	Route::post('untrash/{bond}', 'BondController@unTrashBond');
+	Route::post('untrash', ['as' => 'bond.untrash', 'uses' => 'BondController@untrashBond']);
 });
 
 

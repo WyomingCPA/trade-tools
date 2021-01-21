@@ -49,7 +49,7 @@ $new_count = Bond::where('created_at', '>=', Carbon::now()->subDays(7)->startOfD
                 <span class="sidebar-normal">{{ __('Избранные') }} </span>
               </a>
             </li>
-            <li class="nav-item{{ $activePage == 'trash_bond' ? ' active' : '' }}">
+            <li class="nav-item{{ $activePage == 'trashes_bond' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('bond.trash') }}">
                 <span class="sidebar-normal">{{ __('Скрытые') }} </span>
               </a>

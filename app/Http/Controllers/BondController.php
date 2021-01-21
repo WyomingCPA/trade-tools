@@ -55,17 +55,27 @@ class BondController extends Controller
         if ($request->method() == 'POST') {
             $select = $request->get('selection');
 
-            //Студент должен иметь заполненную анкету, иначе не установить родителя 
-            Auth::user()->favoritesBond()->attach(array_values($select));
-            return redirect(route('bond.favorites'));
+            $isTrash = $request->request->get('trash');
+            $isFavorite = $request->request->get('favorites');
+
+            if (isset($isTrash))
+            {
+                Auth::user()->trashBond()->attach(array_values($select));
+                return redirect(route('bond.trash'));
+            }
+
+            if (isset($isFavorite))
+            {
+                Auth::user()->favoritesBond()->attach(array_values($select));
+                return redirect(route('bond.favorites'));
+            }
+
         }
     }
     public function unFavoriteBond(Request $request)
     {
         if ($request->method() == 'POST') {
             $select = $request->get('selection');
-
-            //Студент должен иметь заполненную анкету, иначе не установить родителя 
             Auth::user()->favoritesBond()->detach(array_values($select));
             return redirect(route('bond.favorites'));
         } 
@@ -73,6 +83,17 @@ class BondController extends Controller
 
     public function trash(Request $request)
     {
+        $perPage = 100;
+        $bonds = Auth::user()->trashBond;
+        return view('bond.trash', compact('bonds', 'perPage'));
+    }
 
+    public function untrashBond(Request $request)
+    {
+        if ($request->method() == 'POST') {
+            $select = $request->get('selection');
+            Auth::user()->trashBond()->detach(array_values($select));
+            return redirect(route('bond.trash'));
+        } 
     }
 }

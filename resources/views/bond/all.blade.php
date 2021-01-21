@@ -53,7 +53,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button type="submit" class="btn btn-primary btn-link btn-lg">Прменить</button>
+                                        <button name='favorites' value='1' type="submit" class="btn btn-primary btn-link btn-lg">В избранное</button>
+                                        <button name='trash' value='1' type="submit" class="btn btn-primary btn-link btn-lg">Скрыть</button>
                                     </div>
                                 </div>
                             </form>
