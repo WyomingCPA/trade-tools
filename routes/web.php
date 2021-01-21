@@ -77,5 +77,14 @@ Route::group(['prefix' => 'bond', 'middleware' => 'auth'], function () {
 	Route::post('trash/{bond}', 'BondController@TrashBond');
 	Route::post('untrash', ['as' => 'bond.untrash', 'uses' => 'BondController@untrashBond']);
 });
+//Роуты акций.
+Route::group(['prefix' => 'stock', 'middleware' => 'auth'], function () {
+	Route::get('all', ['as' => 'stock.all', 'uses' => 'StockController@all']);
+	Route::get('new', ['as' => 'stock.new', 'uses' => 'StockController@newStock']);
+	Route::get('favorites', ['as' => 'stock.favorites', 'uses' => 'StockController@favorite']);
+	Route::post('favorite', ['as' => 'stock.favorites.post', 'uses' => 'StockController@favoriteStock']);
+	Route::post('unfavorite', ['as' => 'stock.unfavorite', 'uses' => 'StockController@unFavoriteStock']);
+	
+});
 
 

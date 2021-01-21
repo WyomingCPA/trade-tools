@@ -1,7 +1,10 @@
 @php
 use Carbon\Carbon;
 use App\Bond;
-$new_count = Bond::where('created_at', '>=', Carbon::now()->subDays(7)->startOfDay())->count();
+use App\Stock;
+
+$new_count_bond = Bond::where('created_at', '>=', Carbon::now()->subDays(7)->startOfDay())->count();
+$new_count_stock = Stock::where('created_at', '>=', Carbon::now()->subDays(7)->startOfDay())->count();
 
 @endphp
 <div class="sidebar" data-color="orange" data-background-color="white" data-image="{{ asset('material') }}/img/sidebar-1.jpg">
@@ -24,24 +27,21 @@ $new_count = Bond::where('created_at', '>=', Carbon::now()->subDays(7)->startOfD
         </a>
       </li>
       <li class="nav-item {{ ($activePage == 'bonds' || $activePage == 'user-management') ? ' active' : '' }}">
-        <a class="nav-link" data-toggle="collapse" href="#bonds" aria-expanded="true">
-         
+        <a class="nav-link" data-toggle="collapse" href="#bonds" aria-expanded="true">        
           <p>{{ __('Облигаций') }}
             <b class="caret"></b>
           </p>
         </a>
-        <div class="collapse show" id="bonds">
+        <div class="collapse" id="bonds">
           <ul class="nav">
             <li class="nav-item{{ $activePage == 'all_bond' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('bond.all') }}">
-                <span class="sidebar-mini"> All </span>
                 <span class="sidebar-normal">{{ __('Все') }} </span>
               </a>
             </li>
             <li class="nav-item{{ $activePage == 'new_bond' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('bond.new') }}">
-                <span class="sidebar-mini"> New7</span>
-                <span class="sidebar-normal"> {{ __('Новые') }} ({{ $new_count }})</span>
+                <span class="sidebar-normal"> {{ __('Новые') }} ({{ $new_count_bond }})</span>
               </a>
             </li>
             <li class="nav-item{{ $activePage == 'favorites_bond' ? ' active' : '' }}">
@@ -57,7 +57,6 @@ $new_count = Bond::where('created_at', '>=', Carbon::now()->subDays(7)->startOfD
           </ul>
         </div>
       </li>
-
       <li class="nav-item {{ ($activePage == 'stocks' || $activePage == 'user-management') ? ' active' : '' }}">
         <a class="nav-link" data-toggle="collapse" href="#stocks" aria-expanded="true">
           
@@ -68,15 +67,18 @@ $new_count = Bond::where('created_at', '>=', Carbon::now()->subDays(7)->startOfD
         <div class="collapse" id="stocks">
           <ul class="nav">
             <li class="nav-item{{ $activePage == 'all_stocks' ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('bond.all') }}">
-                <span class="sidebar-mini"> All </span>
+              <a class="nav-link" href="{{ route('stock.all') }}">
                 <span class="sidebar-normal">{{ __('Все') }} </span>
               </a>
             </li>
-            <li class="nav-item{{ $activePage == 'new_bond' ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('bond.new') }}">
-                <span class="sidebar-mini"> New7</span>
-                <span class="sidebar-normal"> {{ __('Новые') }} ({{ $new_count }})</span>
+            <li class="nav-item{{ $activePage == 'new_stock' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('stock.new') }}">
+                <span class="sidebar-normal"> {{ __('Новые') }} ({{ $new_count_stock }})</span>
+              </a>
+            </li>
+            <li class="nav-item{{ $activePage == 'favorites_stock' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('stock.favorites') }}">
+                <span class="sidebar-normal">{{ __('Избранные') }} </span>
               </a>
             </li>
           </ul>
