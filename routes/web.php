@@ -83,8 +83,7 @@ Route::group(['prefix' => 'stock', 'middleware' => 'auth'], function () {
 	Route::get('new', ['as' => 'stock.new', 'uses' => 'StockController@newStock']);
 	Route::get('favorites', ['as' => 'stock.favorites', 'uses' => 'StockController@favorite']);
 	Route::post('favorite', ['as' => 'stock.favorites.post', 'uses' => 'StockController@favoriteStock']);
-	Route::post('unfavorite', ['as' => 'stock.unfavorite', 'uses' => 'StockController@unFavoriteStock']);
-	
+	Route::post('unfavorite', ['as' => 'stock.unfavorite', 'uses' => 'StockController@unFavoriteStock']);	
 });
 
 

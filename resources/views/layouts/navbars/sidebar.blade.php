@@ -23,7 +23,7 @@ $new_count_stock = Stock::where('created_at', '>=', Carbon::now()->subDays(7)->s
       <li class="nav-item{{ $activePage == 'dashboard' ? ' active' : '' }}">
         <a class="nav-link" href="{{ route('home') }}">
           <i class="material-icons">dashboard</i>
-          <p>{{ __('Dashboard') }}</p>
+          <p>{{ __('Личный кабинет') }}</p>
         </a>
       </li>
       <li class="nav-item {{ ($activePage == 'bonds' || $activePage == 'user-management') ? ' active' : '' }}">
