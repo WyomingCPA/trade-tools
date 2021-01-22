@@ -14,6 +14,7 @@ use \jamesRUS52\TinkoffInvest\TICandle;
 use \jamesRUS52\TinkoffInvest\TIOrderBook;
 use \jamesRUS52\TinkoffInvest\TIInstrumentInfo;
 
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -34,9 +35,11 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $time = Carbon::now();
+        
         $client = new TIClient(env('TOKEN_TINKOFF') ,TISiteEnum::EXCHANGE);
         $accounts = $client->getAccounts(); 
         $port = $client->getPortfolio($accounts);
-        return view('dashboard', compact('port'));
+        return view('dashboard', compact('port'))->with('time', $time->toDateTimeString());
     }
 }

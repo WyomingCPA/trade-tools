@@ -4,6 +4,7 @@
 <div class="content">
   <div class="container-fluid">
     <div class="row">
+      
       @foreach ($port->getAllCurrencies() as $item)
       <div class="col-lg-2 col-md-5 col-sm-5">
         <div class="card card-stats">
@@ -13,7 +14,7 @@
           </div>
           <div class="card-footer">
             <div class="stats">
-              <i class="material-icons">date_range</i> {{ date('Y-m-d H:i:s') }}
+              <i class="material-icons">date_range</i> {{ $time }}
             </div>
           </div>
         </div>

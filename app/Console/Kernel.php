@@ -24,7 +24,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('command:telegrammstateprofile')
+            ->weekdays()
+            ->everyThirtyMinutes()
+            ->timezone('Europe/Moscow')
+            ->between('10:00', '20:00');
     }
 
     /**
