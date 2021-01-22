@@ -67,9 +67,8 @@ class SendToTelegrammStateProfile extends Command
         $chatId = '-414528593';
 
         $bot = new BotApi(env('TELEGRAM_TOKEN'));
-            // Set webhook
+        // Set webhook
 
-        //$bot->setProxy('root:6zd4{k879B8$@195.161.41.150:3128');
         $bot->sendMessage($chatId, $messageText, 'HTML');   
         return 0;
     }
