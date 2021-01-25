@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('command:telegrammstateprofile')
             ->weekdays()
-            ->everyThirtyMinutes()
+            ->everyMinute()
             ->timezone('Europe/Moscow')
             ->between('10:00', '20:00');
     }
