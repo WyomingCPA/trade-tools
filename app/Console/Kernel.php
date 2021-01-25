@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
             ->weekdays()
             ->everyMinute()
             ->timezone('Europe/Moscow')
-            ->between('10:00', '20:00');
+            ->between('10:00', '23:50');
     }
 
     /**
