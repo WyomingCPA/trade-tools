@@ -7,25 +7,21 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 use App\Bond;
+use App\User;
 
 class BondController extends Controller
 {
     public function all(Request $request)
     {
-        $bonds = Bond::all();
-        $sortBy = 'id';
-        $orderBy = 'desc';
-        $perPage = 100;
-        $q = null;
-    
-        if ($request->has('orderBy')) $orderBy = $request->query('orderBy');
-        if ($request->has('sortBy')) $sortBy = $request->query('sortBy');
-        if ($request->has('perPage')) $perPage = $request->query('perPage');
-        if ($request->has('q')) $q = $request->query('q');
-          
-        $bonds = Bond::search($q)->orderBy('updated_at', $orderBy)->paginate($perPage);
+        $trash_ids = Auth::user()->trashBond->pluck('id')->toArray();
+        $favorite_ids = Auth::user()->favoritesBond->pluck('id')->toArray();
+        $notIn = array_merge(array_values($trash_ids), array_values($favorite_ids));
 
-        return view('bond.all', compact('bonds', 'orderBy', 'sortBy', 'q', 'perPage'));
+        $models = Bond::whereNotIn('id', $notIn)->get();
+
+        return view('bond.all', [
+            'bonds' => $models
+        ]);
     }
     public function newBond(Request $request)
     {
@@ -33,12 +29,12 @@ class BondController extends Controller
         $orderBy = 'desc';
         $perPage = 100;
         $q = null;
-    
+
         if ($request->has('orderBy')) $orderBy = $request->query('orderBy');
         if ($request->has('sortBy')) $sortBy = $request->query('sortBy');
         if ($request->has('perPage')) $perPage = $request->query('perPage');
         if ($request->has('q')) $q = $request->query('q');
-          
+
         $bonds = Bond::search($q)->where('created_at', '>=', Carbon::now()->subDays(7)->startOfDay())->orderBy('updated_at', $orderBy)->paginate($perPage);
 
         return view('bond.new', compact('bonds', 'orderBy', 'sortBy', 'q', 'perPage'));
@@ -46,54 +42,70 @@ class BondController extends Controller
 
     public function favorites(Request $request)
     {
-        $perPage = 100;
-        $bonds = Auth::user()->favoritesBond;
-        return view('bond.favorites', compact('bonds', 'perPage'));
+        $models = Auth::user()->favoritesBond;
+        return view('bond.favorites', [
+            'bonds' => $models
+        ]);
     }
     public function favoriteBond(Request $request)
     {
-        if ($request->method() == 'POST') {
-            $select = $request->get('selection');
-
-            $isTrash = $request->request->get('trash');
-            $isFavorite = $request->request->get('favorites');
-
-            if (isset($isTrash))
-            {
-                Auth::user()->trashBond()->attach(array_values($select));
-                return redirect(route('bond.trash'));
-            }
-
-            if (isset($isFavorite))
-            {
-                Auth::user()->favoritesBond()->attach(array_values($select));
-                return redirect(route('bond.favorites'));
-            }
-
+        $rows = $request->post('selRows');
+        $select = [];
+        foreach ($rows as $value) {
+            $select[] = $value['id'];
         }
+        Auth::user()->favoritesBond()->attach(array_values($select));
+        
+        return response()->json([
+            'cod' => 200
+        ], 200);
     }
+
+    public function trashBond(Request $request)
+    {
+        $rows = $request->post('selRows');
+        $select = [];
+        foreach ($rows as $value) {
+            $select[] = $value['id'];
+        }
+        Auth::user()->trashBond()->attach(array_values($select));
+        return response()->json([
+            'cod' => 200
+        ], 200);
+    }
+
     public function unFavoriteBond(Request $request)
     {
-        if ($request->method() == 'POST') {
-            $select = $request->get('selection');
-            Auth::user()->favoritesBond()->detach(array_values($select));
-            return redirect(route('bond.favorites'));
-        } 
+        $rows = $request->post('selRows');
+        $select = [];
+        foreach ($rows as $value) {
+            $select[] = $value['id'];
+        }
+        Auth::user()->favoritesBond()->detach(array_values($select));
+
+        return response()->json([
+            'cod' => 200
+        ], 200);
     }
 
     public function trash(Request $request)
     {
-        $perPage = 100;
         $bonds = Auth::user()->trashBond;
-        return view('bond.trash', compact('bonds', 'perPage'));
+        return view('bond.trash', compact('bonds'));
     }
 
     public function untrashBond(Request $request)
     {
-        if ($request->method() == 'POST') {
-            $select = $request->get('selection');
-            Auth::user()->trashBond()->detach(array_values($select));
-            return redirect(route('bond.trash'));
-        } 
+        $rows = $request->post('selRows');
+        $select = [];
+        foreach ($rows as $value) {
+            $select[] = $value['id'];
+        }
+        Auth::user()->trashBond()->detach(array_values($select));
+
+       return response()->json([
+            'cod' => 200
+        ], 200);
     }
+
 }

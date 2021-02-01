@@ -5,7 +5,7 @@
  */
 
 require('./bootstrap');
-
+import 'bootstrap/dist/css/bootstrap.css';
 window.Vue = require('vue');
 
 /**
@@ -19,8 +19,10 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-
+Vue.component('bond-all-table', require('./components/bond/BondAllTableComponent.vue').default);
+Vue.component('bond-new-table', require('./components/bond/BondNewTableComponent.vue').default);
+Vue.component('bond-hide-table', require('./components/bond/BondHideTableComponent.vue').default);
+Vue.component('bond-favorite-table', require('./components/bond/BondFavoriteTableComponent.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
