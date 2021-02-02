@@ -55126,8 +55126,17 @@ var render = function() {
                 return [
                   props.column.field === "name"
                     ? _c("span", [
-                        _vm._v(
-                          "\n        " + _vm._s(props.row.name) + "\n      "
+                        _c(
+                          "a",
+                          {
+                            attrs: {
+                              target: "_blank",
+                              href:
+                                "https://www.tinkoff.ru/invest/bonds/" +
+                                props.row.ticker
+                            }
+                          },
+                          [_vm._v(_vm._s(props.row.name))]
                         )
                       ])
                     : props.column.field === "ticker"
@@ -55245,8 +55254,17 @@ var render = function() {
                 return [
                   props.column.field === "name"
                     ? _c("span", [
-                        _vm._v(
-                          "\n        " + _vm._s(props.row.name) + "\n      "
+                        _c(
+                          "a",
+                          {
+                            attrs: {
+                              target: "_blank",
+                              href:
+                                "https://www.tinkoff.ru/invest/bonds/" +
+                                props.row.ticker
+                            }
+                          },
+                          [_vm._v(_vm._s(props.row.name))]
                         )
                       ])
                     : props.column.field === "ticker"
@@ -55364,8 +55382,17 @@ var render = function() {
                 return [
                   props.column.field === "name"
                     ? _c("span", [
-                        _vm._v(
-                          "\n        " + _vm._s(props.row.name) + "\n      "
+                        _c(
+                          "a",
+                          {
+                            attrs: {
+                              target: "_blank",
+                              href:
+                                "https://www.tinkoff.ru/invest/bonds/" +
+                                props.row.ticker
+                            }
+                          },
+                          [_vm._v(_vm._s(props.row.name))]
                         )
                       ])
                     : props.column.field === "ticker"
@@ -55635,7 +55662,7 @@ var render = function() {
                             attrs: {
                               target: "_blank",
                               href:
-                                "https://www.tinkoff.ru/invest/bonds/" +
+                                "https://www.tinkoff.ru/invest/stocks/" +
                                 props.row.ticker
                             }
                           },
@@ -55772,7 +55799,7 @@ var render = function() {
                             attrs: {
                               target: "_blank",
                               href:
-                                "https://www.tinkoff.ru/invest/bonds/" +
+                                "https://www.tinkoff.ru/invest/stocks/" +
                                 props.row.ticker
                             }
                           },
