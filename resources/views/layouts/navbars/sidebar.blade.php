@@ -4,6 +4,10 @@ use App\Bond;
 use App\Stock;
 
 $new_count_bond = Bond::where('created_at', '>=', Carbon::now()->subDays(7)->startOfDay())->count();
+$hide_count_bond = Auth::user()->trashBond->count();
+$favorite_count_bond = Auth::user()->favoritesBond->count();
+$all_count_bond = Bond::all()->count();
+
 $new_count_stock = Stock::where('created_at', '>=', Carbon::now()->subDays(7)->startOfDay())->count();
 
 @endphp
@@ -36,7 +40,7 @@ $new_count_stock = Stock::where('created_at', '>=', Carbon::now()->subDays(7)->s
           <ul class="nav">
             <li class="nav-item{{ $activePage == 'all_bond' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('bond.all') }}">
-                <span class="sidebar-normal">{{ __('Все') }} </span>
+                <span class="sidebar-normal">{{ __('Все') }} ({{ $all_count_bond }}) </span>
               </a>
             </li>
             <li class="nav-item{{ $activePage == 'new_bond' ? ' active' : '' }}">
@@ -46,12 +50,12 @@ $new_count_stock = Stock::where('created_at', '>=', Carbon::now()->subDays(7)->s
             </li>
             <li class="nav-item{{ $activePage == 'favorites_bond' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('bond.favorites') }}">
-                <span class="sidebar-normal">{{ __('Избранные') }} </span>
+                <span class="sidebar-normal">{{ __('Избранные') }} ({{ $favorite_count_bond }})</span>
               </a>
             </li>
             <li class="nav-item{{ $activePage == 'trashes_bond' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('bond.trash') }}">
-                <span class="sidebar-normal">{{ __('Скрытые') }} </span>
+                <span class="sidebar-normal">{{ __('Скрытые') }} ({{ $hide_count_bond }})</span>
               </a>
             </li>
           </ul>

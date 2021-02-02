@@ -42,13 +42,13 @@ class User extends Authenticatable
         return $this->belongsToMany(Bond::class, 'favorite_bonds', 'user_id', 'bond_id')->withTimeStamps();
     }
 
-    public function favoritesStock()
-    {
-        return $this->belongsToMany(Stock::class, 'stock_favorites', 'user_id', 'stock_id')->withTimeStamps();
-    }
-
     public function trashBond()
     {
         return $this->belongsToMany(Bond::class, 'trash_bonds', 'user_id', 'bond_id')->withTimeStamps();
+    }
+
+    public function favoritesStock()
+    {
+        return $this->belongsToMany(Stock::class, 'stock_favorites', 'user_id', 'stock_id')->withTimeStamps();
     }
 }

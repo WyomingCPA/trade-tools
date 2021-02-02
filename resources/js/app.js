@@ -23,6 +23,10 @@ Vue.component('bond-all-table', require('./components/bond/BondAllTableComponent
 Vue.component('bond-new-table', require('./components/bond/BondNewTableComponent.vue').default);
 Vue.component('bond-hide-table', require('./components/bond/BondHideTableComponent.vue').default);
 Vue.component('bond-favorite-table', require('./components/bond/BondFavoriteTableComponent.vue').default);
+
+Vue.component('stock-all-table', require('./components/stock/StockAllTableComponent.vue').default);
+Vue.component('stock-favorite-table', require('./components/stock/StockFavoriteTableComponent.vue').default);
+Vue.component('stock-new-table', require('./components/stock/StockNewTableComponent.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

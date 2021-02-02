@@ -12,41 +12,26 @@ class StockController extends Controller
 {
     public function all(Request $request)
     {
-        $sortBy = 'id';
-        $orderBy = 'desc';
-        $perPage = 100;
-        $q = null;
-    
-        if ($request->has('orderBy')) $orderBy = $request->query('orderBy');
-        if ($request->has('sortBy')) $sortBy = $request->query('sortBy');
-        if ($request->has('perPage')) $perPage = $request->query('perPage');
-        if ($request->has('q')) $q = $request->query('q');
-          
-        $stocks = Stock::search($q)->orderBy('updated_at', $orderBy)->paginate($perPage);
+        $favorite_ids = Auth::user()->favoritesBond->pluck('id')->toArray();
+        $notIn = array_merge(array_values($favorite_ids), array_values($favorite_ids));
 
-        return view('stock.all', compact('stocks', 'orderBy', 'sortBy', 'q', 'perPage'));        
+        $models = Stock::whereNotIn('id', $notIn)->get();
+
+        return view('stock.all', [
+            'stocks' => $models
+        ]);        
     }
 
     public function newStock(Request $request)
     {
-        $sortBy = 'id';
-        $orderBy = 'desc';
-        $perPage = 100;
-        $q = null;
-    
-        if ($request->has('orderBy')) $orderBy = $request->query('orderBy');
-        if ($request->has('sortBy')) $sortBy = $request->query('sortBy');
-        if ($request->has('perPage')) $perPage = $request->query('perPage');
-        if ($request->has('q')) $q = $request->query('q');
-          
-        $stocks = Stock::search($q)->where('created_at', '>=', Carbon::now()->subDays(7)->startOfDay())->orderBy('updated_at', $orderBy)->paginate($perPage);
-
-        return view('stock.new', compact('stocks', 'orderBy', 'sortBy', 'q', 'perPage'));
+        $models = Stock::where('created_at', '>=', Carbon::now()->subDays(7)->startOfDay())->get();
+        return view('stock.new', [
+            'stocks' => $models
+        ]);
     }
 
     public function favorite(Request $request)
     {
-        $perPage = 100;
         $stocks = Auth::user()->favoritesStock;
         return view('stock.favorite', compact('stocks', 'perPage'));
     }

@@ -4,7 +4,7 @@
       @on-selected-rows-change="selectionChanged"
       :theme="nocturnal"
       :columns="columns"
-      :rows="bonds"
+      :rows="stocks"
       :sort-options="{
         enabled: true,
       }"
@@ -30,11 +30,14 @@
       }"
     >
       <div slot="selected-row-actions">
-        <button v-on:click="unhide">Убрать из скрытого</button>
+        <button v-on:click="favorite">Favorite</button>
+      </div>
+      <div slot="selected-row-actions">
+        <button v-on:click="hide">Hide</button>
       </div>
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field === 'name'">
-          <a target="_blank" :href="'https://www.tinkoff.ru/invest/bonds/' + props.row.ticker">{{ props.row.name }}</a> 
+          <a target="_blank" :href="'https://www.tinkoff.ru/invest/stocks/' + props.row.ticker">{{ props.row.name }}</a> 
         </span>
         <span v-else-if="props.column.field === 'ticker'">
           {{ props.row.ticker }}
@@ -62,21 +65,23 @@ import each from "lodash.foreach";
 Vue.use(VueGoodTablePlugin);
 
 export default {
-  props: ["bonds"],
-  name: "bond-hide-table",
+  props: ["stocks"],
+  name: "stock-all-table",
   methods: {
     selectionChanged: function (params) {
       this.selRows = params.selectedRows;
-      console.log(params.rows);
     },
-    unhide: function (event, rows) {
+    hide: function (event, rows) {
       var self = this;
-      console.log(this.selRows);
-      axios
-        .post("untrash", { selRows: this.selRows })
-        .then((response) => {
-          window.location.href = "trash";
-        });
+      axios.post("trash", { selRows: this.selRows }).then((response) => {
+        window.location.href = "all";
+      });
+    },
+    favorite: function (event, rows) {
+      var self = this;
+      axios.post("favorite", { selRows: this.selRows }).then((response) => {
+        window.location.href = "all";
+      });
     },
   },
   data() {
@@ -89,11 +94,6 @@ export default {
         {
           label: "ticker",
           field: "ticker",
-        },
-        {
-          label: "Номинал",
-          field: "nominal",
-          type: "number",
         },
         {
           label: "Валюта",

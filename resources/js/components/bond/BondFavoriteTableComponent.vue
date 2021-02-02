@@ -34,7 +34,7 @@
       </div>
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field === 'name'">
-          {{ props.row.name }}
+          <a target="_blank" :href="'https://www.tinkoff.ru/invest/bonds/' + props.row.ticker">{{ props.row.name }}</a> 
         </span>
         <span v-else-if="props.column.field === 'ticker'">
           {{ props.row.ticker }}
