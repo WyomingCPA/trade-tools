@@ -32,33 +32,37 @@ class StockController extends Controller
 
     public function favorite(Request $request)
     {
-        $stocks = Auth::user()->favoritesStock;
-        return view('stock.favorite', compact('stocks', 'perPage'));
+        $models = Auth::user()->favoritesStock;
+        return view('stock.favorite', [
+            'stocks' => $models
+        ]);
     }
 
     public function favoriteStock(Request $request)
     {
-        if ($request->method() == 'POST') {
-            $select = $request->get('selection');
-
-            $isTrash = $request->request->get('trash');
-            $isFavorite = $request->request->get('favorites');
-
-            if (isset($isFavorite))
-            {
-                Auth::user()->favoritesStock()->attach(array_values($select));
-                return redirect(route('stock.favorites'));
-            }
-
+        $rows = $request->post('selRows');
+        $select = [];
+        foreach ($rows as $value) {
+            $select[] = $value['id'];
         }
+        Auth::user()->favoritesStock()->attach(array_values($select));
+        
+        return response()->json([
+            'cod' => 200
+        ], 200);
     }
 
     public function unFavoriteStock(Request $request)
-    {
-        if ($request->method() == 'POST') {
-            $select = $request->get('selection');
-            Auth::user()->favoritesStock()->detach(array_values($select));
-            return redirect(route('stock.favorites'));
-        } 
+    {   
+        $rows = $request->post('selRows');
+        $select = [];
+        foreach ($rows as $value) {
+            $select[] = $value['id'];
+        }
+        Auth::user()->favoritesStock()->detach(array_values($select));
+
+        return response()->json([
+            'cod' => 200
+        ], 200);
     }
 }

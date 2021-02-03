@@ -28,7 +28,13 @@ class Kernel extends ConsoleKernel
             ->weekdays()
             ->hourlyAt(15)
             ->timezone('Europe/Moscow')
-            ->between('10:00', '20:00');
+            ->between('10:00', '19:00');
+
+        $schedule->command('command:getcandlebond')
+            ->weekdays()
+            ->everyThirtyMinutes()
+            ->timezone('Europe/Moscow')
+            ->between('10:00', '19:00');
     }
 
     /**
@@ -38,7 +44,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

@@ -30,10 +30,7 @@
       }"
     >
       <div slot="selected-row-actions">
-        <button v-on:click="favorite">Favorite</button>
-      </div>
-      <div slot="selected-row-actions">
-        <button v-on:click="hide">Hide</button>
+        <button v-on:click="unfavorite">Убрать из избранного</button>
       </div>
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field === 'name'">
@@ -71,15 +68,9 @@ export default {
     selectionChanged: function (params) {
       this.selRows = params.selectedRows;
     },
-    hide: function (event, rows) {
+    unfavorite: function (event, rows) {
       var self = this;
-      axios.post("trash", { selRows: this.selRows }).then((response) => {
-        window.location.href = "all";
-      });
-    },
-    favorite: function (event, rows) {
-      var self = this;
-      axios.post("favorite", { selRows: this.selRows }).then((response) => {
+      axios.post("unfavorite", { selRows: this.selRows }).then((response) => {
         window.location.href = "all";
       });
     },

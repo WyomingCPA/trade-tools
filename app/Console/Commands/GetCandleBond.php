@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Auth;
 
 use \jamesRUS52\TinkoffInvest\TIClient;
 use \jamesRUS52\TinkoffInvest\TISiteEnum;
@@ -18,8 +19,11 @@ use \jamesRUS52\TinkoffInvest\TIInstrumentInfo;
 
 use App\Bond;
 use App\Candle;
+use App\User;
+
 use Exception;
 use Mockery\CountValidator\Exact;
+use PhpParser\Node\Stmt\Catch_;
 
 class GetCandleBond extends Command
 {
@@ -56,7 +60,9 @@ class GetCandleBond extends Command
     {
         $limit = 50;
         $client = new TIClient(env('TOKEN_TINKOFF'), TISiteEnum::EXCHANGE);
-        $bonds = Bond::where('faceValue', '!=', 0)->orderBy('updated_at')->take($limit)->get();
+        $user = User::select('id')->where('email', 'WyomingCPA@yandex.ru')->first();
+        $trash_ids = $user->trashBond->pluck('id')->toArray();
+        $bonds = Bond::where('faceValue', '!=', 0)->whereNotIn('id', $trash_ids)->orderBy('updated_at')->take($limit)->get();
         $i = 0;
         foreach ($bonds as $bond) 
         {
@@ -66,7 +72,15 @@ class GetCandleBond extends Command
             $from = new \DateTime();
             $from->sub(new \DateInterval("P7D"));
             $to = new \DateTime();
-            $candles = $client->getHistoryCandles($bond->figi, $from, $to, TIIntervalEnum::HOUR);
+            try {
+                $candles = $client->getHistoryCandles($bond->figi, $from, $to, TIIntervalEnum::HOUR);
+            }
+            catch (Exception $e)
+            {
+                echo $e->getMessage();
+                continue;
+            }
+            
             foreach ($candles as $candle)
             {
                 try {
