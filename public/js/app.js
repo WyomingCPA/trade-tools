@@ -2579,9 +2579,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
  // import the styles
 
 
@@ -2594,20 +2591,12 @@ Vue.use(vue_good_table__WEBPACK_IMPORTED_MODULE_0__["default"]);
     selectionChanged: function selectionChanged(params) {
       this.selRows = params.selectedRows;
     },
-    hide: function hide(event, rows) {
+    unfavorite: function unfavorite(event, rows) {
       var self = this;
-      axios.post("trash", {
+      axios.post("unfavorite", {
         selRows: this.selRows
       }).then(function (response) {
-        window.location.href = "all";
-      });
-    },
-    favorite: function favorite(event, rows) {
-      var self = this;
-      axios.post("favorite", {
-        selRows: this.selRows
-      }).then(function (response) {
-        window.location.href = "all";
+        window.location.href = "favorites";
       });
     }
   },
@@ -2623,8 +2612,8 @@ Vue.use(vue_good_table__WEBPACK_IMPORTED_MODULE_0__["default"]);
         label: "Валюта",
         field: "currency"
       }, {
-        label: "Последняя цена",
-        field: "last_price",
+        label: "AVG",
+        field: "average15day",
         type: "number"
       }]
     };
@@ -55709,19 +55698,10 @@ var render = function() {
               slot: "selected-row-actions"
             },
             [
-              _c("button", { on: { click: _vm.favorite } }, [
-                _vm._v("Favorite")
+              _c("button", { on: { click: _vm.unfavorite } }, [
+                _vm._v("Убрать из избранного")
               ])
             ]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              attrs: { slot: "selected-row-actions" },
-              slot: "selected-row-actions"
-            },
-            [_c("button", { on: { click: _vm.hide } }, [_vm._v("Hide")])]
           )
         ]
       )

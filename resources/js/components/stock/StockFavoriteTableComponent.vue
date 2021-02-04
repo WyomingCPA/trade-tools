@@ -71,7 +71,7 @@ export default {
     unfavorite: function (event, rows) {
       var self = this;
       axios.post("unfavorite", { selRows: this.selRows }).then((response) => {
-        window.location.href = "all";
+        window.location.href = "favorites";
       });
     },
   },
@@ -91,8 +91,8 @@ export default {
           field: "currency",
         },
         {
-          label: "Последняя цена",
-          field: "last_price",
+          label: "AVG",
+          field: "average15day",
           type: "number",
         },
       ],

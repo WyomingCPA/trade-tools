@@ -35,6 +35,12 @@ class Kernel extends ConsoleKernel
             ->everyThirtyMinutes()
             ->timezone('Europe/Moscow')
             ->between('10:00', '19:00');
+
+        $schedule->command('command:getcandle15minday')
+            ->weekdays()
+            ->everyTenMinutes()
+            ->timezone('Europe/Moscow')
+            ->between('10:00', '19:00');
     }
 
     /**

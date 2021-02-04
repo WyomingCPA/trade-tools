@@ -16,6 +16,7 @@ class CreateCandlesTable extends Migration
         Schema::create('candles', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('tools_id')->unsigned();
+            $table->enum('tools_type', ['bond', 'stock']);
             $table->foreign('tools_id')->references('id')->on('bonds');
             $table->float('open');
             $table->float('close');

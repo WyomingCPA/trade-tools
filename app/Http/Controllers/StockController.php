@@ -13,9 +13,8 @@ class StockController extends Controller
     public function all(Request $request)
     {
         $favorite_ids = Auth::user()->favoritesBond->pluck('id')->toArray();
-        $notIn = array_merge(array_values($favorite_ids), array_values($favorite_ids));
 
-        $models = Stock::whereNotIn('id', $notIn)->get();
+        $models = Stock::whereNotIn('id', $favorite_ids)->get();
 
         return view('stock.all', [
             'stocks' => $models
@@ -40,6 +39,7 @@ class StockController extends Controller
 
     public function favoriteStock(Request $request)
     {
+        
         $rows = $request->post('selRows');
         $select = [];
         foreach ($rows as $value) {

@@ -7,6 +7,42 @@ use Illuminate\Database\Eloquent\Model;
 class Stock extends Model
 {
     protected $fillable = ['figi', 'ticker', 'isin', 'minPriceIncrement', 'currency', 'name'];
+    protected $appends = ['average15day'];
+
+    //15-minute charts
+    public function getAverage15dayAttribute()
+    {
+        $models = Candle::where('tools_id', '=', $this->id)->where('tools_type', '=', 'stock')->pluck('close')->toArray();
+        $prices = [];
+        foreach ($models as $close) {
+            $prices[] = $close;
+        }
+
+        if (empty($prices)) {
+            return $this->attributes['average15day'] = '-';
+        }
+
+        $ema5 = trader_ema($prices, 5);
+        $ema8 = trader_ema($prices, 8);
+        //$ema13 = trader_ema($prices, 13);
+
+        $current_5 = array_pop($ema5);
+        $current_8 = array_pop($ema8);
+
+        $previous_5 = array_pop($ema5);
+        $previous_8 = array_pop($ema8);
+
+        $action = '';
+        if ($current_5 > $current_8 && $previous_5 < $previous_8) {
+            $action =  'Buy';
+        } elseif ($current_5 < $current_8 && $previous_5 > $previous_8) {
+            $action = 'Sell';
+        } else {
+            $action = 'Do Nothing';
+        }
+        $this->attributes['average15day'] = $action;
+        return $this->attributes['average15day'];
+    }
 
     public function scopeSearch($query, $q)
     {
@@ -15,6 +51,4 @@ class Stock extends Model
             ->where('name', 'LIKE', "%{$q}%")
             ->orWhere('isin', 'LIKE', "%{$q}%");
     }
-
-
 }

@@ -62,12 +62,15 @@ class GetCandleBond extends Command
         $client = new TIClient(env('TOKEN_TINKOFF'), TISiteEnum::EXCHANGE);
         $user = User::select('id')->where('email', 'WyomingCPA@yandex.ru')->first();
         $trash_ids = $user->trashBond->pluck('id')->toArray();
-        $bonds = Bond::where('faceValue', '!=', 0)->whereNotIn('id', $trash_ids)->orderBy('updated_at')->take($limit)->get();
+        $bonds = Bond::where('faceValue', '!=', 0)
+                        ->whereNotIn('id', $trash_ids)
+                        ->orderBy('updated_at')
+                        ->take($limit)->get();
         $i = 0;
         foreach ($bonds as $bond) 
         {
             //Перед записью удаляем все старые свечи.
-            $deleteCandleRows = Candle::where('tools_id', '=', $bond->id)->delete();
+            $deleteCandleRows = Candle::where('tools_id', '=', $bond->id)->where('tools_type','LIKE', '%bond%')->delete();
 
             $from = new \DateTime();
             $from->sub(new \DateInterval("P7D"));
@@ -87,6 +90,7 @@ class GetCandleBond extends Command
                     $model = Candle::firstOrCreate(['tools_id' => $bond->id], 
                     [                
                         'tools_id' => $bond->id,
+                        'tools_type' => 'bond',
                         'open' => $candle->getOpen() ? $candle->getOpen() : 0,
                         'close' => $candle->getClose() ? $candle->getClose() : 0,
                         'high' => $candle->getHigh() ? $candle->getHigh() : 0,
@@ -98,7 +102,7 @@ class GetCandleBond extends Command
                 }
                 catch(\Illuminate\Database\QueryException $exception) 
                 {
-                    echo "Ошибка\n";
+                    echo $exception->message + "\n";
                 }
             }
 
