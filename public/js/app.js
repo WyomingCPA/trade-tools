@@ -2579,6 +2579,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
  // import the styles
 
 
@@ -2586,7 +2593,7 @@ __webpack_require__.r(__webpack_exports__);
 Vue.use(vue_good_table__WEBPACK_IMPORTED_MODULE_0__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["stocks"],
-  name: "stock-all-table",
+  name: "stock-favorite-table",
   methods: {
     selectionChanged: function selectionChanged(params) {
       this.selRows = params.selectedRows;
@@ -55681,6 +55688,14 @@ var render = function() {
                         _vm._v(
                           "\n        " +
                             _vm._s(props.row.last_price) +
+                            "\n      "
+                        )
+                      ])
+                    : props.column.field === "average15day"
+                    ? _c("span", [
+                        _vm._v(
+                          "\n        " +
+                            _vm._s(props.row.average15day) +
                             "\n      "
                         )
                       ])

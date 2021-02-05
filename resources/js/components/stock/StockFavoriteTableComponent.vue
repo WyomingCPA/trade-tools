@@ -34,7 +34,11 @@
       </div>
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field === 'name'">
-          <a target="_blank" :href="'https://www.tinkoff.ru/invest/stocks/' + props.row.ticker">{{ props.row.name }}</a> 
+          <a
+            target="_blank"
+            :href="'https://www.tinkoff.ru/invest/stocks/' + props.row.ticker"
+            >{{ props.row.name }}</a
+          >
         </span>
         <span v-else-if="props.column.field === 'ticker'">
           {{ props.row.ticker }}
@@ -47,6 +51,9 @@
         </span>
         <span v-else-if="props.column.field === 'last_price'">
           {{ props.row.last_price }}
+        </span>
+        <span v-else-if="props.column.field === 'average15day'">
+          {{ props.row.average15day }}
         </span>
       </template>
     </vue-good-table>
@@ -63,7 +70,7 @@ Vue.use(VueGoodTablePlugin);
 
 export default {
   props: ["stocks"],
-  name: "stock-all-table",
+  name: "stock-favorite-table",
   methods: {
     selectionChanged: function (params) {
       this.selRows = params.selectedRows;
