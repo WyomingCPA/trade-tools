@@ -34,14 +34,18 @@ class Stock extends Model
 
         $action = '';
         if ($current_5 > $current_8 && $previous_5 < $previous_8) {
-            $action =  'Buy';
+            $action =  'buy';
         } elseif ($current_5 < $current_8 && $previous_5 > $previous_8) {
-            $action = 'Sell';
+            $action = 'sell';
         } else {
-            $action = 'Do Nothing';
+            $action = 'nothing';
         }
         $this->attributes['average15day'] = $action;
         return $this->attributes['average15day'];
+    }
+
+    public function emaDayIndicator(){
+        return $this->hasOne('App\EmaDayIndicator');
     }
 
     public function scopeSearch($query, $q)
