@@ -2016,7 +2016,12 @@ Vue.use(vue_good_table__WEBPACK_IMPORTED_MODULE_0__["default"]);
         }
 
         precent = parseFloat(precent);
-        return precent <= x;
+
+        if (x > 0) {
+          return precent <= x && precent >= 0;
+        }
+
+        if (x <= 0) return precent <= x;
       }
     },
     fealdFn: function fealdFn(rowObj) {
