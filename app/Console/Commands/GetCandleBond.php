@@ -58,7 +58,7 @@ class GetCandleBond extends Command
      */
     public function handle()
     {
-        $limit = 50;
+        $limit = 100;
         $client = new TIClient(env('TOKEN_TINKOFF'), TISiteEnum::EXCHANGE);
         $user = User::select('id')->where('email', 'WyomingCPA@yandex.ru')->first();
         $trash_ids = $user->trashBond->pluck('id')->toArray();
