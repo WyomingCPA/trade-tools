@@ -42,6 +42,18 @@ class Kernel extends ConsoleKernel
             ->everyTenMinutes()
             ->timezone('Europe/Moscow')
             ->between('10:00', '19:00');
+
+        $schedule->command('command:checkemaindicator')
+            ->weekdays()
+            ->everyTenMinutes()
+            ->timezone('Europe/Moscow')
+            ->between('10:00', '19:00');
+
+        $schedule->command('command:bond')
+            ->weekdays()
+            ->dailyAt('11:00')
+            ->timezone('Europe/Moscow')
+            ->between('10:00', '19:00');
     }
 
     /**

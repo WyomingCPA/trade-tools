@@ -37,7 +37,11 @@
       </div>
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field === 'name'">
-          <a target="_blank" :href="'https://www.tinkoff.ru/invest/bonds/' + props.row.ticker">{{ props.row.name }}</a> 
+          <a
+            target="_blank"
+            :href="'https://www.tinkoff.ru/invest/bonds/' + props.row.ticker"
+            >{{ props.row.name }}</a
+          >
         </span>
         <span v-else-if="props.column.field === 'ticker'">
           {{ props.row.ticker }}
@@ -83,6 +87,39 @@ export default {
         window.location.href = "all";
       });
     },
+    columnFilterFn: function (data, filterString) {
+      var x = parseInt(filterString);
+      if (data != 0 && data != null) {
+        var newTxt = data.toString().split("(");
+        var precent;
+        for (var i = 1; i < newTxt.length; i++) {
+          //console.log(newTxt[i].split(")")[0]);
+          precent = newTxt[i].split(")")[0];
+        }
+        precent = parseFloat(precent);
+        return precent <= x;
+      }
+    },
+    fealdFn(rowObj) {
+      var nominal = parseInt(rowObj.nominal);
+      var lastPrice = parseInt(rowObj.last_price);
+      var precent = 0;
+      if (lastPrice > nominal) {
+        precent = ((lastPrice - nominal) / nominal) * 100;
+        var lastPriceString = lastPrice.toString();
+        var precentString = precent.toFixed(2).toString();
+        var result = lastPriceString + "(" + precentString + "%" + ")";
+        return result;
+      } else if (lastPrice < nominal && lastPrice != 0) {
+        precent = ((nominal - lastPrice) / nominal) * 100;
+        var lastPriceString = lastPrice.toString();
+        var precentString = precent.toFixed(2).toString();
+        var result = lastPriceString + "(" + (-precentString) + "%" + ")";
+        return result;
+      } else {
+        return lastPrice;
+      }
+    },
   },
   data() {
     return {
@@ -106,8 +143,16 @@ export default {
         },
         {
           label: "Последняя цена",
-          field: "last_price",
+          field: this.fealdFn,
           type: "number",
+          filterOptions: {
+            styleClass: "class1", // class to be added to the parent th element
+            enabled: true, // enable filter for this column
+            placeholder: "Max. % от номинала", // placeholder for filter input
+            filterDropdownItems: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], // dropdown (with selected values) instead of text input
+            filterFn: this.columnFilterFn, //custom filter function that
+            trigger: "enter", //only trigger on enter not on keyup
+          },
         },
       ],
     };
