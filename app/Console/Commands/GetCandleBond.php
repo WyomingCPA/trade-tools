@@ -114,7 +114,7 @@ class GetCandleBond extends Command
             {
                 $lastCandle = $candles[count($candles)-1];
                 $lastPrice = $lastCandle->getClose() ? $lastCandle->getClose() : 0;
-                if ($lastPrice != 0)
+                if ($last_price_bond != 0)
                 {
                     $decreaseValue = $last_price_bond - $lastPrice;
 
