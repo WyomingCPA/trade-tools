@@ -66,7 +66,7 @@ class GetCandle15MinDay extends Command
             $from->sub(new \DateInterval("P1D"));
             $to = new \DateTime();
             try {
-                $candles = $client->getHistoryCandles($item->figi, $from, $to, TIIntervalEnum::MIN15);
+                $candles = $client->getHistoryCandles($item->figi, $from, $to, TIIntervalEnum::MIN5);
             } catch (Exception $e) {
                 echo $e->getMessage();
                 continue;

@@ -51,10 +51,11 @@ class CheckEmaIndicator extends Command
         $messageText = '';
         foreach ($stocks as $item)
         {
-            $indicator = EmaDayIndicator::firstOrCreate(['stock_id' => $item->id], ['send_telegramm' => false,]);
-            if ($indicator->action == $item->Average15day)
+            $indicator = EmaDayIndicator::firstOrCreate(['stock_id' => $item->id]);
+            if ($indicator->action != $item->Average15day && $indicator->send_telegramm == false)
             {
                 $indicator->action = $item->Average15day;
+                $indicator->send_telegramm = true;
                 $indicator->save();
                 //Отпраялем в телеграмм событие
                 $messageText .= "<a target='_blank' href='https://www.tinkoff.ru/invest/stocks/{$item->ticker}'>{$item->name} {$indicator->action}</a> \n";
@@ -64,6 +65,7 @@ class CheckEmaIndicator extends Command
         {
             $chatId = '-597520329';
             $bot = new BotApi(env('TELEGRAM_TOKEN'));
+
             $bot->sendMessage($chatId, $messageText, 'HTML');
         }
     }
