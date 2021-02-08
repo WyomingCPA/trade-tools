@@ -25,26 +25,33 @@ class Stock extends Model
         $ema5 = trader_ema($prices, 5);
         $ema8 = trader_ema($prices, 8);
         //$ema13 = trader_ema($prices, 13);
+        if ($ema5 != false && $ema8 != false) {
+            $current_5 = array_pop($ema5);
+            $current_8 = array_pop($ema8);
 
-        $current_5 = array_pop($ema5);
-        $current_8 = array_pop($ema8);
+            $previous_5 = array_pop($ema5);
+            $previous_8 = array_pop($ema8);
 
-        $previous_5 = array_pop($ema5);
-        $previous_8 = array_pop($ema8);
-
-        $action = '';
-        if ($current_5 > $current_8 && $previous_5 < $previous_8) {
-            $action =  'buy';
-        } elseif ($current_5 < $current_8 && $previous_5 > $previous_8) {
-            $action = 'sell';
-        } else {
-            $action = 'nothing';
+            $action = '';
+            if ($current_5 > $current_8 && $previous_5 < $previous_8) {
+                $action =  'buy';
+            } elseif ($current_5 < $current_8 && $previous_5 > $previous_8) {
+                $action = 'sell';
+            } else {
+                $action = 'nothing';
+            }
+            $this->attributes['average15day'] = $action;
         }
-        $this->attributes['average15day'] = $action;
+        else
+        {
+            $this->attributes['average15day'] = false;
+        }
+
         return $this->attributes['average15day'];
     }
 
-    public function emaDayIndicator(){
+    public function emaDayIndicator()
+    {
         return $this->hasOne('App\EmaDayIndicator');
     }
 
