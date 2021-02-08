@@ -19,7 +19,7 @@ class Stock extends Model
         }
 
         if (empty($prices)) {
-            return $this->attributes['average15day'] = '-';
+            return $this->attributes['average15day'] = 'nothing';
         }
 
         $ema5 = trader_ema($prices, 5);
@@ -44,7 +44,7 @@ class Stock extends Model
         }
         else
         {
-            $this->attributes['average15day'] = false;
+            $this->attributes['average15day'] = 'nothing';
         }
 
         return $this->attributes['average15day'];
