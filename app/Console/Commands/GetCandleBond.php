@@ -69,7 +69,7 @@ class GetCandleBond extends Command
                         ->orderBy('updated_at')
                         ->take($limit)->get();
         $i = 0;
-        $messageText = '';
+        $messageText = 'Облигаций изменившиеся в цене \n';
         foreach ($bonds as $bond) 
         {
             //Перед записью удаляем все старые свечи.
@@ -119,7 +119,7 @@ class GetCandleBond extends Command
                     $decreaseValue = $last_price_bond - $lastPrice;
 
                     $precent = ($decreaseValue / $last_price_bond) / 100;
-                    if ($precent < -3 || $precent > 3)
+                    if ($precent < -2 || $precent > 2)
                     {
                         $messageText .= "<a target='_blank' href='https://www.tinkoff.ru/invest/bonds/{$bond->ticker}'>{$bond->name} изменился на {$precent}%</a> \n";
                     }
