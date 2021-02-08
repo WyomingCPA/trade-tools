@@ -69,7 +69,7 @@ class GetCandleBond extends Command
                         ->orderBy('updated_at')
                         ->take($limit)->get();
         $i = 0;
-        $messageText = 'Облигаций изменившиеся в цене \n';
+        $messageText = '';
         foreach ($bonds as $bond) 
         {
             //Перед записью удаляем все старые свечи.
