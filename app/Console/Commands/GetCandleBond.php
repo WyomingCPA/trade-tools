@@ -25,6 +25,8 @@ use Exception;
 use Mockery\CountValidator\Exact;
 use PhpParser\Node\Stmt\Catch_;
 
+use TelegramBot\Api\BotApi;
+
 class GetCandleBond extends Command
 {
     /**
@@ -58,7 +60,7 @@ class GetCandleBond extends Command
      */
     public function handle()
     {
-        $limit = 100;
+        $limit = 4;
         $client = new TIClient(env('TOKEN_TINKOFF'), TISiteEnum::EXCHANGE);
         $user = User::select('id')->where('email', 'WyomingCPA@yandex.ru')->first();
         $trash_ids = $user->trashBond->pluck('id')->toArray();
@@ -67,9 +69,11 @@ class GetCandleBond extends Command
                         ->orderBy('updated_at')
                         ->take($limit)->get();
         $i = 0;
+        $messageText = '';
         foreach ($bonds as $bond) 
         {
             //Перед записью удаляем все старые свечи.
+            $last_price_bond = Candle::where('tools_id', '=', $bond->id)->where('tools_type','LIKE', '%bond%')->get()->last()->close ?? 0;
             $deleteCandleRows = Candle::where('tools_id', '=', $bond->id)->where('tools_type','LIKE', '%bond%')->delete();
 
             $from = new \DateTime();
@@ -105,12 +109,32 @@ class GetCandleBond extends Command
                     echo $exception->message + "\n";
                 }
             }
+            //Тут узнаем разницу в цене и отправляем в телегу, если цена изменилась сильно
+            if (count($candles) != 0)
+            {
+                $lastCandle = $candles[count($candles)-1];
+                $lastPrice = $lastCandle->getClose() ? $lastCandle->getClose() : 0;
+                $decreaseValue = $last_price_bond - $lastPrice;
 
+                $precent = ($decreaseValue / $last_price_bond) / 100;
+                if ($precent < -3 || $precent > 3)
+                {
+                    $messageText .= "<a target='_blank' href='https://www.tinkoff.ru/invest/bonds/{$bond->ticker}'>{$bond->name} изменился на {$precent}%</a> \n";
+                }
+            }
+            
             echo $bond->figi . "\n";
             $bond->touch();
             $i++;
         }
 
+        if (!empty($messageText))
+        {
+            $chatId = '-597520329';
+            $bot = new BotApi(env('TELEGRAM_TOKEN'));
+
+            $bot->sendMessage($chatId, $messageText, 'HTML');
+        }
 
         //$from = new \DateTime();
         //$from->sub(new \DateInterval("P7D"));

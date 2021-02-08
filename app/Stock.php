@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Stock extends Model
 {
-    protected $fillable = ['figi', 'ticker', 'isin', 'minPriceIncrement', 'currency', 'name'];
+    protected $fillable = ['figi', 'ticker', 'isin', 'minPriceIncrement', 'currency', 'name', ];
     protected $appends = ['average15day'];
 
     //15-minute charts
