@@ -89,7 +89,7 @@ class GetCandle15MinDay extends Command
                         ]
                     );
                 } catch (\Illuminate\Database\QueryException $exception) {
-                    echo $exception->getMessage() + "\n";
+                    //echo $exception->getMessage() + "\n";
                 }
             }
             echo $item->figi . "\n";
