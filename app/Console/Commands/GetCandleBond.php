@@ -106,7 +106,7 @@ class GetCandleBond extends Command
                 }
                 catch(\Illuminate\Database\QueryException $exception) 
                 {
-                    echo $exception->message + "\n";
+                    //echo $exception->message + "\n";
                 }
             }
             //Тут узнаем разницу в цене и отправляем в телегу, если цена изменилась сильно
@@ -122,7 +122,7 @@ class GetCandleBond extends Command
                     $messageText .= "<a target='_blank' href='https://www.tinkoff.ru/invest/bonds/{$bond->ticker}'>{$bond->name} изменился на {$precent}%</a> \n";
                 }
             }
-            
+
             echo $bond->figi . "\n";
             $bond->touch();
             $i++;
