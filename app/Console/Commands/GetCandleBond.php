@@ -114,15 +114,17 @@ class GetCandleBond extends Command
             {
                 $lastCandle = $candles[count($candles)-1];
                 $lastPrice = $lastCandle->getClose() ? $lastCandle->getClose() : 0;
-                $decreaseValue = $last_price_bond - $lastPrice;
-
-                $precent = ($decreaseValue / $last_price_bond) / 100;
-                if ($precent < -3 || $precent > 3)
+                if ($lastPrice != 0)
                 {
-                    $messageText .= "<a target='_blank' href='https://www.tinkoff.ru/invest/bonds/{$bond->ticker}'>{$bond->name} изменился на {$precent}%</a> \n";
+                    $decreaseValue = $last_price_bond - $lastPrice;
+
+                    $precent = ($decreaseValue / $last_price_bond) / 100;
+                    if ($precent < -3 || $precent > 3)
+                    {
+                        $messageText .= "<a target='_blank' href='https://www.tinkoff.ru/invest/bonds/{$bond->ticker}'>{$bond->name} изменился на {$precent}%</a> \n";
+                    }
                 }
             }
-
             echo $bond->figi . "\n";
             $bond->touch();
             $i++;
