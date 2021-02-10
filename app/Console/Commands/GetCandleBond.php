@@ -119,7 +119,7 @@ class GetCandleBond extends Command
                     $decreaseValue = $last_price_bond - $lastPrice;
 
                     $precent = ($decreaseValue / $last_price_bond) / 100;
-                    if ($precent < -1.5 || $precent > 1.5)
+                    if ($precent < -1 || $precent > 1)
                     {
                         $messageText .= "<a target='_blank' href='https://www.tinkoff.ru/invest/bonds/{$bond->ticker}'>{$bond->name} изменился на {$precent}%</a> \n";
                     }

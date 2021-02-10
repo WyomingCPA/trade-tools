@@ -36,7 +36,7 @@ class GetCandle15MinDay extends Command
      *
      * @var string
      */
-    protected $description = 'Получаем свечи за день с 15 минутным интервалом';
+    protected $description = 'Получаем свечи за день с 5 минутным интервалом';
 
     /**
      * Create a new command instance.

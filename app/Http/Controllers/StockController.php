@@ -36,6 +36,11 @@ class StockController extends Controller
             'stocks' => $models
         ]);
     }
+    public function emachart(Request $request)
+    {
+        $id = $request->route('id'); 
+        return view('stock.emachart');
+    }
 
     public function favoriteStock(Request $request)
     {

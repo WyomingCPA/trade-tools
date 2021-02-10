@@ -53,7 +53,7 @@
           {{ props.row.last_price }}
         </span>
         <span v-else-if="props.column.field === 'average15day'">
-          {{ props.row.average15day }}
+          <a target="_blank" class="btn btn-primary" :href="'emachart/' + props.row.id">{{ props.row.average15day }}</a>   
         </span>
       </template>
     </vue-good-table>

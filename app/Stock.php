@@ -54,6 +54,12 @@ class Stock extends Model
     {
         return $this->hasOne('App\EmaDayIndicator');
     }
+    
+    public function getLastPriceAttribute()
+    {
+        $model = Candle::where('tools_id', '=', $this->id)->get();
+        return $this->attributes['last_price'] = $model->last()->close ?? 0;
+    }
 
     public function scopeSearch($query, $q)
     {
