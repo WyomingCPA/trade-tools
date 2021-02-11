@@ -22,21 +22,21 @@ use \jamesRUS52\TinkoffInvest\TIInstrumentInfo;
 
 
 
-class GetCandle15MinDay extends Command
+class GetCandle5MinDayStock extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:getcandle15minday';
+    protected $signature = 'command:getcandle5mindaystock';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Получаем свечи за день с 5 минутным интервалом';
+    protected $description = 'Получаем свечи акций за день с 5 минутным интервалом';
 
     /**
      * Create a new command instance.

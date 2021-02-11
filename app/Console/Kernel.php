@@ -16,7 +16,7 @@ class Kernel extends ConsoleKernel
         'App\Console\Commands\Bonds',
         'App\Console\Commands\Stocks',
         'App\Console\Commands\CheckEmaIndicator',
-        'App\Console\Commands\GetCandle15MinDay',
+        'App\Console\Commands\GetCandle5MinDayStock',
         'App\Console\Commands\GetCandleBond',
         'App\Console\Commands\SendToTelegrammStateProfile',
         'App\Console\Commands\Stocks',
