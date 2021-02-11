@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        'App\Console\Commands\Bonds',
+        'App\Console\Commands\GetAllBonds',
         'App\Console\Commands\Stocks',
         'App\Console\Commands\CheckEmaIndicator',
         'App\Console\Commands\GetCandle5MinDayStock',

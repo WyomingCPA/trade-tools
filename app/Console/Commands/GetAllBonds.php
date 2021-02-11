@@ -18,21 +18,21 @@ use \jamesRUS52\TinkoffInvest\TIOrderBook;
 use \jamesRUS52\TinkoffInvest\TIInstrumentInfo;
 
 
-class Bonds extends Command
+class GetAllBonds extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:bond';
+    protected $signature = 'command:getallbond';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Команда получает все облигаций';
 
     /**
      * Create a new command instance.
