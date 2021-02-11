@@ -17,7 +17,7 @@ class CreateCandlesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('tools_id')->unsigned();
             $table->enum('tools_type', ['bond', 'stock']);
-            $table->foreign('tools_id')->references('id')->on('bonds');
+            $table->unsignedInteger('tools_id');
             $table->float('open');
             $table->float('close');
             $table->float('high');
