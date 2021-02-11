@@ -51,7 +51,8 @@ class CheckEmaIndicator extends Command
         $messageText = '';
         foreach ($stocks as $item)
         {
-            $indicator = EmaDayIndicator::firstOrCreate(['stock_id' => $item->id]);
+            $indicator = EmaDayIndicator::firstOrCreate(['stock_id' => $item->id],
+                                                        ['send_telegramm' => false,]);
             if ($indicator->action != $item->Average15day || $indicator->send_telegramm == false)
             {
                 $indicator->action = $item->Average15day;

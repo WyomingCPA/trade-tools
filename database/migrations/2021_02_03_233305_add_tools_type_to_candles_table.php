@@ -14,7 +14,7 @@ class AddToolsTypeToCandlesTable extends Migration
     public function up()
     {
         Schema::table('candles', function (Blueprint $table) {
-            $table->enum('tools_type', ['bond', 'stock'])->after('tools_id');;
+            $table->enum('tools_type', ['bond', 'stock'])->after('tools_id');
         });
     }
 
