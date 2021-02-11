@@ -88,8 +88,8 @@ class GetCandle15MinDay extends Command
                             'interval' => $candle->getInterval() ? $candle->getInterval() : 0,
                         ]
                     );
-                } catch (\Illuminate\Database\QueryException $exception) {
-                    //echo $exception->getMessage() + "\n";
+                } catch (Exception $e) {
+                    echo $e->getMessage();
                 }
             }
             echo $item->figi . "\n";

@@ -24,6 +24,7 @@ class Stock extends Model
 
         $ema5 = trader_ema($prices, 5);
         $ema8 = trader_ema($prices, 8);
+
         //$ema13 = trader_ema($prices, 13);
         if ($ema5 != false && $ema8 != false) {
             $current_5 = array_pop($ema5);

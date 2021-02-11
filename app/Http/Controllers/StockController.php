@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 use App\Stock;
+use App\Candle;
 
 class StockController extends Controller
 {
@@ -18,7 +19,7 @@ class StockController extends Controller
 
         return view('stock.all', [
             'stocks' => $models
-        ]);        
+        ]);
     }
 
     public function newStock(Request $request)
@@ -38,27 +39,32 @@ class StockController extends Controller
     }
     public function emachart(Request $request)
     {
-        $id = $request->route('id'); 
-        return view('stock.emachart');
+        $id = $request->route('id');
+        if ($request->ajax()) {
+            $candle = Candle::where('tools_id', '=', $id)->where('tools_type', '=', 'stock')->pluck('close', 'time')->toArray();
+            return response()->json($candle);
+        } else {
+            return view('stock.emachart');
+        }
     }
 
     public function favoriteStock(Request $request)
     {
-        
+
         $rows = $request->post('selRows');
         $select = [];
         foreach ($rows as $value) {
             $select[] = $value['id'];
         }
         Auth::user()->favoritesStock()->attach(array_values($select));
-        
+
         return response()->json([
             'cod' => 200
         ], 200);
     }
 
     public function unFavoriteStock(Request $request)
-    {   
+    {
         $rows = $request->post('selRows');
         $select = [];
         foreach ($rows as $value) {
