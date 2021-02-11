@@ -4,12 +4,44 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Carbon\Carbon;
+
 class Stock extends Model
 {
     protected $fillable = ['figi', 'ticker', 'isin', 'minPriceIncrement', 'currency', 'name', ];
-    protected $appends = ['average15day'];
+    protected $appends = ['average15day', 'adx'];
 
-    //15-minute charts
+    public function getAdxAttribute()
+    {
+        $models = Candle::where('tools_id', '=', $this->id)
+                        ->where('tools_type', '=', 'stock')
+                        ->where('created_at', '>=', Carbon::now()->subDays(7)->startOfDay())->get();
+        $highs = [];
+        $low = [];
+        $close = [];
+
+        foreach ($models as $item)
+        {
+            $highs [] = $item->high;
+            $low [] = $item->low;
+            $close [] = $item->close;
+        }
+        $time_period = floor(count($highs) / 2);
+        $adx = trader_adx($highs, $low, $close, $time_period);
+
+        $adxValue = array_pop($adx);
+        $action = 'HOLD';
+        if ($adxValue > 50) {
+            $action = 'BUY';
+        } elseif ($adxValue < 20) {
+            $action = 'SELL';
+        }
+
+        $this->attributes['adx'] = $action;
+        return $this->attributes['adx'];
+
+    }
+    //5-minute charts
     public function getAverage15dayAttribute()
     {
         $models = Candle::where('tools_id', '=', $this->id)->where('tools_type', '=', 'stock')->pluck('close')->toArray();

@@ -52,8 +52,16 @@
         <span v-else-if="props.column.field === 'last_price'">
           {{ props.row.last_price }}
         </span>
+        <span v-else-if="props.column.field === 'adx'">
+          {{ props.row.adx }}
+        </span>
         <span v-else-if="props.column.field === 'average15day'">
-          <a target="_blank" class="btn btn-primary" :href="'emachart/' + props.row.id">{{ props.row.average15day }}</a>   
+          <a
+            target="_blank"
+            class="btn btn-primary"
+            :href="'emachart/' + props.row.id"
+            >{{ props.row.average15day }}</a
+          >
         </span>
       </template>
     </vue-good-table>
@@ -101,6 +109,10 @@ export default {
           label: "AVG",
           field: "average15day",
           type: "number",
+        },
+        {
+          label: "ADX",
+          field: "adx",
         },
       ],
     };

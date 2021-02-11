@@ -2717,6 +2717,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
  // import the styles
 
 
@@ -2753,6 +2761,9 @@ Vue.use(vue_good_table__WEBPACK_IMPORTED_MODULE_0__["default"]);
         label: "AVG",
         field: "average15day",
         type: "number"
+      }, {
+        label: "ADX",
+        field: "adx"
       }]
     };
   }
@@ -93891,6 +93902,12 @@ var render = function() {
                           "\n        " +
                             _vm._s(props.row.last_price) +
                             "\n      "
+                        )
+                      ])
+                    : props.column.field === "adx"
+                    ? _c("span", [
+                        _vm._v(
+                          "\n        " + _vm._s(props.row.adx) + "\n      "
                         )
                       ])
                     : props.column.field === "average15day"
