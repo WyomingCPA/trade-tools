@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTools2ToCandlesTable extends Migration
+class CreateTools22ToCandlesTable extends Migration
 {
     /**
      * Run the migrations.
