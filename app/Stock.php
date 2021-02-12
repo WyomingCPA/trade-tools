@@ -15,7 +15,7 @@ class Stock extends Model
     {
         $models = Candle::where('tools_id', '=', $this->id)
                         ->where('tools_type', '=', 'stock')
-                        ->where('created_at', '>=', Carbon::now()->subDays(7)->startOfDay())->get();
+                        ->where('created_at', '>=', Carbon::now()->subDays(1)->startOfDay())->get();
         $highs = [];
         $low = [];
         $close = [];
@@ -26,7 +26,8 @@ class Stock extends Model
             $low [] = $item->low;
             $close [] = $item->close;
         }
-        $time_period = floor(count($highs) / 2);
+        //$time_period = floor(count($highs) / 2);
+        $time_period = 4;
         $adx = trader_adx($highs, $low, $close, $time_period);
 
         $adxValue = array_pop($adx);
