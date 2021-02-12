@@ -59,7 +59,7 @@ class CheckEmaIndicator extends Command
                 $indicator->send_telegramm = true;
                 $indicator->save();
                 //Отпраялем в телеграмм событие
-                if ($indicator->action != "nothing")
+                if ($indicator->action != "nothing" || $item->adx != 'HOLD')
                 {
                     $messageText .= "<a target='_blank' href='https://www.tinkoff.ru/invest/stocks/{$item->ticker}'>{$item->name} (EMA = {$indicator->action})(ADX = $item->adx) Price: {$item->last_price}</a> \n";
                     $messageText .= "*******************************\n";

@@ -57,20 +57,10 @@
             </div>
           </div>
           <div class="card-footer justify-content-center">
-            <button type="submit" class="btn btn-primary btn-link btn-lg">{{ __('Lets Go') }}</button>
+            <button type="submit" class="btn btn-primary btn-link btn-lg">{{ __('Войти') }}</button>
           </div>
         </div>
       </form>
-      <div class="row">
-        <div class="col-6">
-            @if (Route::has('password.request'))
-                <a href="{{ route('password.request') }}" class="text-light">
-                    <small>{{ __('Forgot password?') }}</small>
-                </a>
-            @endif
-        </div>
-
-      </div>
     </div>
   </div>
 </div>

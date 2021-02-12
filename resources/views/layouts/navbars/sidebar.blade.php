@@ -63,7 +63,6 @@ $new_count_stock = Stock::where('created_at', '>=', Carbon::now()->subDays(7)->s
       </li>
       <li class="nav-item {{ ($activePage == 'stocks' || $activePage == 'user-management') ? ' active' : '' }}">
         <a class="nav-link" data-toggle="collapse" href="#stocks" aria-expanded="true">
-          
           <p>{{ __('Акций') }}
             <b class="caret"></b>
           </p>
@@ -88,12 +87,21 @@ $new_count_stock = Stock::where('created_at', '>=', Carbon::now()->subDays(7)->s
           </ul>
         </div>
       </li>
-
-      <li class="nav-item{{ $activePage == 'table' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ route('table') }}">
-          <i class="material-icons">content_paste</i>
-          <p>{{ __('No Work') }}</p>
+      <li class="nav-item {{ ($activePage == 'settings' || $activePage == 'settings') ? ' active' : '' }}">
+        <a class="nav-link" data-toggle="collapse" href="#settings" aria-expanded="true">
+          <p>{{ __('Settings') }}
+            <b class="caret"></b>
+          </p>
         </a>
+        <div class="collapse" id="settings">
+          <ul class="nav">
+            <li class="nav-item{{ $activePage == 'all_stocks' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('stock.all') }}">
+                <span class="sidebar-normal">{{ __('') }} </span>
+              </a>
+            </li>
+          </ul>
+        </div>
       </li>
     </ul>
   </div>
