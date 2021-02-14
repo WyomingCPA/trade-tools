@@ -30,17 +30,19 @@ class Stock extends Model
         $time_period = 4;
         $adx = trader_adx($highs, $low, $close, $time_period);
 
-        $adxValue = array_pop($adx);
-        $action = 'HOLD';
-        if ($adxValue > 50) {
-            $action = 'BUY';
-        } elseif ($adxValue < 20) {
-            $action = 'SELL';
+        if ($adx != false)
+        {
+            $adxValue = array_pop($adx);
+            $action = 'HOLD';
+            if ($adxValue > 50) {
+                $action = 'BUY';
+            } elseif ($adxValue < 20) {
+                $action = 'SELL';
+            }
+    
+            $this->attributes['adx'] = $action;
+            return $this->attributes['adx'];
         }
-
-        $this->attributes['adx'] = $action;
-        return $this->attributes['adx'];
-
     }
     //5-minute charts
     public function getAverage15dayAttribute()
