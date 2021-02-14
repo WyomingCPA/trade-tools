@@ -61,7 +61,9 @@ class CheckEmaIndicator extends Command
                 //Отпраялем в телеграмм событие
                 if ($indicator->action != "nothing" || $item->adx != 'HOLD')
                 {
-                    $messageText .= "<a target='_blank' href='https://www.tinkoff.ru/invest/stocks/{$item->ticker}'>{$item->name} (EMA = {$indicator->action})(ADX = $item->adx) Price: {$item->last_price}</a> \n";
+                    $stop_price = $item->last_price - ($item->last_price*0.005);
+                    $take_profit = $item->last_price + ($item->last_price*0.005);
+                    $messageText .= "<a target='_blank' href='https://www.tinkoff.ru/invest/stocks/{$item->ticker}'>{$item->name} (EMA = {$indicator->action})(ADX = $item->adx) Price: {$item->last_price} Stop Loss={$stop_price} Take Profit={$take_profit}</a> \n";
                     $messageText .= "*******************************\n";
                 }                
             }
