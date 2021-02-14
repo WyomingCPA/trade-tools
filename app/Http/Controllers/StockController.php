@@ -37,6 +37,7 @@ class StockController extends Controller
             'stocks' => $models
         ]);
     }
+
     public function emachart(Request $request)
     {
         $id = $request->route('id');

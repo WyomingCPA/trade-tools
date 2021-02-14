@@ -8,30 +8,28 @@ use Carbon\Carbon;
 
 class Stock extends Model
 {
-    protected $fillable = ['figi', 'ticker', 'isin', 'minPriceIncrement', 'currency', 'name', ];
-    protected $appends = ['average15day', 'adx'];
+    protected $fillable = ['figi', 'ticker', 'isin', 'minPriceIncrement', 'currency', 'name', 'min_precent', 'take_profit'];
+    protected $appends = ['average15day', 'adx', 'min_precent', 'take_profit'];
 
     public function getAdxAttribute()
     {
         $models = Candle::where('tools_id', '=', $this->id)
-                        ->where('tools_type', '=', 'stock')
-                        ->where('created_at', '>=', Carbon::now()->subDays(1)->startOfDay())->get();
+            ->where('tools_type', '=', 'stock')
+            ->where('created_at', '>=', Carbon::now()->subDays(1)->startOfDay())->get();
         $highs = [];
         $low = [];
         $close = [];
 
-        foreach ($models as $item)
-        {
-            $highs [] = $item->high;
-            $low [] = $item->low;
-            $close [] = $item->close;
+        foreach ($models as $item) {
+            $highs[] = $item->high;
+            $low[] = $item->low;
+            $close[] = $item->close;
         }
         //$time_period = floor(count($highs) / 2);
         $time_period = 4;
         $adx = trader_adx($highs, $low, $close, $time_period);
 
-        if ($adx != false)
-        {
+        if ($adx != false) {
             $adxValue = array_pop($adx);
             $action = 'HOLD';
             if ($adxValue > 50) {
@@ -39,7 +37,7 @@ class Stock extends Model
             } elseif ($adxValue < 20) {
                 $action = 'SELL';
             }
-    
+
             $this->attributes['adx'] = $action;
             return $this->attributes['adx'];
         }
@@ -77,9 +75,7 @@ class Stock extends Model
                 $action = 'nothing';
             }
             $this->attributes['average15day'] = $action;
-        }
-        else
-        {
+        } else {
             $this->attributes['average15day'] = 'nothing';
         }
 
@@ -90,7 +86,52 @@ class Stock extends Model
     {
         return $this->hasOne('App\EmaDayIndicator');
     }
-    
+    //Аттрибут расчитывает минимальную цену за период
+    //И возвращает процентную разницу
+    public function getMinPrecentAttribute()
+    {
+        $models = Candle::where('tools_id', '=', $this->id)->where('tools_type', '=', 'stock')
+            ->where('created_at', '>=', Carbon::now()->subDays(2)->startOfDay())->pluck('close')->toArray();
+
+        if (empty($models)) {
+            $this->attributes['min_precent'] = 'No data';
+            return $this->attributes['min_precent'];
+        }
+
+        $min_price = min($models);
+        $price =  $this->last_price;
+
+        $oldprice = $min_price;
+        $newprice = $price;
+
+        $res = round((($oldprice - $newprice) / $oldprice) * 100, 2);
+
+        $this->attributes['min_precent'] = $res;
+
+        return $this->attributes['min_precent'];
+    }
+
+    public function getTakeProfitAttribute()
+    {
+        $models = Candle::where('tools_id', '=', $this->id)->where('tools_type', '=', 'stock')
+            ->where('created_at', '>=', Carbon::now()->subDays(2)->startOfDay())->pluck('close')->toArray();
+
+        if (empty($models)) {
+            $this->attributes['take_profit'] = 'No data';
+            return $this->attributes['take_profit'];
+        }
+
+        $max_price = max($models);
+        $price =  $this->last_price;
+
+        $oldprice = $max_price;
+        $newprice = $price;
+
+        $res = round((($oldprice - $newprice) / $oldprice) * 100, 2);
+        $this->attributes['take_profit'] = $res;
+        return $this->attributes['take_profit'];
+    }
+
     public function getLastPriceAttribute()
     {
         $model = Candle::where('tools_id', '=', $this->id)->get();
