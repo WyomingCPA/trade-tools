@@ -51,7 +51,6 @@ class StockController extends Controller
 
     public function favoriteStock(Request $request)
     {
-
         $rows = $request->post('selRows');
         $select = [];
         foreach ($rows as $value) {

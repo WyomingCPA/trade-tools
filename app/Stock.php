@@ -91,7 +91,7 @@ class Stock extends Model
     public function getMinPrecentAttribute()
     {
         $models = Candle::where('tools_id', '=', $this->id)->where('tools_type', '=', 'stock')
-            ->where('created_at', '>=', Carbon::now()->subDays(2)->startOfDay())->pluck('close')->toArray();
+            ->where('created_at', '>=', Carbon::now()->subDays(1)->startOfDay())->pluck('close')->toArray();
 
         if (empty($models)) {
             $this->attributes['min_precent'] = 'No data';
@@ -114,7 +114,7 @@ class Stock extends Model
     public function getTakeProfitAttribute()
     {
         $models = Candle::where('tools_id', '=', $this->id)->where('tools_type', '=', 'stock')
-            ->where('created_at', '>=', Carbon::now()->subDays(2)->startOfDay())->pluck('close')->toArray();
+            ->where('created_at', '>=', Carbon::now()->subDays(1)->startOfDay())->pluck('close')->toArray();
 
         if (empty($models)) {
             $this->attributes['take_profit'] = 'No data';
