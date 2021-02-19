@@ -26,7 +26,6 @@ $new_count_stock = Stock::where('created_at', '>=', Carbon::now()->subDays(7)->s
     <ul class="nav">
       <li class="nav-item{{ $activePage == 'dashboard' ? ' active' : '' }}">
         <a class="nav-link" href="{{ route('home') }}">
-          <i class="material-icons">dashboard</i>
           <p>{{ __('Личный кабинет') }}</p>
         </a>
       </li>
@@ -82,6 +81,22 @@ $new_count_stock = Stock::where('created_at', '>=', Carbon::now()->subDays(7)->s
             <li class="nav-item{{ $activePage == 'favorites_stock' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('stock.favorites') }}">
                 <span class="sidebar-normal">{{ __('Избранные') }} </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li class="nav-item {{ ($activePage == 'journal' || $activePage == 'journal') ? ' active' : '' }}">
+        <a class="nav-link" data-toggle="collapse" href="#journal" aria-expanded="true">
+          <p>{{ __('Журнал покупок') }}
+            <b class="caret"></b>
+          </p>
+        </a>
+        <div class="collapse" id="settings">
+          <ul class="nav">
+            <li class="nav-item{{ $activePage == 'all_stocks' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('stock.all') }}">
+                <span class="sidebar-normal">{{ __('') }} </span>
               </a>
             </li>
           </ul>

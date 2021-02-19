@@ -29,6 +29,7 @@ Vue.component('stock-favorite-table', require('./components/stock/StockFavoriteT
 Vue.component('stock-new-table', require('./components/stock/StockNewTableComponent.vue').default);
 
 Vue.component('chars-ema', require('./components/stock/CharsEmaComponent.vue').default);
+Vue.component('chars', require('./components/stock/CharsCandleComponent.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

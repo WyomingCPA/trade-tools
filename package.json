@@ -30,7 +30,9 @@
         "chart.js": "^2.9.4",
         "datatables.net": "^1.10.23",
         "datatables.net-dt": "^1.10.23",
+        "trading-vue-js": "^1.0.1",
         "vue-chartjs": "^3.5.1",
+        "vue-chartjs-financial": "^1.0.1",
         "vue-good-table": "^2.21.3",
         "vuetable-2": "^2.0.0-beta.4"
     }

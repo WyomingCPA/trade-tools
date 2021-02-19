@@ -8,6 +8,7 @@ use Carbon\Carbon;
 
 use App\Stock;
 use App\Candle;
+use App\EmaDayIndicator;
 
 class StockController extends Controller
 {
@@ -45,7 +46,10 @@ class StockController extends Controller
             $candle = Candle::where('tools_id', '=', $id)->where('tools_type', '=', 'stock')->pluck('close', 'time')->toArray();
             return response()->json($candle);
         } else {
-            return view('stock.emachart');
+            $models = EmaDayIndicator::where('stock_id', $id)
+                                        ->orderByDesc('created_at')->limit(100)->get();
+
+            return view('stock.emachart', ['event' => $models]);
         }
     }
 
