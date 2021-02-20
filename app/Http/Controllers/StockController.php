@@ -49,7 +49,8 @@ class StockController extends Controller
             $models = EmaDayIndicator::where('stock_id', $id)
                                         ->orderByDesc('created_at')->limit(100)->get();
 
-            $candles = Candle::where('tools_id', '=', $id)->where('tools_type', '=', 'stock')->take(20)->orderByDesc('time')->get();
+            $candles = Candle::where('tools_id', '=', $id)->where('tools_type', '=', 'stock')
+                        ->where('created_at', '>=', Carbon::now()->subDays(2)->startOfDay())->take(20)->orderBy('time')->get();
             $list = [];
             foreach ($candles as $item)
             {

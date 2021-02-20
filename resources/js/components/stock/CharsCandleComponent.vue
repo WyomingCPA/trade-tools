@@ -56,8 +56,7 @@ export default {
     return {
       chart: new DataCube({
         ohlcv: 
-            cand
-        ,
+            cand,
         onchart: [],
         offchart: [],
       }),
