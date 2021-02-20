@@ -2458,18 +2458,65 @@ Vue.use(vue_good_table__WEBPACK_IMPORTED_MODULE_0__["default"]);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var trading_vue_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! trading-vue-js */ "./node_modules/trading-vue-js/dist/trading-vue.js");
 /* harmony import */ var trading_vue_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(trading_vue_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lodash_foreach__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash.foreach */ "./node_modules/lodash.foreach/index.js");
+/* harmony import */ var lodash_foreach__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash_foreach__WEBPACK_IMPORTED_MODULE_1__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'app',
-  components: {
-    TradingVue: trading_vue_js__WEBPACK_IMPORTED_MODULE_0___default.a
+  name: "MainChart",
+  props: ["width", "height", "candles"],
+  computed: {
+    colors: function colors() {
+      return this.night ? {
+        back: "#121827",
+        grid: "#3e3e3e",
+        text: "#35a776",
+        cross: "#dd64ef",
+        candle_dw: "#e54077",
+        wick_dw: "#e54077"
+      } : {
+        back: "#fff",
+        grid: "#eee",
+        text: "#333",
+        candle_dw: "black",
+        wick_dw: "black"
+      };
+    }
+  },
+  mounted: function mounted() {
+    // Shift the chart to the left
+    var last = 1556031600000;
+    var shift = 3600 * 1000 * 15; // 15h
+
+    this.$refs.tvjs["goto"](last + shift);
   },
   data: function data() {
+    var cand = this.candles;
+    console.log(cand);
     return {
-      ohlcv: [[1551128400000, 33, 37.1, 14, 14, 196], [1551132000000, 13.7, 30, 6.6, 30, 206], [1551135600000, 29.9, 33, 21.3, 21.8, 74], [1551139200000, 21.7, 25.9, 18, 24, 140], [1551142800000, 24.1, 24.1, 24, 24.1, 29]]
+      chart: new trading_vue_js__WEBPACK_IMPORTED_MODULE_0__["DataCube"]({
+        ohlcv: cand,
+        onchart: [],
+        offchart: []
+      }),
+      overlays: []
     };
   }
 });
@@ -112737,7 +112784,22 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("trading-vue", { attrs: { data: this.$data } })
+  return _c("trading-vue", {
+    ref: "tvjs",
+    attrs: {
+      data: _vm.chart,
+      candles: _vm.candles,
+      width: _vm.width,
+      height: _vm.height,
+      "title-txt": "",
+      toolbar: true,
+      overlays: _vm.overlays,
+      "color-back": _vm.colors.back,
+      "color-grid": _vm.colors.grid,
+      "color-text": _vm.colors.text,
+      "color-title": _vm.colors.tvTitle
+    }
+  })
 }
 var staticRenderFns = []
 render._withStripped = true

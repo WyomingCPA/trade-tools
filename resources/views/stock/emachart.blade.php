@@ -1,10 +1,10 @@
-@extends('layouts.app', ['activePage' => 'all_stock', 'titlePage' => __('Все акций') ])
+@extends('layouts.app', ['activePage' => 'all_stock', 'titlePage' => __('EMA') ])
 @section('content')
 <div class="container pt-5">
     <div class="row pt-5">
         <div class="col-md-12">
             <div id="app">
-                <chars></chars>
+                <chars :candles="{{ json_encode($candles) }}"></chars>
             </div>
         </div>
     </div>

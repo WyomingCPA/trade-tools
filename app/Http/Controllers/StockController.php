@@ -49,7 +49,14 @@ class StockController extends Controller
             $models = EmaDayIndicator::where('stock_id', $id)
                                         ->orderByDesc('created_at')->limit(100)->get();
 
-            return view('stock.emachart', ['event' => $models]);
+            $candles = Candle::where('tools_id', '=', $id)->where('tools_type', '=', 'stock')->take(20)->orderBy('time')->get();
+            $list = [];
+            foreach ($candles as $item)
+            {
+                $list [] = array(strtotime($item->time), $item->open, $item->high, $item->low, $item->close, $item->volume);
+            }
+
+            return view('stock.emachart', ['event' => $models, 'candles' => $list ]);
         }
     }
 
