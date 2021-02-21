@@ -54,7 +54,8 @@ class StockController extends Controller
             $list = [];
             foreach ($candles as $item)
             {
-                $list [] = array(strtotime($item->time), $item->open, $item->high, $item->low, $item->close, $item->volume);
+                $timestamp = str_pad(strtotime($item->time), 13, "0");
+                $list [] = array((int)$timestamp, $item->open, $item->high, $item->low, $item->close, $item->volume);
             }
 
             return view('stock.emachart', ['event' => $models, 'candles' => $list ]);
