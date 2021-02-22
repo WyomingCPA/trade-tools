@@ -88,7 +88,7 @@ class CheckEmaIndicator extends Command
             $chatId = '-597520329';
             $bot = new BotApi(env('TELEGRAM_TOKEN'));
 
-            //$bot->sendMessage($chatId, $messageText, 'HTML');
+            $bot->sendMessage($chatId, $messageText, 'HTML');
             //echo $messageText . "\n";
         }
     }
