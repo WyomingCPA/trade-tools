@@ -54,7 +54,8 @@ class StockController extends Controller
             $list = [];
             foreach ($candles as $item)
             {
-                $timestamp = str_pad(strtotime($item->time), 13, "0");
+                $test = $item->time;
+                $timestamp = str_pad(Carbon::parse($item->time)->addHours(3)->timestamp, 13, "0");
                 $list [] = array((int)$timestamp, $item->open, $item->high, $item->low, $item->close, $item->volume);
             }
 
