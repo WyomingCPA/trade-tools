@@ -15,6 +15,7 @@ use \jamesRUS52\TinkoffInvest\TIOrderBook;
 use \jamesRUS52\TinkoffInvest\TIInstrumentInfo;
 
 use Carbon\Carbon;
+use App\Operation;
 
 class HomeController extends Controller
 {
@@ -40,6 +41,9 @@ class HomeController extends Controller
         $client = new TIClient(env('TOKEN_TINKOFF') ,TISiteEnum::EXCHANGE);
         $accounts = $client->getAccounts(); 
         $port = $client->getPortfolio($accounts);
-        return view('dashboard', compact('port'))->with('time', $time->toDateTimeString());
+
+        $operations = Operation::where('created_at', '>=', Carbon::now()->subDays(30)->startOfDay())->orderBy('date', 'asc')->get();
+
+        return view('dashboard', compact('port', 'operations'))->with('time', $time->toDateTimeString());
     }
 }

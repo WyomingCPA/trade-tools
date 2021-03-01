@@ -4,9 +4,9 @@
 <div class="content">
   <div class="container-fluid">
     <div class="row">
-      
+
       @foreach ($port->getAllCurrencies() as $item)
-      <div class="col-lg-2 col-md-5 col-sm-5">
+      <div class="col-lg-2 col-md-4 col-sm-4">
         <div class="card card-stats">
           <div class="card-header card-header-success card-header-icon">
             <p class="card-category">{{ $item->getCurrency() }}</p>
@@ -20,9 +20,7 @@
         </div>
       </div>
       @endforeach
-    </div>
-    <div class="row">
-      <div class="col-lg-7 col-md-10 col-sm-10">
+      <div class="col-lg-4 col-md-5 col-sm-5">
         <div class="card">
           <div class="card-body">
             <table class="table">
@@ -49,10 +47,20 @@
         </div>
       </div>
     </div>
+    <div class="row pt-5">
+      <div class="col-md-12">
+        <div id="app">
+          <dashboard-operations :operations="{{ $operations }}"></dashboard-operations>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 @endsection
+@section('scripts')
+<script src="{{ asset('/js/app.js') }}"></script>
 
+@endsection
 @push('js')
 <script>
   $(document).ready(function() {

@@ -28,6 +28,8 @@ Vue.component('stock-all-table', require('./components/stock/StockAllTableCompon
 Vue.component('stock-favorite-table', require('./components/stock/StockFavoriteTableComponent.vue').default);
 Vue.component('stock-new-table', require('./components/stock/StockNewTableComponent.vue').default);
 
+Vue.component('dashboard-operations', require('./components/operation/DashboardOperationTableComponent.vue').default);
+
 Vue.component('chars-ema', require('./components/stock/CharsEmaComponent.vue').default);
 Vue.component('chars', require('./components/stock/CharsCandleComponent.vue').default);
 /**

@@ -22,6 +22,7 @@ import each from "lodash.foreach";
 export default {
   name: "MainChart",
   props: ["width", "height", "candles"],
+  
   computed: {
     colors() {
       return this.night
