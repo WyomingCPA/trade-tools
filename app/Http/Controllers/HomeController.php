@@ -42,7 +42,7 @@ class HomeController extends Controller
         $accounts = $client->getAccounts(); 
         $port = $client->getPortfolio($accounts);
 
-        $operations = Operation::where('created_at', '>=', Carbon::now()->subDays(30)->startOfDay())->orderBy('date', 'asc')->get();
+        $operations = Operation::where('created_at', '>=', Carbon::now()->subDays(30)->startOfDay())->orderBy('date', 'desc')->get();
 
         return view('dashboard', compact('port', 'operations'))->with('time', $time->toDateTimeString());
     }

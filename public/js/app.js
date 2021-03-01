@@ -2447,6 +2447,161 @@ Vue.use(vue_good_table__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/journal/JournalTableComponent.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/journal/JournalTableComponent.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue_good_table__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-good-table */ "./node_modules/vue-good-table/dist/vue-good-table.esm.js");
+/* harmony import */ var vue_good_table_dist_vue_good_table_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-good-table/dist/vue-good-table.css */ "./node_modules/vue-good-table/dist/vue-good-table.css");
+/* harmony import */ var vue_good_table_dist_vue_good_table_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_good_table_dist_vue_good_table_css__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var lodash_foreach__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash.foreach */ "./node_modules/lodash.foreach/index.js");
+/* harmony import */ var lodash_foreach__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash_foreach__WEBPACK_IMPORTED_MODULE_2__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+ // import the styles
+
+
+
+Vue.use(vue_good_table__WEBPACK_IMPORTED_MODULE_0__["default"]);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ["orders"],
+  name: "journal",
+  methods: {
+    selectionChanged: function selectionChanged(params) {
+      this.selRows = params.selectedRows;
+    },
+    del: function del(event, rows) {
+      var self = this;
+      axios.post("journal/delete", {
+        selRows: this.selRows
+      }).then(function (response) {
+        window.location.href = "journal";
+      });
+    },
+    columnFilterFn: function columnFilterFn(data, filterString) {
+      var x = parseInt(filterString);
+
+      if (data != 0 && data != null) {
+        var newTxt = data.toString().split("(");
+        var precent;
+
+        for (var i = 1; i < newTxt.length; i++) {
+          //console.log(newTxt[i].split(")")[0]);
+          precent = newTxt[i].split(")")[0];
+        }
+
+        precent = parseFloat(precent);
+
+        if (x > 0) {
+          return precent <= x && precent >= 0;
+        }
+
+        if (x <= 0) return precent <= x;
+      }
+    },
+    fealdFn: function fealdFn(rowObj) {
+      var nominal = parseInt(rowObj.nominal);
+      var lastPrice = parseInt(rowObj.last_price);
+      var precent = 0;
+
+      if (lastPrice > nominal) {
+        precent = (lastPrice - nominal) / nominal * 100;
+        var lastPriceString = lastPrice.toString();
+        var precentString = precent.toFixed(2).toString();
+        var result = lastPriceString + "(" + precentString + "%" + ")";
+        return result;
+      } else if (lastPrice < nominal && lastPrice != 0) {
+        precent = (nominal - lastPrice) / nominal * 100;
+        var lastPriceString = lastPrice.toString();
+        var precentString = precent.toFixed(2).toString();
+        var result = lastPriceString + "(" + -precentString + "%" + ")";
+        return result;
+      } else {
+        return lastPrice;
+      }
+    }
+  },
+  data: function data() {
+    return {
+      columns: [{
+        label: "figi",
+        field: "figi"
+      }, {
+        label: "login_date",
+        field: "login_date"
+      }, {
+        label: "release_date",
+        field: "release_date"
+      }, {
+        label: "profit",
+        field: "profit"
+      }, {
+        label: "сommission",
+        field: "сommission"
+      }]
+    };
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/operation/DashboardOperationTableComponent.vue?vue&type=script&lang=js&":
 /*!*****************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/operation/DashboardOperationTableComponent.vue?vue&type=script&lang=js& ***!
@@ -2524,9 +2679,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
  // import the styles
 
 
@@ -2539,20 +2691,12 @@ Vue.use(vue_good_table__WEBPACK_IMPORTED_MODULE_0__["default"]);
     selectionChanged: function selectionChanged(params) {
       this.selRows = params.selectedRows;
     },
-    hide: function hide(event, rows) {
+    add_journal: function add_journal(event, rows) {
       var self = this;
-      axios.post("trash", {
+      axios.post("journal/calculate", {
         selRows: this.selRows
       }).then(function (response) {
-        window.location.href = "all";
-      });
-    },
-    favorite: function favorite(event, rows) {
-      var self = this;
-      axios.post("favorite", {
-        selRows: this.selRows
-      }).then(function (response) {
-        window.location.href = "all";
+        window.location.href = "journal";
       });
     },
     columnFilterFn: function columnFilterFn(data, filterString) {
@@ -112953,6 +113097,125 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/journal/JournalTableComponent.vue?vue&type=template&id=63ba21b3&":
+/*!********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/journal/JournalTableComponent.vue?vue&type=template&id=63ba21b3& ***!
+  \********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "vue-good-table",
+        {
+          attrs: {
+            theme: _vm.nocturnal,
+            columns: _vm.columns,
+            rows: _vm.orders,
+            "sort-options": {
+              enabled: true
+            },
+            "line-numbers": true,
+            "pagination-options": {
+              enabled: true,
+              mode: "records",
+              perPage: 30,
+              position: "top",
+              perPageDropdown: [10, 30, 100],
+              dropdownAllowAll: false,
+              setCurrentPage: 1,
+              nextLabel: "next",
+              prevLabel: "prev",
+              rowsPerPageLabel: "Rows per page",
+              ofLabel: "of",
+              pageLabel: "page", // for 'pages' mode
+              allLabel: "All"
+            },
+            "search-options": { enabled: true },
+            "select-options": {
+              enabled: true
+            }
+          },
+          on: { "on-selected-rows-change": _vm.selectionChanged },
+          scopedSlots: _vm._u([
+            {
+              key: "table-row",
+              fn: function(props) {
+                return [
+                  props.column.field === "figi"
+                    ? _c("span", [
+                        _vm._v(
+                          "\n        " + _vm._s(props.row.figi) + "\n      "
+                        )
+                      ])
+                    : props.column.field === "login_date"
+                    ? _c("span", [
+                        _vm._v(
+                          "\n        " +
+                            _vm._s(props.row.login_date) +
+                            "\n      "
+                        )
+                      ])
+                    : props.column.field === "release_date"
+                    ? _c("span", [
+                        _vm._v(
+                          "\n        " +
+                            _vm._s(props.row.release_date) +
+                            "\n      "
+                        )
+                      ])
+                    : props.column.field === "profit"
+                    ? _c("span", [
+                        _vm._v(
+                          "\n        " + _vm._s(props.row.profit) + "\n      "
+                        )
+                      ])
+                    : props.column.field === "сommission"
+                    ? _c("span", [
+                        _vm._v(
+                          "\n        " +
+                            _vm._s(props.row.сommission) +
+                            "\n      "
+                        )
+                      ])
+                    : _vm._e()
+                ]
+              }
+            }
+          ])
+        },
+        [
+          _c(
+            "div",
+            {
+              attrs: { slot: "selected-row-actions" },
+              slot: "selected-row-actions"
+            },
+            [_c("button", { on: { click: _vm.del } }, [_vm._v("Удалить")])]
+          )
+        ]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/operation/DashboardOperationTableComponent.vue?vue&type=template&id=b72d0796&":
 /*!*********************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/operation/DashboardOperationTableComponent.vue?vue&type=template&id=b72d0796& ***!
@@ -113074,19 +113337,10 @@ var render = function() {
               slot: "selected-row-actions"
             },
             [
-              _c("button", { on: { click: _vm.favorite } }, [
-                _vm._v("Favorite")
+              _c("button", { on: { click: _vm.add_journal } }, [
+                _vm._v("Добавить в журнал")
               ])
             ]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              attrs: { slot: "selected-row-actions" },
-              slot: "selected-row-actions"
-            },
-            [_c("button", { on: { click: _vm.hide } }, [_vm._v("Hide")])]
           )
         ]
       )
@@ -125795,6 +126049,7 @@ Vue.component('stock-all-table', __webpack_require__(/*! ./components/stock/Stoc
 Vue.component('stock-favorite-table', __webpack_require__(/*! ./components/stock/StockFavoriteTableComponent.vue */ "./resources/js/components/stock/StockFavoriteTableComponent.vue")["default"]);
 Vue.component('stock-new-table', __webpack_require__(/*! ./components/stock/StockNewTableComponent.vue */ "./resources/js/components/stock/StockNewTableComponent.vue")["default"]);
 Vue.component('dashboard-operations', __webpack_require__(/*! ./components/operation/DashboardOperationTableComponent.vue */ "./resources/js/components/operation/DashboardOperationTableComponent.vue")["default"]);
+Vue.component('journal', __webpack_require__(/*! ./components/journal/JournalTableComponent.vue */ "./resources/js/components/journal/JournalTableComponent.vue")["default"]);
 Vue.component('chars-ema', __webpack_require__(/*! ./components/stock/CharsEmaComponent.vue */ "./resources/js/components/stock/CharsEmaComponent.vue")["default"]);
 Vue.component('chars', __webpack_require__(/*! ./components/stock/CharsCandleComponent.vue */ "./resources/js/components/stock/CharsCandleComponent.vue")["default"]);
 /**
@@ -126125,6 +126380,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BondNewTableComponent_vue_vue_type_template_id_48e643aa___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BondNewTableComponent_vue_vue_type_template_id_48e643aa___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/journal/JournalTableComponent.vue":
+/*!*******************************************************************!*\
+  !*** ./resources/js/components/journal/JournalTableComponent.vue ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _JournalTableComponent_vue_vue_type_template_id_63ba21b3___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./JournalTableComponent.vue?vue&type=template&id=63ba21b3& */ "./resources/js/components/journal/JournalTableComponent.vue?vue&type=template&id=63ba21b3&");
+/* harmony import */ var _JournalTableComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./JournalTableComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/journal/JournalTableComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _JournalTableComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _JournalTableComponent_vue_vue_type_template_id_63ba21b3___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _JournalTableComponent_vue_vue_type_template_id_63ba21b3___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/journal/JournalTableComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/journal/JournalTableComponent.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************!*\
+  !*** ./resources/js/components/journal/JournalTableComponent.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JournalTableComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./JournalTableComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/journal/JournalTableComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JournalTableComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/journal/JournalTableComponent.vue?vue&type=template&id=63ba21b3&":
+/*!**************************************************************************************************!*\
+  !*** ./resources/js/components/journal/JournalTableComponent.vue?vue&type=template&id=63ba21b3& ***!
+  \**************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_JournalTableComponent_vue_vue_type_template_id_63ba21b3___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./JournalTableComponent.vue?vue&type=template&id=63ba21b3& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/journal/JournalTableComponent.vue?vue&type=template&id=63ba21b3&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_JournalTableComponent_vue_vue_type_template_id_63ba21b3___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_JournalTableComponent_vue_vue_type_template_id_63ba21b3___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

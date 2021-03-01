@@ -78,6 +78,11 @@ Route::group(['prefix' => 'stock', 'middleware' => 'auth'], function () {
 	Route::post('favorite', ['as' => 'stock.favorites.post', 'uses' => 'StockController@favoriteStock']);
 	Route::post('unfavorite', ['as' => 'stock.unfavorite', 'uses' => 'StockController@unFavoriteStock']);	
 });
-
+//Роуты журнала
+Route::group(['prefix' => 'journal', 'middleware' => 'auth'], function () {
+	Route::get('', ['as' => 'journal', 'uses' => 'JournalController@index']);
+	Route::post('calculate', ['as' => 'calculate', 'uses' => 'JournalController@calculate']);
+	Route::post('delete', ['as' => 'delete', 'uses' => 'JournalController@delete']);
+});
 
 

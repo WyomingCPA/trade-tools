@@ -4,7 +4,7 @@
       @on-selected-rows-change="selectionChanged"
       :theme="nocturnal"
       :columns="columns"
-      :rows="operations"
+      :rows="orders"
       :sort-options="{
         enabled: true,
       }"
@@ -30,32 +30,23 @@
       }"
     >
       <div slot="selected-row-actions">
-        <button v-on:click="add_journal">Добавить в журнал</button>
+        <button v-on:click="del">Удалить</button>
       </div>
       <template slot="table-row" slot-scope="props">
-        <span v-if="props.column.field === 'status'">
-          {{ props.row.status }}
-        </span>
-        <span v-else-if="props.column.field === 'figi'">
+        <span v-if="props.column.field === 'figi'">
           {{ props.row.figi }}
         </span>
-        <span v-else-if="props.column.field === 'payment'">
-          {{ props.row.payment }}
+        <span v-else-if="props.column.field === 'login_date'">
+          {{ props.row.login_date }}
         </span>
-        <span v-else-if="props.column.field === 'price'">
-          {{ props.row.price }}
+        <span v-else-if="props.column.field === 'release_date'">
+          {{ props.row.release_date }}
         </span>
-        <span v-else-if="props.column.field === 'currency'">
-          {{ props.row.currency }}
+        <span v-else-if="props.column.field === 'profit'">
+          {{ props.row.profit }}
         </span>
-        <span v-else-if="props.column.field === 'instrumentType'">
-          {{ props.row.instrumentType }}
-        </span>
-        <span v-else-if="props.column.field === 'date'">
-          {{ props.row.date }}
-        </span>
-        <span v-else-if="props.column.field === 'operationType'">
-          {{ props.row.operationType }}
+        <span v-else-if="props.column.field === 'сommission'">
+          {{ props.row.сommission }}
         </span>
       </template>
     </vue-good-table>
@@ -70,15 +61,15 @@ import each from "lodash.foreach";
 Vue.use(VueGoodTablePlugin);
 
 export default {
-  props: ["operations"],
-  name: "dashboard-operations",
+  props: ["orders"],
+  name: "journal",
   methods: {
     selectionChanged: function (params) {
       this.selRows = params.selectedRows;
     },
-    add_journal: function (event, rows) {
+    del: function (event, rows) {
       var self = this;
-      axios.post("journal/calculate", { selRows: this.selRows }).then((response) => {
+      axios.post("journal/delete", { selRows: this.selRows }).then((response) => {
         window.location.href = "journal";
       });
     },
@@ -123,36 +114,25 @@ export default {
     return {
       columns: [
         {
-          label: "status",
-          field: "status",
-        },
-        {
           label: "figi",
           field: "figi",
         },
+
         {
-          label: "payment",
-          field: "payment",
+          label: "login_date",
+          field: "login_date",
         },
         {
-          label: "price",
-          field: "price",
+          label: "release_date",
+          field: "release_date",
         },
         {
-          label: "currency",
-          field: "currency",
+          label: "profit",
+          field: "profit",
         },
-        {
-          label: "instrumentType",
-          field: "instrumentType",
-        },
-        {
-          label: "date",
-          field: "date",
-        },
-        {
-          label: "operationType",
-          field: "operationType",
+                {
+          label: "сommission",
+          field: "сommission",
         },
       ],
     };

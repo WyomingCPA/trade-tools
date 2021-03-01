@@ -92,11 +92,11 @@ $new_count_stock = Stock::where('created_at', '>=', Carbon::now()->subDays(7)->s
             <b class="caret"></b>
           </p>
         </a>
-        <div class="collapse" id="settings">
+        <div class="collapse" id="journal">
           <ul class="nav">
-            <li class="nav-item{{ $activePage == 'all_stocks' ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('stock.all') }}">
-                <span class="sidebar-normal">{{ __('') }} </span>
+            <li class="nav-item{{ $activePage == 'journal' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('journal') }}">
+                <span class="sidebar-normal">{{ __('Журнал') }} </span>
               </a>
             </li>
           </ul>
