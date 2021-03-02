@@ -47,7 +47,7 @@ class Stock extends Model
     {
         $models = Candle::where('tools_id', '=', $this->id)->where('tools_type', '=', 'stock')
                         ->where('interval', '=', '5min')
-                        ->where('created_at', '>=', Carbon::now()->subDays(1)->startOfDay())->pluck('close')->toArray();
+                        ->where('time', '>=', Carbon::now()->subHours(12)->startOfDay())->pluck('close')->toArray();
         $prices = [];
         foreach ($models as $close) {
             $prices[] = $close;
