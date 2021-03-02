@@ -2676,9 +2676,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
  // import the styles
 
 
@@ -113271,16 +113268,10 @@ var render = function() {
               key: "table-row",
               fn: function(props) {
                 return [
-                  props.column.field === "status"
+                  props.column.field === "figi"
                     ? _c("span", [
                         _vm._v(
-                          "\n        " + _vm._s(props.row.status) + "\n      "
-                        )
-                      ])
-                    : props.column.field === "figi"
-                    ? _c("span", [
-                        _vm._v(
-                          "\n        " + _vm._s(props.row.figi) + "\n      "
+                          "\n         " + _vm._s(props.row.figi) + "\n      "
                         )
                       ])
                     : props.column.field === "payment"

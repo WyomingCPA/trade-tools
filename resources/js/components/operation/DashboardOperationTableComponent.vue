@@ -33,11 +33,8 @@
         <button v-on:click="add_journal">Добавить в журнал</button>
       </div>
       <template slot="table-row" slot-scope="props">
-        <span v-if="props.column.field === 'status'">
-          {{ props.row.status }}
-        </span>
-        <span v-else-if="props.column.field === 'figi'">
-          {{ props.row.figi }}
+        <span v-if="props.column.field === 'figi'">
+           {{ props.row.figi }}
         </span>
         <span v-else-if="props.column.field === 'payment'">
           {{ props.row.payment }}

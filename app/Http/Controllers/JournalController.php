@@ -11,8 +11,23 @@ class JournalController extends Controller
 {
     public function index()
     {
-        $orders = Order::where('created_at', '>=', Carbon::now()->subDays(30)->startOfDay())->orderBy('created_at', 'desc')->get();
-        return view('journal.index', compact('orders'));
+        $profit_day = 0;
+        $profit_month = 0;
+
+        $profit_d = Order::where('release_date', '>=', Carbon::now()->subDays(1)->startOfDay())->orderBy('release_date', 'desc')->pluck('profit');
+        $profit_m = Order::where('release_date', '>=', Carbon::now()->subDays(30)->startOfDay())->orderBy('release_date', 'desc')->pluck('profit');
+
+        foreach ($profit_d as $item)
+        {
+            $profit_day += $item;
+        }
+
+        foreach ($profit_m as $item) {
+            $profit_month += $item;
+        }
+
+        $orders = Order::where('created_at', '>=', Carbon::now()->subDays(30)->startOfDay())->orderBy('release_date', 'desc')->get();
+        return view('journal.index', compact('orders', 'profit_day', 'profit_month'));
     }
 
     public function calculate(Request $request)
@@ -43,7 +58,7 @@ class JournalController extends Controller
             }
         }
 
-        $profit = (float)$sell + (float)$buy;
+        $profit = (float)$sell + (float)$buy + $сommission;
         $order = Order::create([
             'figi' => $figi,
             'login_date' => $login_date,
