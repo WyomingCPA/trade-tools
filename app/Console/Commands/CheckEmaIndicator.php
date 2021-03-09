@@ -88,7 +88,7 @@ class CheckEmaIndicator extends Command
                         try {
                             // creates a new page and navigate to an url
                             $page = $browser->createPage();
-                            $page->navigate('http://trade-tools.anime24.fun/stock/emachart' . $item->id)->waitForNavigation();
+                            $page->navigate('http://trade-tools.anime24.fun/stock/emachart/' . $item->id)->waitForNavigation();
                         
                             // get page title
                             $pageTitle = $page->evaluate('document.title')->getReturnValue();
