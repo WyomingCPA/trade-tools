@@ -67,7 +67,7 @@ class CheckProfit extends Command
                     break;
                 }
             }
-            if ($stock->last_price >= $item->stop_loss || $stock->last_price <= $item->take_profit)
+            if ($stock->last_price <= $item->stop_loss || $stock->last_price >= $item->take_profit)
             {
                 //Продаем инструмент если срабатывает одно из условий.
                 if ($lots != 0)
