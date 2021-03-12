@@ -63,6 +63,14 @@
             >{{ props.row.average15day }}</a
           >
         </span>
+        <span v-else-if="props.column.field === 'action'">
+          <a
+            target="_blank"
+            class="btn btn-primary"
+            :href="'action/' + props.row.id"
+            >Перейти</a
+          >
+        </span>
       </template>
     </vue-good-table>
   </div>
@@ -113,6 +121,10 @@ export default {
         {
           label: "ADX",
           field: "adx",
+        },
+        {
+          label: "Action",
+          field: "action",
         },
       ],
     };

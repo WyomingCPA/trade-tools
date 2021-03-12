@@ -9,6 +9,20 @@ use Carbon\Carbon;
 use App\Stock;
 use App\Candle;
 use App\EmaDayIndicator;
+use App\Profit;
+
+use \jamesRUS52\TinkoffInvest\TIClient;
+use \jamesRUS52\TinkoffInvest\TISiteEnum;
+use \jamesRUS52\TinkoffInvest\TICurrencyEnum;
+use \jamesRUS52\TinkoffInvest\TIInstrument;
+use \jamesRUS52\TinkoffInvest\TIPortfolio;
+use \jamesRUS52\TinkoffInvest\TIOperationEnum;
+use \jamesRUS52\TinkoffInvest\TIIntervalEnum;
+use \jamesRUS52\TinkoffInvest\TICandleIntervalEnum;
+use \jamesRUS52\TinkoffInvest\TICandle;
+use \jamesRUS52\TinkoffInvest\TIOrderBook;
+use \jamesRUS52\TinkoffInvest\TIInstrumentInfo;
+
 
 class StockController extends Controller
 {
@@ -39,6 +53,8 @@ class StockController extends Controller
         ]);
     }
 
+
+
     public function emachart(Request $request)
     {
         $id = $request->route('id');
@@ -47,19 +63,69 @@ class StockController extends Controller
             return response()->json($candle);
         } else {
             $models = EmaDayIndicator::where('stock_id', $id)
-                                        ->orderByDesc('created_at')->limit(100)->get();
+                ->orderByDesc('created_at')->limit(100)->get();
 
             $candles = Candle::where('tools_id', '=', $id)->where('tools_type', '=', 'stock')
-                        ->where('created_at', '>=', Carbon::now()->subDays(1)->startOfDay())->orderBy('time', 'asc')->get();
+                ->where('created_at', '>=', Carbon::now()->subDays(1)->startOfDay())->orderBy('time', 'asc')->get();
             $list = [];
-            foreach ($candles as $item)
-            {
+            foreach ($candles as $item) {
                 $timestamp = str_pad(Carbon::parse($item->time)->addHours(6)->timestamp, 13, "0");
-                $list [] = array((int)$timestamp, $item->open, $item->high, $item->low, $item->close, $item->volume);
+                $list[] = array((int)$timestamp, $item->open, $item->high, $item->low, $item->close, $item->volume);
             }
 
-            return view('stock.emachart', ['event' => $models, 'candles' => $list ]);
+            return view('stock.emachart', ['event' => $models, 'candles' => $list]);
         }
+    }
+
+    public function action(Request $request)
+    {
+        $id = $request->route('id');
+        $model = Stock::find($id);
+        $client = new TIClient(env('TOKEN_TINKOFF'), TISiteEnum::EXCHANGE);
+
+        $accounts = $client->getAccounts();
+        $port = $client->getPortfolio($accounts);
+        $balance = 0;
+        foreach ($port->getAllCurrencies() as $item) {
+            if ($item->getCurrency() == 'RUB') {
+                $balance = $item->getBalance();
+                break;
+            }
+        }
+
+        $price = $model->last_price;
+        
+        $max_lots = floor($balance / $price);
+        //$instr = $client->getOrderBook($model->figi, 1);
+
+        return view('stock.action', ['model' => '$model', 'id' => $model->id, 'price' => $price, 'max_lots' => $max_lots]);
+    }
+
+    public function order(Request $request)
+    {              
+        $id = $request->post('id');
+        $max_lots = $request->post('max_lots');
+        $price = $request->post('price');
+        
+        $model = Stock::find($id);
+        $take_profit = $model->last_price + ($model->last_price*0.019);;
+        $stop_loss = $model->last_price - ($model->last_price*0.019);
+
+        $client = new TIClient(env('TOKEN_TINKOFF'), TISiteEnum::EXCHANGE);
+
+        $order_market = $client->sendOrder($model->figi, 1, TIOperationEnum::BUY);
+
+        $profit = Profit::create([
+            'order_id' => $order_market->getOrderId(),
+            'figi' => $model->figi,
+            'price' => $price,
+            'take_profit' => $take_profit,
+            'stop_loss' => $stop_loss,
+        ]);
+
+        //$order_take = $client->sendOrder($model->figi, 1, TIOperationEnum::SELL);
+
+        return redirect()->route('home');
     }
 
     public function favoriteStock(Request $request)

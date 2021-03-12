@@ -3126,6 +3126,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
  // import the styles
 
 
@@ -3165,6 +3173,9 @@ Vue.use(vue_good_table__WEBPACK_IMPORTED_MODULE_0__["default"]);
       }, {
         label: "ADX",
         field: "adx"
+      }, {
+        label: "Action",
+        field: "action"
       }]
     };
   }
@@ -113669,6 +113680,20 @@ var render = function() {
                             }
                           },
                           [_vm._v(_vm._s(props.row.average15day))]
+                        )
+                      ])
+                    : props.column.field === "action"
+                    ? _c("span", [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "btn btn-primary",
+                            attrs: {
+                              target: "_blank",
+                              href: "action/" + props.row.id
+                            }
+                          },
+                          [_vm._v("Перейти")]
                         )
                       ])
                     : _vm._e()
