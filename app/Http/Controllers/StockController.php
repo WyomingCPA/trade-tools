@@ -85,6 +85,7 @@ class StockController extends Controller
 
         $accounts = $client->getAccounts();
         $port = $client->getPortfolio($accounts);
+        $info = $client->getInstrumentInfo($model->figi);
         $balance = 0;
         foreach ($port->getAllCurrencies() as $item) {
             if ($item->getCurrency() == 'RUB') {
@@ -92,10 +93,10 @@ class StockController extends Controller
                 break;
             }
         }
-
+        $lot = $info->getLot();
         $price = $model->last_price;
         
-        $max_lots = floor($balance / $price);
+        $max_lots = floor(($balance / $price)/$lot);
         //$instr = $client->getOrderBook($model->figi, 1);
 
         return view('stock.action', ['model' => '$model', 'id' => $model->id, 'price' => $price, 'max_lots' => $max_lots]);
@@ -113,7 +114,7 @@ class StockController extends Controller
 
         $client = new TIClient(env('TOKEN_TINKOFF'), TISiteEnum::EXCHANGE);
 
-        $order_market = $client->sendOrder($model->figi, 1, TIOperationEnum::BUY);
+        $order_market = $client->sendOrder($model->figi, $max_lots, TIOperationEnum::BUY);
 
         $profit = Profit::create([
             'order_id' => $order_market->getOrderId(),
