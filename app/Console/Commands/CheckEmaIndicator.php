@@ -82,7 +82,7 @@ class CheckEmaIndicator extends Command
                         ]);
 
                         $browserFactory = new BrowserFactory('C:\Program Files (x86)\Google\Chrome\Application\chrome.exe');
-
+                        //$browserFactory = new BrowserFactory('google-chrome');
                         // starts headless chrome
                         $browser = $browserFactory->createBrowser();
                         
@@ -96,12 +96,13 @@ class CheckEmaIndicator extends Command
                             //echo $pageTitle;
                             // screenshot - Say "Cheese"! 😄
                             $path = public_path() . '/storage/';
-                            $file_name = $path . $item->ticker .'_'.time(). '.jpg';
+                            $file = $item->ticker .'_'.time(). '.jpg';
+                            $file_name = $path . $file;
                             $page->screenshot([
                                 'format'  => 'jpeg',  // default to 'png' - possible values: 'png', 'jpeg',
                                 'quality' => 50,      // only if format is 'jpeg' - default 100 
                             ])->saveToFile($file_name);
-                            $list_img [] = $file_name;
+                            $list_img [] = $file;
                         
                         } finally {
                             // bye
@@ -129,7 +130,7 @@ class CheckEmaIndicator extends Command
                 $url = Storage::url($img);
                 echo $img . "\n";
                 echo $url . "\n";
-                $media->addItem(new InputMediaPhoto('http://trade-tools.anime24.fun' . $url));
+                $media->addItem(new InputMediaPhoto('http://trade-tools.anime24.fun/storage/' . $file));
             }
 
             $bot->sendMediaGroup($chatId, $media);
