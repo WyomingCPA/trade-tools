@@ -107,14 +107,14 @@ class StockController extends Controller
         $id = $request->post('id');
         $max_lots = $request->post('max_lots');
         $price = $request->post('price');
-        
+        $max_lots = $max_lots;
         $model = Stock::find($id);
         $take_profit = $model->last_price + ($model->last_price*0.019);;
         $stop_loss = $model->last_price - ($model->last_price*0.019);
 
         $client = new TIClient(env('TOKEN_TINKOFF'), TISiteEnum::EXCHANGE);
 
-        $order_market = $client->sendOrder($model->figi, $max_lots, TIOperationEnum::BUY);
+        $order_market = $client->sendOrder($model->figi, (int)$max_lots, TIOperationEnum::BUY);
 
         $profit = Profit::create([
             'order_id' => $order_market->getOrderId(),
