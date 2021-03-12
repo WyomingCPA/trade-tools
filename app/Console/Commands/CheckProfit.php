@@ -70,9 +70,15 @@ class CheckProfit extends Command
             if ($stock->last_price >= $item->stop_loss || $stock->last_price <= $item->take_profit)
             {
                 //Продаем инструмент если срабатывает одно из условий.
-                $order_take = $client->sendOrder($item->figi, (int)$lots, TIOperationEnum::SELL);
-                $item->delete();
-                echo "Sell \n";
+                if ($lots != 0)
+                {
+                    $order_take = $client->sendOrder($item->figi, (int)$lots, TIOperationEnum::SELL);
+                    $item->delete();
+                    echo "Sell \n";
+                }
+                else {
+                    $item->delete();
+                }
             }
             else
             {
