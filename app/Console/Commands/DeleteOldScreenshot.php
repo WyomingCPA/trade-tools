@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Console\Command;
 
 class DeleteOldScreenshot extends Command
@@ -11,7 +13,7 @@ class DeleteOldScreenshot extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'command:delete-old-screenshot';
 
     /**
      * The console command description.
@@ -37,6 +39,14 @@ class DeleteOldScreenshot extends Command
      */
     public function handle()
     {
-        return 0;
+        
+        $files = Storage::files(null, true);
+        foreach ($files as $item)
+        {
+            if(preg_match("/^.*\.(jpg|jpeg|png|gif)$/i", $item))
+            {
+                Storage::delete($item);
+            }
+        }
     }
 }
