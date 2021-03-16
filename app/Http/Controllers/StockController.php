@@ -53,8 +53,6 @@ class StockController extends Controller
         ]);
     }
 
-
-
     public function emachart(Request $request)
     {
         $id = $request->route('id');
@@ -109,8 +107,8 @@ class StockController extends Controller
         $price = $request->post('price');
         $max_lots = $max_lots;
         $model = Stock::find($id);
-        $take_profit = $model->last_price + ($model->last_price*0.019);;
-        $stop_loss = $model->last_price - ($model->last_price*0.019);
+        $take_profit = $model->last_price + ($model->last_price*0.0019);
+        $stop_loss = $model->last_price - ($model->last_price*0.0019);
 
         $client = new TIClient(env('TOKEN_TINKOFF'), TISiteEnum::EXCHANGE);
 
