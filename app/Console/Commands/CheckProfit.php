@@ -19,6 +19,11 @@ use \jamesRUS52\TinkoffInvest\TICandle;
 use \jamesRUS52\TinkoffInvest\TIOrderBook;
 use \jamesRUS52\TinkoffInvest\TIInstrumentInfo;
 
+use TelegramBot\Api\BotApi;
+use TelegramBot\Api\Types\InputMedia\InputMediaPhoto;
+use \TelegramBot\Api\Types\InputMedia\ArrayOfInputMedia;
+use HeadlessChromium\BrowserFactory;
+
 class CheckProfit extends Command
 {
     /**
@@ -75,6 +80,19 @@ class CheckProfit extends Command
                 {
                     $order_take = $client->sendOrder($item->figi, (int)$lots, TIOperationEnum::SELL);
                     $item->delete();
+
+                    $chatId = '-597520329';
+                    $bot = new BotApi(env('TELEGRAM_TOKEN'));
+                    if (round($stock->last_price, 1) <= round($item->stop_loss, 1))
+                    {
+                        //Если достигнут стопордер
+                        $bot->sendMessage($chatId, 'Сработал Stop-Loss', 'HTML');                       
+                    }
+                    if (round($stock->last_price, 1) >= round($item->take_profit, 1))
+                    {
+                        $bot->sendMessage($chatId, 'Сработал Take-Profit', 'HTML');   
+                    }
+
                     echo "Sell \n";
                 }
                 else {
