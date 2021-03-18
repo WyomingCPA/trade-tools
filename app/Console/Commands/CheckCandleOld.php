@@ -22,7 +22,7 @@ class CheckCandleOld extends Command
      *
      * @var string
      */
-    protected $description = 'Удаляет свечи которым больше 30 дней';
+    protected $description = 'Удаляет свечи которым больше 14 дней';
 
     /**
      * Create a new command instance.
@@ -41,6 +41,6 @@ class CheckCandleOld extends Command
      */
     public function handle()
     {
-        $data = Candle::where('created_at', '<=', Carbon::now()->subDays(30)->toDateTimeString())->delete();
+        $data = Candle::where('created_at', '<=', Carbon::now()->subDays(14)->toDateTimeString())->delete();
     }
 }
