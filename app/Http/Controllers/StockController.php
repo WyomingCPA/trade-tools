@@ -97,6 +97,10 @@ class StockController extends Controller
         $max_lots = floor(($balance / $price)/$lot);
         //$instr = $client->getOrderBook($model->figi, 1);
 
+        //block for debug
+
+        //end block
+
         return view('stock.action', ['model' => '$model', 'id' => $model->id, 'price' => $price, 'max_lots' => $max_lots]);
     }
 

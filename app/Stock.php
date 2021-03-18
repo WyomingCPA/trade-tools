@@ -136,7 +136,7 @@ class Stock extends Model
 
     public function getLastPriceAttribute()
     {
-        $model = Candle::where('tools_id', '=', $this->id)->get();
+        $model = Candle::where('tools_id', '=', $this->id)->orderBy('time', 'asc')->get();
         return $this->attributes['last_price'] = $model->last()->close ?? 0;
     }
 
