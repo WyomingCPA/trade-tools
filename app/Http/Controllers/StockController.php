@@ -111,7 +111,7 @@ class StockController extends Controller
         $price = $request->post('price');
         $max_lots = $max_lots;
         $model = Stock::find($id);
-        $take_profit = $model->last_price + ($model->last_price*0.0019);
+        $take_profit = $model->last_price + ($model->last_price*0.0015);
         $stop_loss = $model->last_price - ($model->last_price*0.0019);
 
         $client = new TIClient(env('TOKEN_TINKOFF'), TISiteEnum::EXCHANGE);
