@@ -75,7 +75,7 @@ class GetCandle5MinDayStock extends Command
             foreach ($candles as $candle) {
                 try {
                     $model = Candle::firstOrCreate(
-                        ['tools_id' => $item->id, 'tools_type' => 'stock', 'time' => $candle->getTime()],
+                        ['tools_id' => $item->id, 'tools_type' => 'stock', 'close' => $candle->getClose() ? $candle->getClose() : 0, 'time' => $candle->getTime()],
                         [
                             'tools_id' => $item->id,
                             'tools_type' => 'stock',
