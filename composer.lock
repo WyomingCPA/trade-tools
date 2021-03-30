@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "74b93407865dd739481ea9efc4a31d15",
+    "content-hash": "ebb60fdcc1429c430c12893a0f890400",
     "packages": [
         {
             "name": "apix/log",
@@ -157,16 +157,16 @@
         },
         {
             "name": "chrome-php/chrome",
-            "version": "v0.9.0",
+            "version": "0.10.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/chrome-php/headless-chromium-php.git",
-                "reference": "801c715eb0b7880c916a93db15cae2f09b82eeb8"
+                "reference": "423d8e60bd1c2612ddc72502891f26f600bca707"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/chrome-php/headless-chromium-php/zipball/801c715eb0b7880c916a93db15cae2f09b82eeb8",
-                "reference": "801c715eb0b7880c916a93db15cae2f09b82eeb8",
+                "url": "https://api.github.com/repos/chrome-php/headless-chromium-php/zipball/423d8e60bd1c2612ddc72502891f26f600bca707",
+                "reference": "423d8e60bd1c2612ddc72502891f26f600bca707",
                 "shasum": ""
             },
             "require": {
@@ -183,12 +183,8 @@
                 "phpunit/phpunit": "^7.5.20 || ^8.5.13 || ^9.5.0",
                 "symfony/var-dumper": "^3.3|^4.0|^5.0"
             },
+            "default-branch": true,
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.9-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "HeadlessChromium\\": "src/"
@@ -219,7 +215,11 @@
                 "puppeteer",
                 "screenshot"
             ],
-            "time": "2020-12-09T13:14:13+00:00"
+            "support": {
+                "issues": "https://github.com/chrome-php/headless-chromium-php/issues",
+                "source": "https://github.com/chrome-php/headless-chromium-php/tree/0.10"
+            },
+            "time": "2021-01-31T20:12:13+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -2396,6 +2396,58 @@
                 "uuid"
             ],
             "time": "2020-08-18T17:17:46+00:00"
+        },
+        {
+            "name": "sunra/php-simple-html-dom-parser",
+            "version": "v1.5.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sunra/php-simple-html-dom-parser.git",
+                "reference": "75b9b1cb64502d8f8c04dc11b5906b969af247c6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sunra/php-simple-html-dom-parser/zipball/75b9b1cb64502d8f8c04dc11b5906b969af247c6",
+                "reference": "75b9b1cb64502d8f8c04dc11b5906b969af247c6",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=5.3.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Sunra\\PhpSimple\\HtmlDomParser": "Src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sunra",
+                    "email": "sunra@yandex.ru",
+                    "homepage": "https://github.com/sunra"
+                },
+                {
+                    "name": "S.C. Chen",
+                    "homepage": "http://sourceforge.net/projects/simplehtmldom/"
+                }
+            ],
+            "description": "Composer adaptation of: A HTML DOM parser written in PHP5+ let you manipulate HTML in a very easy way! Require PHP 5+. Supports invalid HTML. Find tags on an HTML page with selectors just like jQuery. Extract contents from HTML in a single line.",
+            "homepage": "https://github.com/sunra/php-simple-html-dom-parser",
+            "keywords": [
+                "dom",
+                "html",
+                "parser"
+            ],
+            "support": {
+                "issues": "https://github.com/sunra/php-simple-html-dom-parser/issues",
+                "source": "https://github.com/sunra/php-simple-html-dom-parser/tree/master"
+            },
+            "time": "2016-11-22T22:57:47+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -6483,6 +6535,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "chrome-php/chrome": 20,
         "jonnyw/php-phantomjs": 20
     },
     "prefer-stable": true,
@@ -6490,5 +6543,6 @@
     "platform": {
         "php": "^7.2.5|^8.0"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
 }
