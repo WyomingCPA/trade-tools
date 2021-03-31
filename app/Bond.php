@@ -20,7 +20,7 @@ class Bond extends Model
     //$item->lastPrice->last()->close
     public function getLastPriceAttribute()
     {
-        $model = Candle::where('tools_id', '=', $this->id)->get();
+        $model = Candle::where('tools_id', '=', $this->id)->orderBy('created_at', 'asc')->orderBy('time', 'asc')->get();
         return $this->attributes['last_price'] = $model->last()->close ?? 0;
     }
 
