@@ -16,7 +16,11 @@
   </trading-vue>
 </template>
 <script>
+
 import { TradingVue, DataCube } from "trading-vue-js";
+import Overlays from "tvjs-overlays";
+import Square from './Square.vue'
+
 import each from "lodash.foreach";
 
 export default {
@@ -58,10 +62,41 @@ export default {
     return {
       chart: new DataCube({
         ohlcv: cand,
-        onchart: [],
+        onchart: [
+          {
+            name: "EMA, 5",
+            type: "EMA",
+            data: [],
+            settings: {
+              color: "#47f80d",
+              length: 5,
+            },
+          },
+          {
+            name: "EMA, 8",
+            type: "EMA",
+            data: [],
+            settings: {
+              color: "#0d0df8",
+              length: 8,
+            },
+          },
+          {
+            name: "Square 2",
+            type: "Square",
+            data: [],
+            settings: {
+              t: 1617203900,
+              $: 225.00,
+              color: "#27d588",
+              "z-index": 0,
+              legend: false,
+            },
+          },
+        ],
         offchart: [],
       }),
-      overlays: [],
+      overlays: [Overlays["EMA"]],
     };
   },
 };
