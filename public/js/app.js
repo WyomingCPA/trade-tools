@@ -2846,11 +2846,12 @@ __webpack_require__.r(__webpack_exports__);
         candle_dw: "#e54077",
         wick_dw: "#e54077"
       } : {
-        back: "#fff",
-        grid: "#eee",
-        text: "#333",
-        candle_dw: "black",
-        wick_dw: "black"
+        back: "#121827",
+        grid: "#3e3e3e",
+        text: "#35a776",
+        cross: "#dd64ef",
+        candle_dw: "#e54077",
+        wick_dw: "#e54077"
       };
     }
   },

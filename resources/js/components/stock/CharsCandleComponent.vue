@@ -22,7 +22,7 @@ import each from "lodash.foreach";
 export default {
   name: "MainChart",
   props: ["width", "height", "candles"],
-  
+
   computed: {
     colors() {
       return this.night
@@ -35,11 +35,12 @@ export default {
             wick_dw: "#e54077",
           }
         : {
-            back: "#fff",
-            grid: "#eee",
-            text: "#333",
-            candle_dw: "black",
-            wick_dw: "black",
+            back: "#121827",
+            grid: "#3e3e3e",
+            text: "#35a776",
+            cross: "#dd64ef",
+            candle_dw: "#e54077",
+            wick_dw: "#e54077",
           };
     },
   },
