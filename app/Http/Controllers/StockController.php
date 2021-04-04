@@ -71,6 +71,7 @@ class StockController extends Controller
                 if ($count == 1)
                 {
                     $ema_indicators [] = [$ema_indicators_time, "Bay Ema Indicator", 1, "#34a853", 0.55];
+                    $count = 0;
                 }
                 //[1617198300000, "Bay Ema Indicator", 0, "#34a853", 0.75],
                 $ema_indicators [] = [$ema_indicators_time, "Bay Ema Indicator", 0, "#34a853", 0.75];
