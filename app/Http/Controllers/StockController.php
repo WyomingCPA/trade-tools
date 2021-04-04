@@ -64,11 +64,17 @@ class StockController extends Controller
                 ->orderByDesc('created_at')->limit(100)->get();
             $ema_indicators = [];
             $indicators = $models->where('action', 'buy')->pluck('updated_at')->toArray();
+            $count = 0;
             foreach ($indicators as $item_carbon)
             {
                 $ema_indicators_time = str_pad($item_carbon->timestamp, 13, 0);
+                if ($count == 1)
+                {
+                    $ema_indicators [] = [$ema_indicators_time, "Bay Ema Indicator", 1, "#34a853", 0.55];
+                }
                 //[1617198300000, "Bay Ema Indicator", 0, "#34a853", 0.75],
                 $ema_indicators [] = [$ema_indicators_time, "Bay Ema Indicator", 0, "#34a853", 0.75];
+                $count++;
             }
             $candles = Candle::where('tools_id', '=', $id)->where('tools_type', '=', 'stock')
                 ->where('created_at', '>=', Carbon::now()->subDays(6)->startOfDay())->orderBy('time', 'asc')->get();
