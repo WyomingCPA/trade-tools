@@ -91,7 +91,8 @@ class GetCandleBond extends Command
             foreach ($candles as $candle)
             {
                 try {
-                    $model = Candle::firstOrCreate(['tools_id' => $bond->id], 
+                    $model = Candle::firstOrCreate(
+                    ['tools_id' => $bond->id, 'tools_type' => 'bond', 'close' => $candle->getClose() ? $candle->getClose() : 0, 'time' => $candle->getTime()], 
                     [                
                         'tools_id' => $bond->id,
                         'tools_type' => 'bond',
