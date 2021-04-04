@@ -73,9 +73,14 @@ class StockController extends Controller
             $candles = Candle::where('tools_id', '=', $id)->where('tools_type', '=', 'stock')
                 ->where('created_at', '>=', Carbon::now()->subDays(6)->startOfDay())->orderBy('time', 'asc')->get();
             $list = [];
+            $key_time = [];
             foreach ($candles as $item) {
                 $timestamp = str_pad(Carbon::parse($item->time)->addHours(6)->timestamp, 13, "0");
-                $list[] = array((int)$timestamp, $item->open, $item->high, $item->low, $item->close, $item->volume);
+                if (!array_key_exists($timestamp, $key_time))
+                {
+                    $list[] = array((int)$timestamp, $item->open, $item->high, $item->low, $item->close, $item->volume);
+                    $key_time [$timestamp] = $timestamp;
+                }
             }
 
             return view('stock.emachart', ['event' => $models,
