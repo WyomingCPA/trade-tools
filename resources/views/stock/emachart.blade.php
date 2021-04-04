@@ -4,7 +4,7 @@
     <div class="row pt-5">
         <div class="col-md-12">
             <div id="app">
-                <chars :candles="{{ json_encode($candles) }}"></chars>
+                <chars :candles="{{ json_encode($candles) }}" :ema_indicators="{{ json_encode($ema_indicators) }}"></chars>
             </div>
         </div>
     </div>

@@ -2,6 +2,7 @@
   <trading-vue
     :data="chart"
     :candles="candles"
+    :ema_indicators="ema_indicators"
     :width="width"
     :height="height"
     title-txt=""
@@ -16,16 +17,15 @@
   </trading-vue>
 </template>
 <script>
-
 import { TradingVue, DataCube } from "trading-vue-js";
 import Overlays from "tvjs-overlays";
-import Square from './Square.vue'
+import Square from "./Square.vue";
 
 import each from "lodash.foreach";
 
 export default {
   name: "MainChart",
-  props: ["width", "height", "candles"],
+  props: ["width", "height", "candles", "ema_indicators"],
 
   computed: {
     colors() {
@@ -57,7 +57,7 @@ export default {
 
   data() {
     let cand = this.candles;
-
+    let ema_ind = this.ema_indicators;
     console.log(cand);
     return {
       chart: new DataCube({
@@ -70,6 +70,7 @@ export default {
             settings: {
               color: "#47f80d",
               length: 5,
+              lineWidth: 3,
             },
           },
           {
@@ -77,19 +78,16 @@ export default {
             type: "EMA",
             data: [],
             settings: {
-              color: "#0d0df8",
+              color: "#FF8C00",
               length: 8,
+              lineWidth: 3,
             },
           },
           {
-            name: "Square 2",
-            type: "Square",
-            data: [],
+            name: "Data sections",
+            type: "Splitters",
+            data: ema_ind,
             settings: {
-              t: 1617203900,
-              $: 225.00,
-              color: "#27d588",
-              "z-index": 0,
               legend: false,
             },
           },

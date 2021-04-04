@@ -62,7 +62,14 @@ class StockController extends Controller
         } else {
             $models = EmaDayIndicator::where('stock_id', $id)
                 ->orderByDesc('created_at')->limit(100)->get();
-
+            $ema_indicators = [];
+            $indicators = $models->where('action', 'buy')->pluck('updated_at')->toArray();
+            foreach ($indicators as $item_carbon)
+            {
+                $ema_indicators_time = str_pad($item_carbon->timestamp, 13, 0);
+                //[1617198300000, "Bay Ema Indicator", 0, "#34a853", 0.75],
+                $ema_indicators [] = [$ema_indicators_time, "Bay Ema Indicator", 0, "#34a853", 0.75];
+            }
             $candles = Candle::where('tools_id', '=', $id)->where('tools_type', '=', 'stock')
                 ->where('created_at', '>=', Carbon::now()->subDays(6)->startOfDay())->orderBy('time', 'asc')->get();
             $list = [];
@@ -71,7 +78,9 @@ class StockController extends Controller
                 $list[] = array((int)$timestamp, $item->open, $item->high, $item->low, $item->close, $item->volume);
             }
 
-            return view('stock.emachart', ['event' => $models, 'candles' => $list]);
+            return view('stock.emachart', ['event' => $models,
+                                           'candles' => $list,
+                                           'ema_indicators' => $ema_indicators, ]);
         }
     }
 
