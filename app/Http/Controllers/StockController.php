@@ -75,7 +75,7 @@ class StockController extends Controller
             $list = [];
             foreach ($candles as $item) {
                 $timestamp = str_pad(Carbon::parse($item->time)->addHours(6)->timestamp, 13, "0");
-                $list[] = array((int)$timestamp, $item->open, $item->high, $item->low, $item->close, $item->volume);
+                $list[(int)$timestamp] = array((int)$timestamp, $item->open, $item->high, $item->low, $item->close, $item->volume);
             }
 
             return view('stock.emachart', ['event' => $models,
