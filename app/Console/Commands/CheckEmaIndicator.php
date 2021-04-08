@@ -71,7 +71,7 @@ class CheckEmaIndicator extends Command
                 if ($old_indicator->action != $item->Average15day || $old_indicator->send_telegramm == false) {
                     echo $old_indicator->action . " new " . $item->Average15day . $old_indicator->id . "\n";
                     //Отпраялем в телеграмм событие
-                    if ($item->Average15day != "nothing" || $item->adx != 'HOLD') {
+                    if ($item->Average15day != "nothing") {
                         $stop_los = $item->min_precent;
                         $take_profit = $item->take_profit;
 
@@ -91,30 +91,23 @@ class CheckEmaIndicator extends Command
                             $page = $browser->createPage();
                             $page->navigate('http://trade-tools.anime24.fun/stock/emachart/' . $item->id)->waitForNavigation();
                         
-                            // get page title
-                            //$pageTitle = $page->evaluate('document.title')->getReturnValue();
-                            //echo $pageTitle;
-                            // screenshot - Say "Cheese"! 😄
                             $path = public_path() . '/storage/';
                             $file = $item->ticker .'_'.time(). '.jpg';
                             $file_name = $path . $file;
                             $page->screenshot([
-                                'format'  => 'jpeg',  // default to 'png' - possible values: 'png', 'jpeg',
-                                'quality' => 50,      // only if format is 'jpeg' - default 100 
+                                'format'  => 'jpeg', 
+                                'quality' => 100,     
                             ])->saveToFile($file_name);
                             $list_img [] = $file;
                         
                         } finally {
-                            // bye
                             $browser->close();
                         }
 
                         $messageText .= " <a target='_blank' href='https://www.tinkoff.ru/invest/stocks/{$item->ticker}'>{$item->name}</a>\n";
-                        $messageText .= " new EMA = {$new_indicator->action}\n new ADX = $item->adx \n Price: {$item->last_price} \n";
-                        $messageText .= " EMA = {$item->Average15day}\n ADX = $item->adx \n";
-                        $messageText .= "*******************************\n";
-                        
-
+                        $messageText .= " new EMA = {$new_indicator->action}\n Price: {$item->last_price} \n";
+                        $messageText .= " EMA = {$item->Average15day}\n";
+                        $messageText .= "*******************************\n";                      
                     }
                 }
             }
