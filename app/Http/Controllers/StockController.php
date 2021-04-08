@@ -67,7 +67,7 @@ class StockController extends Controller
             $count = 0;
             foreach ($indicators as $item_carbon)
             {
-                $ema_indicators_time = str_pad($item_carbon->timestamp, 13, 0);
+                $ema_indicators_time = str_pad($item_carbon->addHours(6)->timestamp, 13, 0);
                 if ($count == 1)
                 {
                     $ema_indicators [] = [$ema_indicators_time, "Bay Ema Indicator", 1, "#34a853", 0.55];
