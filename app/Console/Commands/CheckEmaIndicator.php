@@ -72,7 +72,7 @@ class CheckEmaIndicator extends Command
                     echo $old_indicator->action . " new " . $item->Average15day . $old_indicator->id . "\n";
                     //Отпраялем в телеграмм событие
                     if ($item->Average15day != "nothing") {
-                        $stop_los = $item->min_precent;
+                        $stop_los = $item->min_precent; 
                         $take_profit = $item->take_profit;
 
                         $new_indicator = EmaDayIndicator::create([
