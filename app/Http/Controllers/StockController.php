@@ -80,7 +80,19 @@ class StockController extends Controller
             $candles = Candle::where('tools_id', '=', $id)->where('tools_type', '=', 'stock')
                 ->where('created_at', '>=', Carbon::now()->subDays(6)->startOfDay())->orderBy('time', 'asc')->get();
             $list = [];
+            $rsi_data=[];
+            $rsi_raw=[];
             $key_time = [];
+            foreach ($candles as $item) {
+                $rsi_raw['close'][] = $item->close;
+                $rsi_raw['time'][] = str_pad(Carbon::parse($item->time)->addHours(6)->timestamp, 13, "0");
+            }
+            $rsi = trader_rsi($rsi_raw['close'], 20);
+            foreach ($rsi as $key => $value)
+            {
+                $time = $rsi_raw['time'][$key];
+                $rsi_data [] = [$time, $value];
+            }
             foreach ($candles as $item) {
                 $timestamp = str_pad(Carbon::parse($item->time)->addHours(6)->timestamp, 13, "0");
                 if (!array_key_exists($timestamp, $key_time))
@@ -92,7 +104,9 @@ class StockController extends Controller
 
             return view('stock.emachart', ['event' => $models,
                                            'candles' => $list,
-                                           'ema_indicators' => $ema_indicators, ]);
+                                           'ema_indicators' => $ema_indicators,
+                                           'rsi_data' => $rsi_data,
+                                           ]);
         }
     }
 

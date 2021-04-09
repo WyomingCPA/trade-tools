@@ -3,6 +3,7 @@
     :data="chart"
     :candles="candles"
     :ema_indicators="ema_indicators"
+    :rsi_data="rsi_data"
     :width="width"
     :height="height"
     title-txt=""
@@ -25,7 +26,7 @@ import each from "lodash.foreach";
 
 export default {
   name: "MainChart",
-  props: ["width", "height", "candles", "ema_indicators"],
+  props: ["width", "height", "candles", "ema_indicators", "rsi_data"],
 
   computed: {
     colors() {
@@ -58,6 +59,8 @@ export default {
   data() {
     let cand = this.candles;
     let ema_ind = this.ema_indicators;
+    let rsi_data = this.rsi_data;
+
     console.log(cand);
     return {
       chart: new DataCube({
@@ -92,9 +95,19 @@ export default {
             },
           },
         ],
-        offchart: [],
+        offchart: [
+          {
+            name: "Relative Strength Index",
+            type: "RSI",
+            data: rsi_data,
+            settings: {
+              backColor: "#9b9ba316",
+              bandColor: "#666",
+            },
+          },
+        ],
       }),
-      overlays: [Overlays["EMA"]],
+      overlays: [Overlays[("RSI", "EMA")]],
     };
   },
 };
