@@ -83,9 +83,15 @@ class StockController extends Controller
             $rsi_data=[];
             $rsi_raw=[];
             $key_time = [];
+            $key_time_rsi = [];
             foreach ($candles as $item) {
-                $rsi_raw['close'][] = $item->close;
-                $rsi_raw['time'][] = str_pad(Carbon::parse($item->time)->addHours(6)->timestamp, 13, "0");
+                $timestamp = str_pad(Carbon::parse($item->time)->addHours(6)->timestamp, 13, "0");
+                if (!array_key_exists($timestamp, $key_time))
+                {
+                    $rsi_raw['close'][] = $item->close;
+                    $rsi_raw['time'][] = $timestamp;
+                    $key_time_rsi[$timestamp] = $timestamp;
+                }
             }
             $rsi = trader_rsi($rsi_raw['close'], 20);
             foreach ($rsi as $key => $value)
@@ -101,7 +107,6 @@ class StockController extends Controller
                     $key_time [$timestamp] = $timestamp;
                 }
             }
-
             return view('stock.emachart', ['event' => $models,
                                            'candles' => $list,
                                            'ema_indicators' => $ema_indicators,
