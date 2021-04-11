@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Carbon\Carbon;
 
 use App\User;
 use App\Stock;
@@ -61,7 +62,12 @@ class GetCandle5MinDayStock extends Command
         $stocks = Stock::whereIn('id', $favorite_ids)->orderBy('updated_at')->get();
         foreach ($stocks as $item) {
 
-            //$deleteCandleRows = Candle::where('tools_id', '=', $item->id)->where('tools_type', 'LIKE', '%stock%')->delete();
+            //Удаляем старые свечи за день свечи, чтобы график не гючил
+            $deleteCandleRows = Candle::where('tools_id', '=', $item->id)
+                                        ->where('tools_type', 'LIKE', '%stock%')
+                                        ->where('time', '>=', Carbon::now()->subDays(1)->startOfDay())
+                                        ->delete();
+
             $from = new \DateTime();
             $from->sub(new \DateInterval("P1D"));
             $to = new \DateTime();
