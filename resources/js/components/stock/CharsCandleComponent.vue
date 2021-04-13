@@ -26,7 +26,7 @@ import each from "lodash.foreach";
 
 export default {
   name: "MainChart",
-  props: ["width", "height", "candles", "ema_indicators", "rsi_data"],
+  props: ["candles", "ema_indicators", "rsi_data"],
 
   computed: {
     colors() {
@@ -49,13 +49,23 @@ export default {
           };
     },
   },
+  methods: {
+    onResize(event) {
+      this.width = window.innerWidth - 700;
+      this.height = window.innerHeight - 250;
+    },
+  },
   mounted() {
+    window.addEventListener("resize", this.onResize);
+    this.onResize();
     // Shift the chart to the left
     let last = 1556031600000;
     let shift = 3600 * 1000 * 15; // 15h
     this.$refs.tvjs.goto(last + shift);
   },
-
+  beforeDestroy() {
+    window.removeEventListener("resize", this.onResize);
+  },
   data() {
     let cand = this.candles;
     let ema_ind = this.ema_indicators;
@@ -63,6 +73,8 @@ export default {
 
     console.log(cand);
     return {
+      width: window.innerWidth,
+      height: window.innerHeight,
       chart: new DataCube({
         ohlcv: cand,
         onchart: [

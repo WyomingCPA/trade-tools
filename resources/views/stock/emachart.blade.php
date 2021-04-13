@@ -3,7 +3,7 @@
 <div class="container pt-5">
     <div class="row pt-5">
         <div class="col-md-12">
-            <div id="app">
+            <div id="app" style="width: 731px; height: 1050px;">
                 <chars :candles="{{ json_encode($candles) }}" :rsi_data="{{ json_encode($rsi_data) }}" :ema_indicators="{{ json_encode($ema_indicators) }}"></chars>
             </div>
         </div>
