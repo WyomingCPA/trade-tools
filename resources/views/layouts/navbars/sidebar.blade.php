@@ -73,6 +73,16 @@ $new_count_stock = Stock::where('created_at', '>=', Carbon::now()->subDays(7)->s
                 <span class="sidebar-normal">{{ __('Все') }} </span>
               </a>
             </li>
+            <li class="nav-item{{ $activePage == 'rub_stocks' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('stock.rub') }}">
+                <span class="sidebar-normal">{{ __('Рублевые акций') }} </span>
+              </a>
+            </li>
+            <li class="nav-item{{ $activePage == 'usd_stocks' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('stock.usd') }}">
+                <span class="sidebar-normal">{{ __('Долларовые акций') }} </span>
+              </a>
+            </li>
             <li class="nav-item{{ $activePage == 'new_stock' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('stock.new') }}">
                 <span class="sidebar-normal"> {{ __('Новые') }} ({{ $new_count_stock }})</span>

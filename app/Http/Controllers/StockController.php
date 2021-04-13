@@ -37,6 +37,28 @@ class StockController extends Controller
         ]);
     }
 
+    public function stockRub(Request $request)
+    {
+        $favorite_ids = Auth::user()->favoritesBond->pluck('id')->toArray();
+
+        $models = Stock::where('currency', '=', 'RUB')->whereNotIn('id', $favorite_ids)->get();
+
+        return view('stock.rub', [
+            'stocks' => $models
+        ]);
+    }
+
+    public function stockUsd(Request $request)
+    {
+        $favorite_ids = Auth::user()->favoritesBond->pluck('id')->toArray();
+
+        $models = Stock::where('currency', '=', 'USD')->whereNotIn('id', $favorite_ids)->get();
+
+        return view('stock.usd', [
+            'stocks' => $models
+        ]);
+    }
+
     public function newStock(Request $request)
     {
         $models = Stock::where('created_at', '>=', Carbon::now()->subDays(7)->startOfDay())->get();
