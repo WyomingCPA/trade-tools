@@ -46,8 +46,7 @@ class Stock extends Model
     public function getAverage15dayAttribute()
     {
         $models = Candle::where('tools_id', '=', $this->id)->where('tools_type', '=', 'stock')
-                        ->where('interval', '=', '5min')
-                        ->where('time', '>=', Carbon::now()->subHours(12)->startOfDay())->pluck('close')->toArray();
+                        ->where('interval', '=', '5min')->where('time', '>=', Carbon::now()->subHours(24)->startOfDay())->orderBy('time', 'asc')->pluck('close')->toArray();
         $prices = [];
         foreach ($models as $close) {
             $prices[] = $close;
