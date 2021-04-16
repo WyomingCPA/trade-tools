@@ -84,7 +84,8 @@ Route::group(['prefix' => 'stock', 'middleware' => 'auth'], function () {
 	Route::post('unfavorite', ['as' => 'stock.unfavorite', 'uses' => 'StockController@unFavoriteStock']);	
 });
 Route::group(['prefix' => 'stock'], function () {
-	Route::get('emachart/{id}', ['as' => 'stock.emachart', 'uses' => 'StockController@emachart']);	
+	Route::get('emachart/{id}', ['as' => 'stock.emachart', 'uses' => 'StockController@emachart']);
+	Route::get('emachart-today/{id}', ['as' => 'stock.emachart-today', 'uses' => 'StockController@emachartToday']);		
 });
 //Роуты журнала
 Route::group(['prefix' => 'journal', 'middleware' => 'auth'], function () {

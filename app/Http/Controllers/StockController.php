@@ -141,6 +141,71 @@ class StockController extends Controller
         }
     }
 
+    public function emachartToday(Request $request)
+    {
+        $id = $request->route('id');
+        if ($request->ajax()) {
+            $candle = Candle::where('tools_id', '=', $id)->where('tools_type', '=', 'stock')->pluck('close', 'time')->toArray();
+            return response()->json($candle);
+        } else {
+            $models = EmaDayIndicator::where('stock_id', $id)->where('created_at', '>=', Carbon::now()->subHours(24)->startOfDay())
+                ->orderByDesc('created_at')->limit(100)->get();
+            $ema_indicators = [];
+            $indicators = $models->where('action', 'buy')->pluck('updated_at')->toArray();
+            $count = 0;
+            foreach ($indicators as $item_carbon)
+            {
+                $ema_indicators_time = str_pad($item_carbon->addHours(3)->timestamp, 13, "0");
+                if ($count == 1)
+                {
+                    $ema_indicators [] = [$ema_indicators_time, "Bay Ema Indicator", 1, "#34a853", 0.55];
+                    $count = 0;
+                }
+                //[1617198300000, "Bay Ema Indicator", 0, "#34a853", 0.75],
+                $ema_indicators [] = [$ema_indicators_time, "Bay Ema Indicator", 0, "#34a853", 0.75];
+                $count++;
+            }
+            $candles = Candle::where('tools_id', '=', $id)->where('tools_type', '=', 'stock')
+                ->where('time', '>=', Carbon::now()->subHours(24)->startOfDay())->orderBy('time', 'asc')->get();
+            $list = [];
+            $rsi_data=[];
+            $rsi_raw=[];
+            $key_time = [];
+            $key_time_rsi = [];
+            foreach ($candles as $item) {
+                $timestamp = str_pad(Carbon::parse($item->time)->addHours(6)->timestamp, 13, "0");
+                if (!array_key_exists($timestamp, $key_time))
+                {
+                    $rsi_raw['close'][] = $item->close;
+                    $rsi_raw['time'][] = $timestamp;
+                    $key_time_rsi[$timestamp] = $timestamp;
+                }
+            }
+            if (array_key_exists('close', $rsi_raw))
+            {
+                $rsi = trader_rsi($rsi_raw['close'], 20);
+                foreach ($rsi as $key => $value)
+                {
+                    $time = $rsi_raw['time'][$key];
+                    $rsi_data [] = [$time, $value];
+                }
+            }
+
+            foreach ($candles as $item) {
+                $timestamp = str_pad(Carbon::parse($item->time)->addHours(6)->timestamp, 13, "0");
+                if (!array_key_exists($timestamp, $key_time))
+                {
+                    $list[] = array((int)$timestamp, $item->open, $item->high, $item->low, $item->close, $item->volume);
+                    $key_time [$timestamp] = $timestamp;
+                }
+            }
+            return view('stock.emachart-today', ['event' => $models,
+                                           'candles' => $list,
+                                           'ema_indicators' => $ema_indicators,
+                                           'rsi_data' => $rsi_data,
+                                           ]);
+        }
+    }
     public function action(Request $request)
     {
         $id = $request->route('id');
