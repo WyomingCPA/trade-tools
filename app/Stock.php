@@ -42,11 +42,44 @@ class Stock extends Model
             return $this->attributes['adx'];
         }
     }
+    public function getTestavgAttribute()
+    {
+        $from = Carbon::parse("2021-04-16 17:10")->subHours(3)->toDateTimeString();
+        $to = Carbon::parse("2021-04-16 17:50")->subHours(3)->toDateTimeString();
+        $models = Candle::where('tools_id', '=', 833)->where('tools_type', '=', 'stock')
+            ->where('interval', '=', '5min')
+            ->whereBetween('time', [$from, $to])
+            //->where('close', 233.48)
+            ->orderBy('time', 'asc')->pluck('close')->toArray();
+
+        $prices = [];
+        foreach ($models as $close) {
+            $prices[] = $close;
+        }
+        
+        $ema5 = trader_ema($prices, 5);
+        $ema8 = trader_ema($prices, 8);
+        $current_5 = array_pop($ema5);
+        $current_8 = array_pop($ema8);
+
+        $previous_5 = array_pop($ema5);
+        $previous_8 = array_pop($ema8);
+
+        $action = '';
+        if ($current_5 > $current_8 && $previous_5 > $previous_8) {
+            $action =  'buy';
+        } elseif ($current_5 < $current_8 && $previous_5 < $previous_8) {
+            $action = 'sell';
+        } else {
+            $action = 'nothing';
+        }
+        return 'test';
+    }
     //5-minute charts
     public function getAverage15dayAttribute()
     {
         $models = Candle::where('tools_id', '=', $this->id)->where('tools_type', '=', 'stock')
-                        ->where('interval', '=', '5min')->where('time', '>=', Carbon::now()->subHours(24)->startOfDay())->orderBy('time', 'asc')->pluck('close')->toArray();
+            ->where('interval', '=', '5min')->where('time', '>=', Carbon::now()->subHours(12)->startOfDay())->orderBy('time', 'asc')->pluck('close')->toArray();
         $prices = [];
         foreach ($models as $close) {
             $prices[] = $close;
@@ -68,9 +101,9 @@ class Stock extends Model
             $previous_8 = array_pop($ema8);
 
             $action = '';
-            if ($current_5 > $current_8 && $previous_5 < $previous_8) {
+            if ($current_5 > $current_8 && $previous_5 > $previous_8) {
                 $action =  'buy';
-            } elseif ($current_5 < $current_8 && $previous_5 > $previous_8) {
+            } elseif ($current_5 < $current_8 && $previous_5 < $previous_8) {
                 $action = 'sell';
             } else {
                 $action = 'nothing';

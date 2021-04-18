@@ -70,6 +70,8 @@ class StockController extends Controller
     public function favorite(Request $request)
     {
         $models = Auth::user()->favoritesStock;
+        //$testModel = $models->first();
+        //$testavg = $testModel->testavg;
         return view('stock.favorite', [
             'stocks' => $models
         ]);
@@ -270,7 +272,7 @@ class StockController extends Controller
             $select[] = $value['id'];
         }
         Auth::user()->favoritesStock()->attach(array_values($select));
-
+        
         return response()->json([
             'cod' => 200
         ], 200);
