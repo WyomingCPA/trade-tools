@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Carbon\Carbon;
 
 use App\Candle;
-
+use App\EmaDayIndicator;
 
 class CheckCandleOld extends Command
 {
@@ -41,6 +41,7 @@ class CheckCandleOld extends Command
      */
     public function handle()
     {
-        $data = Candle::where('created_at', '<=', Carbon::now()->subDays(14)->toDateTimeString())->delete();
+        $delete_candle = Candle::where('created_at', '<=', Carbon::now()->subDays(14)->toDateTimeString())->delete();
+        $delete_ema_indicator = EmaDayIndicator::where('created_at', '<=', Carbon::now()->subDays(14)->toDateTimeString())->delete();
     }
 }
