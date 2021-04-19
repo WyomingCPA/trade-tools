@@ -186,10 +186,13 @@ class StockController extends Controller
             if (array_key_exists('close', $rsi_raw))
             {
                 $rsi = trader_rsi($rsi_raw['close'], 20);
-                foreach ($rsi as $key => $value)
+                if ($rsi != false)
                 {
-                    $time = $rsi_raw['time'][$key];
-                    $rsi_data [] = [$time, $value];
+                    foreach ($rsi as $key => $value)
+                    {
+                        $time = $rsi_raw['time'][$key];
+                        $rsi_data [] = [$time, $value];
+                    }
                 }
             }
 
