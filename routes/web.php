@@ -81,7 +81,9 @@ Route::group(['prefix' => 'stock', 'middleware' => 'auth'], function () {
 
     Route::post('order', ['as' => 'stock.action.order', 'uses' => 'StockController@order']);
 	Route::post('favorite', ['as' => 'stock.favorites.post', 'uses' => 'StockController@favoriteStock']);
-	Route::post('unfavorite', ['as' => 'stock.unfavorite', 'uses' => 'StockController@unFavoriteStock']);	
+	Route::post('unfavorite', ['as' => 'stock.unfavorite', 'uses' => 'StockController@unFavoriteStock']);
+
+	Route::get('test', ['as' => 'stock.test', 'uses' => 'StockController@test']);	
 });
 Route::group(['prefix' => 'stock'], function () {
 	Route::get('emachart/{id}', ['as' => 'stock.emachart', 'uses' => 'StockController@emachart']);
