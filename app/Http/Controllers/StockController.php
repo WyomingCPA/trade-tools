@@ -94,13 +94,33 @@ class StockController extends Controller
                 $ema_indicators_time = str_pad($item_carbon->addHours(3)->timestamp, 13, "0");
                 if ($count == 1)
                 {
-                    $ema_indicators [] = [$ema_indicators_time, "Bay Ema Indicator", 1, "#34a853", 0.55];
+                    $ema_indicators [] = [$ema_indicators_time, "Bay Ema", 1, "#34a853", 0.55];
                     $count = 0;
                 }
                 //[1617198300000, "Bay Ema Indicator", 0, "#34a853", 0.75],
-                $ema_indicators [] = [$ema_indicators_time, "Bay Ema Indicator", 0, "#34a853", 0.75];
+                $ema_indicators [] = [$ema_indicators_time, "Bay Ema", 0, "#34a853", 0.75];
                 $count++;
             }
+
+
+            
+            $sell_indicators = $models->where('action', 'sell')->pluck('updated_at')->toArray();
+            $count_sell = 0;
+            foreach ($sell_indicators as $item_carbon)
+            {
+                $ema_indicators_time = str_pad($item_carbon->addHours(3)->timestamp, 13, "0");
+                if ($count_sell == 1)
+                {
+                    $ema_indicators [] = [$ema_indicators_time, "Sell Ema", 1, "#a84734", 0.55];
+                    $count_sell = 0;
+                }
+                //[1617198300000, "Bay Ema Indicator", 0, "#34a853", 0.75],
+                $ema_indicators [] = [$ema_indicators_time, "Sell Ema", 0, "#a84734", 0.75];
+                $count++;
+            }
+            
+
+
             $candles = Candle::where('tools_id', '=', $id)->where('tools_type', '=', 'stock')
                 ->where('created_at', '>=', Carbon::now()->subDays(20)->startOfDay())->orderBy('time', 'asc')->get();
             $list = [];
