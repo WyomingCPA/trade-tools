@@ -101,9 +101,9 @@ class Stock extends Model
             $previous_8 = array_pop($ema8);
 
             $action = '';
-            if ($current_5 > $current_8 && $previous_5 > $previous_8) {
+            if ($current_5 > $current_8) {
                 $action =  'buy';
-            } elseif ($current_5 < $current_8 && $previous_5 < $previous_8) {
+            } elseif ($current_5 < $current_8) {
                 $action = 'sell';
             } else {
                 $action = 'nothing';
