@@ -71,8 +71,9 @@ class StockController extends Controller
     public function favorite(Request $request)
     {
         $models = Auth::user()->favoritesStock;
-        //$testModel = $models->first();
+        $testModel = $models->first();
         //$testavg = $testModel->testavg;
+        $testRsi = $testModel->rsi;
         return view('stock.favorite', [
             'stocks' => $models
         ]);

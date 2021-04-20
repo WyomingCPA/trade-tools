@@ -56,7 +56,7 @@ class Stock extends Model
         foreach ($models as $close) {
             $prices[] = $close;
         }
-        
+
         $ema5 = trader_ema($prices, 5);
         $ema8 = trader_ema($prices, 8);
         $current_5 = array_pop($ema5);
@@ -114,6 +114,42 @@ class Stock extends Model
         }
 
         return $this->attributes['average15day'];
+    }
+
+    public function getRsiAttribute()
+    {
+        $candles = Candle::where('tools_id', '=', $this->id)->where('tools_type', '=', 'stock')
+            ->where('created_at', '>=', Carbon::now()->subDays(20)->startOfDay())->orderBy('time', 'asc')->get();
+
+        $rsi_data = [];
+        $rsi_raw = [];
+        $key_time = [];
+        $key_time_rsi = [];
+        foreach ($candles as $item) {
+            $timestamp = str_pad(Carbon::parse($item->time)->addHours(6)->timestamp, 13, "0");
+            if (!array_key_exists($timestamp, $key_time)) {
+                $rsi_raw['close'][] = $item->close;
+                $rsi_raw['time'][] = $timestamp;
+                $key_time_rsi[$timestamp] = $timestamp;
+            }
+        }
+        if (array_key_exists('close', $rsi_raw)) {
+            $rsi = trader_rsi($rsi_raw['close'], 14);
+            foreach ($rsi as $key => $value) {
+                $time = $rsi_raw['time'][$key];
+                $rsi_data[] = [$time, $value];
+            }
+        }
+        $rsi = array_pop($rsi_data);
+        if (isset($rsi[1]))
+        {
+            return $rsi[1];
+        }
+        else
+        {
+            return null;
+        }
+        
     }
 
     public function emaDayIndicator()
