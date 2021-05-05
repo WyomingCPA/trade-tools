@@ -76,7 +76,7 @@ Route::group(['prefix' => 'etf', 'middleware' => 'auth'], function () {
 	Route::get('favorites', ['as' => 'etf.favorites', 'uses' => 'EtfController@favorite']);
 	
 	Route::post('favorite', ['as' => 'etf.favorites.post', 'uses' => 'EtfController@favoriteEtf']);
-	Route::post('unfavorite', ['as' => 'stock.unfavorite', 'uses' => 'StockController@unFavoriteStock']);
+	Route::post('unfavorite', ['as' => 'etf.unfavorite', 'uses' => 'EtfController@unFavoriteEtf']);
 });
 Route::group(['prefix' => 'etf'], function () {
 	Route::get('chart-1h/{id}', ['as' => 'etf.chart-1h', 'uses' => 'EtfController@chart1h']);

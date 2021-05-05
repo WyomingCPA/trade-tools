@@ -50,6 +50,19 @@ class EtfController extends Controller
             'cod' => 200
         ], 200);
     }
+    public function unFavoriteEtf(Request $request)
+    {
+        $rows = $request->post('selRows');
+        $select = [];
+        foreach ($rows as $value) {
+            $select[] = $value['id'];
+        }
+        Auth::user()->favoritesEtf()->detach(array_values($select));
+
+        return response()->json([
+            'cod' => 200
+        ], 200);
+    }
 
     public function chart1h(Request $request)
     {
