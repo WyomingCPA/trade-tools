@@ -74,10 +74,12 @@ Route::group(['prefix' => 'etf', 'middleware' => 'auth'], function () {
 	Route::get('all', ['as' => 'etf.all', 'uses' => 'EtfController@all']);
 
 	Route::get('favorites', ['as' => 'etf.favorites', 'uses' => 'EtfController@favorite']);
-	Route::get('chart-1h/{id}', ['as' => 'etf.chart-1h', 'uses' => 'EtfController@chart1h']);
-
+	
 	Route::post('favorite', ['as' => 'etf.favorites.post', 'uses' => 'EtfController@favoriteEtf']);
 	Route::post('unfavorite', ['as' => 'stock.unfavorite', 'uses' => 'StockController@unFavoriteStock']);
+});
+Route::group(['prefix' => 'etf', 'middleware' => 'auth'], function () {
+	Route::get('chart-1h/{id}', ['as' => 'etf.chart-1h', 'uses' => 'EtfController@chart1h']);
 });
 //Роуты акций.
 Route::group(['prefix' => 'stock', 'middleware' => 'auth'], function () {
