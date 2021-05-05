@@ -21,6 +21,7 @@ class Kernel extends ConsoleKernel
         'App\Console\Commands\GetCandleHourEtf',
         'App\Console\Commands\GetCandleBond',
         'App\Console\Commands\SendToTelegrammStateProfile',
+        'App\Console\Commands\SendToTelegrammEtfFavorite',
         'App\Console\Commands\Stocks',
     ];
 

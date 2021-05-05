@@ -5,7 +5,7 @@
     :rsi_data="rsi_data"
     :width="width"
     :height="height"
-    title-txt=""
+    title-txt="1h"
     ref="tvjs"
     :toolbar="true"
     :overlays="overlays"
@@ -24,7 +24,7 @@ import each from "lodash.foreach";
 
 export default {
   name: "EtfChart",
-  props: ["candles", "rsi_data"],
+  props: ["candles", "rsi_data", "title"],
 
   computed: {
     colors() {
@@ -63,6 +63,7 @@ export default {
   data() {
     let cand = this.candles;
     let rsi_data = this.rsi_data;
+    let title = this.title;
 
     console.log(cand);
     return {
