@@ -93,6 +93,32 @@ $new_count_stock = Stock::where('created_at', '>=', Carbon::now()->subDays(7)->s
                 <span class="sidebar-normal">{{ __('Избранные') }} </span>
               </a>
             </li>
+            <li class="nav-item{{ $activePage == 'profit_stock' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('stock.profit') }}">
+                <span class="sidebar-normal">{{ __('Открытые сделки') }} </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li class="nav-item {{ ($activePage == 'etf' || $activePage == 'user-management') ? ' active' : '' }}">
+        <a class="nav-link" data-toggle="collapse" href="#etf" aria-expanded="true">
+          <p>{{ __('Фонды') }}
+            <b class="caret"></b>
+          </p>
+        </a>
+        <div class="collapse" id="etf">
+          <ul class="nav">
+            <li class="nav-item{{ $activePage == 'all_etf' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('etf.all') }}">
+                <span class="sidebar-normal">{{ __('Все') }} </span>
+              </a>
+            </li>
+            <li class="nav-item{{ $activePage == 'favorites_etf' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('etf.favorites') }}">
+                <span class="sidebar-normal">{{ __('Избранные') }} </span>
+              </a>
+            </li>
           </ul>
         </div>
       </li>

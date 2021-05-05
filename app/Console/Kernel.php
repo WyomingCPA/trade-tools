@@ -14,9 +14,11 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         'App\Console\Commands\GetAllBonds',
+        'App\Console\Commands\GetAllEtf',
         'App\Console\Commands\Stocks',
-        'App\Console\Commands\CheckEmaIndicator',
+        'App\Console\Commands\CheckIntradayIndicator',
         'App\Console\Commands\GetCandle5MinDayStock',
+        'App\Console\Commands\GetCandleHourEtf',
         'App\Console\Commands\GetCandleBond',
         'App\Console\Commands\SendToTelegrammStateProfile',
         'App\Console\Commands\Stocks',

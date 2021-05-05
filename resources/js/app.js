@@ -24,6 +24,10 @@ Vue.component('bond-new-table', require('./components/bond/BondNewTableComponent
 Vue.component('bond-hide-table', require('./components/bond/BondHideTableComponent.vue').default);
 Vue.component('bond-favorite-table', require('./components/bond/BondFavoriteTableComponent.vue').default);
 
+Vue.component('etf-all-table', require('./components/etf/EtfAllTableComponent.vue').default);
+Vue.component('etf-favorite-table', require('./components/etf/EtfFavoriteTableComponent.vue').default);
+Vue.component('etf-chars', require('./components/etf/EtfCharsCandleComponent.vue').default);
+
 Vue.component('stock-all-table', require('./components/stock/StockAllTableComponent.vue').default);
 Vue.component('stock-favorite-table', require('./components/stock/StockFavoriteTableComponent.vue').default);
 Vue.component('stock-new-table', require('./components/stock/StockNewTableComponent.vue').default);

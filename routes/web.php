@@ -69,6 +69,16 @@ Route::group(['prefix' => 'bond', 'middleware' => 'auth'], function () {
 	Route::post('untrash', ['as' => 'bond.untrash', 'uses' => 'BondController@untrashBond']);
 
 });
+//Роуты фондов
+Route::group(['prefix' => 'etf', 'middleware' => 'auth'], function () {
+	Route::get('all', ['as' => 'etf.all', 'uses' => 'EtfController@all']);
+
+	Route::get('favorites', ['as' => 'etf.favorites', 'uses' => 'EtfController@favorite']);
+	Route::get('chart-1h/{id}', ['as' => 'etf.chart-1h', 'uses' => 'EtfController@chart1h']);
+
+	Route::post('favorite', ['as' => 'etf.favorites.post', 'uses' => 'EtfController@favoriteEtf']);
+	Route::post('unfavorite', ['as' => 'stock.unfavorite', 'uses' => 'StockController@unFavoriteStock']);
+});
 //Роуты акций.
 Route::group(['prefix' => 'stock', 'middleware' => 'auth'], function () {
 	Route::get('all', ['as' => 'stock.all', 'uses' => 'StockController@all']);
@@ -83,6 +93,9 @@ Route::group(['prefix' => 'stock', 'middleware' => 'auth'], function () {
 	Route::post('favorite', ['as' => 'stock.favorites.post', 'uses' => 'StockController@favoriteStock']);
 	Route::post('unfavorite', ['as' => 'stock.unfavorite', 'uses' => 'StockController@unFavoriteStock']);
 
+	Route::get('profit', ['as' => 'stock.profit', 'uses' => 'StockController@profit']);
+	Route::get('profit/update/{id}', ['as' => 'stock.profit.update', 'uses' => 'StockController@update']);
+	Route::post('profit/edit', ['as' => 'stock.profit.edit', 'uses' => 'StockController@update']);
 	Route::get('test', ['as' => 'stock.test', 'uses' => 'StockController@test']);	
 });
 Route::group(['prefix' => 'stock'], function () {

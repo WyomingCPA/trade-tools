@@ -51,4 +51,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Stock::class, 'stock_favorites', 'user_id', 'stock_id')->withTimeStamps();
     }
+
+    public function favoritesEtf()
+    {
+        return $this->belongsToMany(Etf::class, 'etf_favorites', 'user_id', 'etf_id')->withTimeStamps();
+    }
 }

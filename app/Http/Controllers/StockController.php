@@ -71,9 +71,9 @@ class StockController extends Controller
     public function favorite(Request $request)
     {
         $models = Auth::user()->favoritesStock;
-        $testModel = $models->first();
+        //$testModel = $models->first();
         //$testavg = $testModel->testavg;
-        $testRsi = $testModel->rsi;
+        //$testRsi = $testModel->rsi;
         return view('stock.favorite', [
             'stocks' => $models
         ]);
@@ -286,7 +286,7 @@ class StockController extends Controller
 
         //end block
 
-        return view('stock.action', ['model' => '$model', 'id' => $model->id, 'price' => $price, 'max_lots' => $max_lots]);
+        return view('stock.action', ['model' => $model, 'id' => $model->id, 'price' => $price, 'max_lots' => $max_lots]);
     }
 
     public function order(Request $request)
@@ -342,5 +342,31 @@ class StockController extends Controller
         return response()->json([
             'cod' => 200
         ], 200);
+    }
+    
+    public function profit(Request $request)
+    {
+        $profits = Profit::all();
+        return view('stock.profit', ['profits' => $profits]);
+    }
+    public function update(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $id = $request->id;
+            $model = Profit::find($id);
+            $model->take_profit = $request->takeProfit;
+            $model->stop_loss = $request->stopLoss;
+            $model->save();
+            return redirect()->route('stock.profit.update', ['id' => $id]);
+        }
+        if ($request->isMethod('get')) {
+            $id = $request->id;
+            $profit = Profit::find($id);
+            $take_profit = $profit->take_profit;
+            $stop_loss = $profit->stop_loss;
+            return view('stock.profit.update', ['take_profit' => $take_profit, 
+                                                'stop_loss' => $stop_loss,
+                                                'id' => $id]);
+        }    
     }
 }
