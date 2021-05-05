@@ -76,7 +76,11 @@ export default {
       width: window.innerWidth,
       height: window.innerHeight,
       chart: new DataCube({
-        ohlcv: cand,
+        chart: {
+          data: cand,
+          indexBased: true,
+          tf: "1h",
+        },
         onchart: [
           {
             name: "EMA, 5",
@@ -109,7 +113,7 @@ export default {
         ],
         offchart: [
           {
-            name: "Relative Strength Index",
+            name: "RSI",
             type: "RSI",
             data: rsi_data,
             settings: {
@@ -117,9 +121,18 @@ export default {
               bandColor: "#666",
             },
           },
+          {
+            name: "CCI",
+            type: "CCI",
+            data: [],
+            settings: {
+              upper: 100,
+              lower: -100,
+            },
+          },
         ],
       }),
-      overlays: [Overlays[("RSI", "EMA")]],
+      overlays: [Overlays[("RSI", "EMA", "CCI")]],
     };
   },
 };
