@@ -91,6 +91,8 @@ class SendToTelegrammEtfFavorite extends Command
             $chatId = '-517188991';
             $bot = new BotApi(env('TELEGRAM_TOKEN'));
 
+            $bot->setCurlOption(CURLOPT_TIMEOUT, 60);
+
             $bot->sendMessage($chatId, $messageText, 'HTML');
             $media = new ArrayOfInputMedia();
             foreach ($list_img as $img) {
