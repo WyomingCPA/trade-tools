@@ -49,12 +49,21 @@
         <span v-else-if="props.column.field === 'currency'">
           {{ props.row.currency }}
         </span>
+        <span v-else-if="props.column.field === 'cci_hour'">
+          {{ props.row.cci_hour }}
+        </span>
+        <span v-else-if="props.column.field === 'ema_hour'">
+          {{ props.row.ema_hour }}
+        </span>
+        <span v-else-if="props.column.field === 'rsi_hour'">
+          {{ props.row.rsi_hour }}
+        </span>
         <span v-else-if="props.column.field === '1h'">
           <a
             target="_blank"
             class="btn btn-primary"
             :href="'chart-1h/' + props.row.id"
-            >Смотреть</a
+            >Смотреть график</a
           >
         </span>
       </template>
@@ -98,6 +107,18 @@ export default {
         {
           label: "Валюта",
           field: "currency",
+        },
+        {
+          label: "CCI 1H",
+          field: "cci_hour",
+        },
+        {
+          label: "EMA 1H",
+          field: "ema_hour",
+        },
+        {
+          label: "RSI 1H",
+          field: "rsi_hour",
         },
         {
           label: "1H",

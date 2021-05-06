@@ -60,7 +60,7 @@ class SendToTelegrammEtfFavorite extends Command
         $list_img = [];
         $count = 1;
         foreach ($etfs as $item) {
-            $cci = $item->cci;
+            $cci = $item->cci_hour;
             if ($cci > -99)
             {
                 continue;

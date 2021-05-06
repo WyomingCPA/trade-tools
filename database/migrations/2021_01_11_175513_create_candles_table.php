@@ -18,10 +18,10 @@ class CreateCandlesTable extends Migration
             $table->unsignedBigInteger('tools_id')->unsigned();
             $table->enum('tools_type', ['bond', 'stock', 'etf']);
             $table->unsignedInteger('tools_id');
-            $table->float('open');
-            $table->float('close');
-            $table->float('high');
-            $table->float('low');
+            $table->float('open', 8, 6);
+            $table->float('close', 8, 6);
+            $table->float('high', 8, 6);
+            $table->float('low', 8, 6);
             $table->integer('volume');
             $table->dateTime('time', $precision = 0);
             $table->string('interval');          

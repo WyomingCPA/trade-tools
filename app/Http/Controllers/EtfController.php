@@ -76,7 +76,8 @@ class EtfController extends Controller
 
             $mod = Etf::find($id);
             $test = $mod->ema_hour;
-            $test2 = $mod->cci;
+            $test2 = $mod->cci_hour;
+            $test3 =  $mod->rsi_hour;
             $list = [];
             $rsi_data = [];
             $rsi_raw = [];

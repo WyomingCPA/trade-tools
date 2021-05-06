@@ -80,7 +80,6 @@ class GetCandleHourEtf extends Command
             }
 
             foreach ($candles as $candle) {
-
                 try {
                     $model = Candle::firstOrCreate(
                         ['tools_id' => $item->id, 'tools_type' => 'etf', 'time' => $candle->getTime()],

@@ -8,8 +8,9 @@ use Carbon\Carbon;
 class Etf extends Model
 {
     protected $fillable = ['figi', 'ticker', 'isin', 'faceValue', 'minPriceIncrement', 'currency', 'name'];
+    protected $appends = ['cci_hour', 'ema_hour', 'rsi_hour'];
 
-    public function getCciAttribute()
+    public function getCciHourAttribute()
     {
         $models = Candle::where('tools_id', '=', $this->id)->where('tools_type', '=', 'etf')
             ->where('interval', '=', 'hour')->where('time', '>=', Carbon::now()->subDay(5)->startOfDay())->orderBy('time', 'asc')->get();
@@ -27,15 +28,15 @@ class Etf extends Model
         }
 
         $cci = trader_cci($highs, $lows, $closes, $time_period);
-        if (array_key_exists(0, $cci))
+        $last_element = end($cci);
+        if ($last_element)
         {
-            return $cci[0];
+            return $last_element;
         }
         else
         {
             return 0;
         }
-
     }
 
     public function getEmaHourAttribute()
@@ -75,4 +76,42 @@ class Etf extends Model
             return 'nothing';
         }
     }
+
+    public function getRsiHourAttribute()
+    {
+        $candles = Candle::where('tools_id', '=', $this->id)->where('tools_type', '=', 'etf')->where('interval', '=', 'hour')
+            ->where('created_at', '>=', Carbon::now()->subDays(20)->startOfDay())->orderBy('time', 'asc')->get();
+
+        $rsi_data = [];
+        $rsi_raw = [];
+        $key_time = [];
+        $key_time_rsi = [];
+        foreach ($candles as $item) {
+            $timestamp = str_pad(Carbon::parse($item->time)->addHours(6)->timestamp, 13, "0");
+            if (!array_key_exists($timestamp, $key_time)) {
+                $rsi_raw['close'][] = $item->close;
+                $rsi_raw['time'][] = $timestamp;
+                $key_time_rsi[$timestamp] = $timestamp;
+            }
+        }
+        if (array_key_exists('close', $rsi_raw)) {
+            $rsi = trader_rsi($rsi_raw['close'], 14);
+            foreach ($rsi as $key => $value) {
+                $time = $rsi_raw['time'][$key];
+                $rsi_data[] = [$time, $value];
+            }
+        }
+        $rsi = array_pop($rsi_data);
+        if (isset($rsi[1]))
+        {
+            return $rsi[1];
+        }
+        else
+        {
+            return null;
+        }
+        
+    }
+
+
 }

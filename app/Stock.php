@@ -134,9 +134,10 @@ class Stock extends Model
         }
 
         $cci = trader_cci($highs, $lows, $closes, $time_period);
-        if (array_key_exists(0, $cci))
+        $last_element = end($cci);
+        if ($last_element)
         {
-            return $cci[0];
+            return $last_element;
         }
         else
         {
