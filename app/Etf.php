@@ -27,7 +27,15 @@ class Etf extends Model
         }
 
         $cci = trader_cci($highs, $lows, $closes, $time_period);
-        return $cci[0];
+        if (array_key_exists(0, $cci))
+        {
+            return $cci[0];
+        }
+        else
+        {
+            return 0;
+        }
+
     }
 
     public function getEmaHourAttribute()

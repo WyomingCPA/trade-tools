@@ -60,6 +60,11 @@ class SendToTelegrammEtfFavorite extends Command
         $list_img = [];
         $count = 1;
         foreach ($etfs as $item) {
+            $cci = $item->cci;
+            if ($cci > -99)
+            {
+                continue;
+            }
             $browserFactory = new BrowserFactory($chromeBinary);
             // starts headless chrome
             $browser = $browserFactory->createBrowser(['windowSize' => [1920, 1080],]);
