@@ -85,6 +85,7 @@ class SendToTelegrammEtfFavorite extends Command
                 $browser->close();
             }
             $messageText .= "<a target='_blank' href='https://www.tinkoff.ru/invest/etfs/{$item->ticker}'>{$count}){$item->name}</a>\n";
+            $messageText .= "EMA = { $item->ema_hour }; \n";
             $count++;
         }
         if (!empty($messageText)) {

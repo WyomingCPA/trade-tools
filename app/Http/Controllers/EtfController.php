@@ -73,6 +73,10 @@ class EtfController extends Controller
         } else {
             $candles = Candle::where('tools_id', '=', $id)->where('tools_type', '=', 'etf')->where('interval', '=', 'hour')
                         ->where('created_at', '>=', Carbon::now()->subDays(20)->startOfDay())->orderBy('time', 'asc')->get();
+
+            $mod = Etf::find($id);
+            $test = $mod->ema_hour;
+
             $list = [];
             $rsi_data = [];
             $rsi_raw = [];
