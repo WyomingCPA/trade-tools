@@ -9,6 +9,27 @@ class Etf extends Model
 {
     protected $fillable = ['figi', 'ticker', 'isin', 'faceValue', 'minPriceIncrement', 'currency', 'name'];
 
+    public function getCciAttribute()
+    {
+        $models = Candle::where('tools_id', '=', $this->id)->where('tools_type', '=', 'etf')
+            ->where('interval', '=', 'hour')->where('time', '>=', Carbon::now()->subDay(5)->startOfDay())->orderBy('time', 'asc')->get();
+
+        $highs = [];
+        $lows = [];
+        $closes = [];
+
+        $time_period = 21;
+
+        foreach ($models as $item) {
+            $highs[] = $item->hight;
+            $lows[] = $item->low;
+            $closes[] = $item->close;
+        }
+
+        $cci = trader_cci($highs, $lows, $closes, $time_period);
+        return $cci;
+    }
+
     public function getEmaHourAttribute()
     {
         $models = Candle::where('tools_id', '=', $this->id)->where('tools_type', '=', 'etf')
