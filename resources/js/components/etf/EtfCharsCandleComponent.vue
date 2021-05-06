@@ -1,5 +1,6 @@
 <template>
   <trading-vue
+    :chart-config="{ DEFAULT_LEN: 200 }"
     :data="chart"
     :candles="candles"
     :rsi_data="rsi_data"
@@ -108,17 +109,20 @@ export default {
             },
           },
           {
-            name: "CCI",
+            name: "Commodity Channel Index",
             type: "CCI",
             data: [],
             settings: {
+              color: "#e28a3dee",
+              backColor: "#e28a3d11",
+              bandColor: "#aaaaaa",
               upper: 100,
               lower: -100,
             },
           },
         ],
       }),
-      overlays: [Overlays[("EMA", "RSI", "CCI")]],
+      overlays: [Overlays[("RSI", "CCI")]],
     };
   },
 };
