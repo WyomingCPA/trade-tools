@@ -63,8 +63,9 @@ class CheckIntradayIndicator extends Command
         foreach ($stocks as $item) {
             $ema = $item->Average15day;
             $rsi = $item->rsi;
+            $cci = $item->cci;
 
-            if ($ema == 'nothing' || $rsi > 60) {
+            if ($ema == 'nothing' || $rsi > 60 || $cci > -50) {
                 continue;
             }
             //Находим старый индикатор,если нет, то создаем. 
