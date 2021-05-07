@@ -49,14 +49,20 @@
         <span v-else-if="props.column.field === 'currency'">
           {{ props.row.currency }}
         </span>
-        <span v-else-if="props.column.field === 'cci_hour'">
-          {{ props.row.cci_hour }}
+        <span class="wrap" v-else-if="props.column.field === 'cci_hour'">
+          <span :class="getCellCciClass(props.row.cci_hour)">
+            {{ props.row.cci_hour }}
+          </span>
         </span>
-        <span v-else-if="props.column.field === 'ema_hour'">
-          {{ props.row.ema_hour }}
+        <span class="wrap" v-else-if="props.column.field === 'ema_hour'">
+          <span :class="getCellEmaClass(props.row.ema_hour)">
+            {{ props.row.ema_hour }}
+          </span>
         </span>
-        <span v-else-if="props.column.field === 'rsi_hour'">
-          {{ props.row.rsi_hour }}
+        <span class="wrap" v-else-if="props.column.field === 'rsi_hour'">
+          <span :class="getCellRsiClass(props.row.rsi_hour)">
+            {{ props.row.rsi_hour }}
+          </span>  
         </span>
         <span v-else-if="props.column.field === '1h'">
           <a
@@ -92,7 +98,35 @@ export default {
         window.location.href = "favorites";
       });
     },
+    getCellCciClass(cci_hour) {
+      if (cci_hour <= -100) {
+        return "is-green";
+      } else if (cci_hour >= 100) {
+        return "is-red";
+      } else {
+        return "";
+      }
+    },
+    getCellEmaClass(indicator) {
+      if (indicator == "buy") {
+        return "is-green";
+      } else if (indicator == "sell") {
+        return "is-red";
+      } else {
+        return "";
+      }
+    },
+    getCellRsiClass(indicator) {
+      if (indicator <= 30) {
+        return "is-green";
+      } else if (indicator >= 70) {
+        return "is-red";
+      } else {
+        return "";
+      }
+    },
   },
+
   data() {
     return {
       columns: [
@@ -130,3 +164,30 @@ export default {
   },
 };
 </script>
+<style>
+.wrap {
+  display: block;
+  position: relative;
+  width: 100%;
+}
+.is-green {
+  background: green;
+  color: white;
+  position: absolute;
+  left: -0.75rem;
+  right: -0.75rem;
+  top: -0.75rem;
+  bottom: -1.9rem;
+  padding: 0.75rem;
+}
+.is-red {
+  background: red;
+  color: white;
+  position: absolute;
+  left: -0.75rem;
+  right: -0.75rem;
+  top: -0.75rem;
+  bottom: -1.9rem;
+  padding: 0.75rem;
+}
+</style>
