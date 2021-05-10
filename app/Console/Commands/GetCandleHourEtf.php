@@ -66,6 +66,7 @@ class GetCandleHourEtf extends Command
             //Удаляем старые свечи за день свечи, чтобы график не глючил
             $deleteCandleRows = Candle::where('tools_id', '=', $item->id)
                                         ->where('tools_type', 'LIKE', '%etf%')
+                                        ->where('interval', '=', 'hour')
                                         ->where('time', '>=', Carbon::now()->subDays(7)->startOfDay())
                                         ->delete();
 
