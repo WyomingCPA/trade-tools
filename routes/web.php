@@ -80,6 +80,7 @@ Route::group(['prefix' => 'etf', 'middleware' => 'auth'], function () {
 });
 Route::group(['prefix' => 'etf'], function () {
 	Route::get('chart-1h/{id}', ['as' => 'etf.chart-1h', 'uses' => 'EtfController@chart1h']);
+	Route::get('chart-1d/{id}', ['as' => 'etf.chart-1d', 'uses' => 'EtfController@chart1d']);
 });
 //Роуты акций.
 Route::group(['prefix' => 'stock', 'middleware' => 'auth'], function () {

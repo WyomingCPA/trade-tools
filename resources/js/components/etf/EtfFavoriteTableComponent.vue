@@ -54,22 +54,45 @@
             {{ props.row.cci_hour }}
           </span>
         </span>
+        <span class="wrap" v-else-if="props.column.field === 'cci_day'">
+          <span :class="getCellCciClass(props.row.cci_day)">
+            {{ props.row.cci_day }}
+          </span>
+        </span>
         <span class="wrap" v-else-if="props.column.field === 'ema_hour'">
           <span :class="getCellEmaClass(props.row.ema_hour)">
             {{ props.row.ema_hour }}
           </span>
         </span>
+        <span class="wrap" v-else-if="props.column.field === 'ema_day'">
+          <span :class="getCellEmaClass(props.row.ema_day)">
+            {{ props.row.ema_day }}
+          </span>
+        </span>
         <span class="wrap" v-else-if="props.column.field === 'rsi_hour'">
           <span :class="getCellRsiClass(props.row.rsi_hour)">
             {{ props.row.rsi_hour }}
-          </span>  
+          </span>
+        </span>
+        <span class="wrap" v-else-if="props.column.field === 'rsi_day'">
+          <span :class="getCellRsiClass(props.row.rsi_day)">
+            {{ props.row.rsi_day }}
+          </span>
         </span>
         <span v-else-if="props.column.field === '1h'">
           <a
             target="_blank"
             class="btn btn-primary"
             :href="'chart-1h/' + props.row.id"
-            >Смотреть график</a
+            >График</a
+          >
+        </span>
+        <span v-else-if="props.column.field === '1d'">
+          <a
+            target="_blank"
+            class="btn btn-primary"
+            :href="'chart-1d/' + props.row.id"
+            >График</a
           >
         </span>
       </template>
@@ -147,17 +170,32 @@ export default {
           field: "cci_hour",
         },
         {
+          label: "CCI 1D",
+          field: "cci_day",
+        },
+        {
           label: "EMA 1H",
           field: "ema_hour",
+        },
+        {
+          label: "EMA 1D",
+          field: "ema_day",
         },
         {
           label: "RSI 1H",
           field: "rsi_hour",
         },
         {
+          label: "RSI 1D",
+          field: "rsi_day",
+        },
+        {
           label: "1H",
           field: "1h",
-          type: "number",
+        },
+        {
+          label: "1D",
+          field: "1d",
         },
       ],
     };
