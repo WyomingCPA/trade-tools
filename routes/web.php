@@ -72,11 +72,15 @@ Route::group(['prefix' => 'bond', 'middleware' => 'auth'], function () {
 //Роуты фондов
 Route::group(['prefix' => 'etf', 'middleware' => 'auth'], function () {
 	Route::get('all', ['as' => 'etf.all', 'uses' => 'EtfController@all']);
-
 	Route::get('favorites', ['as' => 'etf.favorites', 'uses' => 'EtfController@favorite']);
+	Route::get('aim', ['as' => 'etf.aim', 'uses' => 'EtfController@aim']);
+	Route::get('aim-create', ['as' => 'etf.aim.create', 'uses' => 'EtfController@aimCreate']);
+	Route::post('aim-create', ['as' => 'etf.aim.create', 'uses' => 'EtfController@aimCreate']);
+	Route::post('aim_update', ['as' => 'etf.aim.update', 'uses' => 'EtfController@updateAim']);
 	
 	Route::post('favorite', ['as' => 'etf.favorites.post', 'uses' => 'EtfController@favoriteEtf']);
 	Route::post('unfavorite', ['as' => 'etf.unfavorite', 'uses' => 'EtfController@unFavoriteEtf']);
+
 });
 Route::group(['prefix' => 'etf'], function () {
 	Route::get('chart-1h/{id}', ['as' => 'etf.chart-1h', 'uses' => 'EtfController@chart1h']);

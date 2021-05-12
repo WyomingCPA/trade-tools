@@ -119,6 +119,11 @@ $new_count_stock = Stock::where('created_at', '>=', Carbon::now()->subDays(7)->s
                 <span class="sidebar-normal">{{ __('Избранные') }} </span>
               </a>
             </li>
+            <li class="nav-item{{ $activePage == 'aim_etf' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('etf.aim') }}">
+                <span class="sidebar-normal">{{ __('Цели') }} </span>
+              </a>
+            </li>
           </ul>
         </div>
       </li>

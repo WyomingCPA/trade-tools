@@ -40,8 +40,8 @@
             >{{ props.row.name }}</a
           >
         </span>
-        <span v-else-if="props.column.field === 'ticker'">
-          {{ props.row.ticker }}
+        <span v-else-if="props.column.field === 'aime'">
+          {{ props.row.aim }}
         </span>
         <span v-else-if="props.column.field === 'nominal'">
           {{ props.row.nominal }}
@@ -158,8 +158,8 @@ export default {
           field: "name",
         },
         {
-          label: "ticker",
-          field: "ticker",
+          label: "Цели",
+          field: "aime",
         },
         {
           label: "Валюта",
