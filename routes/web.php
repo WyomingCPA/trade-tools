@@ -81,6 +81,9 @@ Route::group(['prefix' => 'etf'], function () {
 });
 //Роуты акций.
 Route::group(['prefix' => 'stock', 'middleware' => 'auth'], function () {
+	Route::get('dividends', ['as' => 'stock.dividends', 'uses' => 'StockController@dividends']);
+
+
 	Route::get('all', ['as' => 'stock.all', 'uses' => 'StockController@all']);
 	Route::get('rub', ['as' => 'stock.rub', 'uses' => 'StockController@stockRub']);
 	Route::get('usd', ['as' => 'stock.usd', 'uses' => 'StockController@stockUsd']);

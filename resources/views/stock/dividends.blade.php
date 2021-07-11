@@ -1,0 +1,1 @@
+@extends('layouts.app', ['activePage' => 'dividends', 'titlePage' => __('Акций с дивидендами') ])

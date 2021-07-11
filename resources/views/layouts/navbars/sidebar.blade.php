@@ -93,6 +93,11 @@ $new_count_stock = Stock::where('created_at', '>=', Carbon::now()->subDays(7)->s
                 <span class="sidebar-normal">{{ __('Избранные') }} </span>
               </a>
             </li>
+            <li class="nav-item{{ $activePage == 'dividends_stock' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('stock.dividends') }}">
+                <span class="sidebar-normal">{{ __('Акций с дивидендами') }} </span>
+              </a>
+            </li>
             <li class="nav-item{{ $activePage == 'profit_stock' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('stock.profit') }}">
                 <span class="sidebar-normal">{{ __('Открытые сделки') }} </span>

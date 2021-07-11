@@ -27,6 +27,11 @@ use \jamesRUS52\TinkoffInvest\TIInstrumentInfo;
 
 class StockController extends Controller
 {
+    public function dividends(Request $request)
+    {
+        return view('stock.dividends');
+    }
+
     public function all(Request $request)
     {
         $favorite_ids = Auth::user()->favoritesBond->pluck('id')->toArray();
