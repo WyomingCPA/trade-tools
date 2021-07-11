@@ -10,7 +10,6 @@ use Carbon\Carbon;
 use App\Etf;
 use App\User;
 use App\Candle;
-use App\AimEtf;
 
 class EtfController extends Controller
 {
@@ -25,34 +24,6 @@ class EtfController extends Controller
         return view('etf.all', [
             'etfs' => $models
         ]);
-    }
-    public function aim(Request $request)
-    {
-        $models = AimEtf::all();
-        return view('etf.aim', [
-            'aims' => $models
-        ]);
-    }
-    public function aimCreate(Request $request)
-    {
-        if ($request->method() == 'GET') {
-            $favorite_etfs = Auth::user()->favoritesEtf;
-            return view('etf.aim.create', ['etfs' => $favorite_etfs]);
-        }
-        if ($request->method() == 'POST') {
-            $rows = $request->post('selection');
-            $name_target = $request->post('name_target');
-            $descritpion = $request->post('descritpion');
-
-            $aim = AimEtf::create([
-                'aim_name' => $name_target,
-                'event_detail' => $descritpion
-            ]);
-            
-            $aim->etfs()->attach($rows);
-
-            return redirect()->route('etf.aim');
-        }
     }
 
     public function favorite(Request $request)

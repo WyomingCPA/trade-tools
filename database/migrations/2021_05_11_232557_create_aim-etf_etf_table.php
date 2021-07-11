@@ -34,6 +34,6 @@ class CreateAimEtfEtfTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('aim-etf_etf');
     }
 }
