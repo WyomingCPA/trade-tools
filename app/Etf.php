@@ -9,17 +9,8 @@ use Illuminate\Support\Facades\DB;
 class Etf extends Model
 {
     protected $fillable = ['figi', 'ticker', 'isin', 'faceValue', 'minPriceIncrement', 'currency', 'name'];
-    protected $appends = ['cci_hour', 'ema_hour', 'ema_day', 'rsi_hour', 'rsi_day', 'cci_day', 'aim'];
+    protected $appends = ['cci_hour', 'ema_hour', 'ema_day', 'rsi_hour', 'rsi_day', 'cci_day'];
 
-    public function getAimAttribute()
-    {
-        $list_aim = '';
-        foreach ($this->aims as $item)
-        {
-            $list_aim  .= $item->aim_name . "\n";
-        }
-        return $list_aim;
-    }
     public function getCciHourAttribute()
     {
         $models = Candle::where('tools_id', '=', $this->id)->where('tools_type', '=', 'etf')
@@ -239,9 +230,5 @@ class Etf extends Model
         {
             return 0;
         }   
-    }
-    public function aims()
-    {
-        return $this->belongsToMany('App\AimEtf', 'aim-etf_etf', 'aim-etf_id', 'etf_id')->withTimestamps();
     }
 }
