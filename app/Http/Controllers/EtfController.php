@@ -44,6 +44,7 @@ class EtfController extends Controller
         foreach ($rows as $value) {
             $select[] = $value['id'];
         }
+        
         Auth::user()->favoritesEtf()->attach(array_values($select));
 
         return response()->json([
@@ -57,6 +58,7 @@ class EtfController extends Controller
         foreach ($rows as $value) {
             $select[] = $value['id'];
         }
+
         Auth::user()->favoritesEtf()->detach(array_values($select));
 
         return response()->json([

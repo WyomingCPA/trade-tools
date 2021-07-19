@@ -30,7 +30,7 @@ $new_count_stock = Stock::where('created_at', '>=', Carbon::now()->subDays(7)->s
         </a>
       </li>
       <li class="nav-item {{ ($activePage == 'bonds' || $activePage == 'user-management') ? ' active' : '' }}">
-        <a class="nav-link" data-toggle="collapse" href="#bonds" aria-expanded="true">        
+        <a class="nav-link" data-toggle="collapse" href="#bonds" aria-expanded="true">
           <p>{{ __('Облигаций') }}
             <b class="caret"></b>
           </p>
@@ -142,6 +142,11 @@ $new_count_stock = Stock::where('created_at', '>=', Carbon::now()->subDays(7)->s
             </li>
           </ul>
         </div>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link" href="{{ route('documentation.index') }}">
+          <p>Справочник</p>
+        </a>
       </li>
       <li class="nav-item {{ ($activePage == 'settings' || $activePage == 'settings') ? ' active' : '' }}">
         <a class="nav-link" data-toggle="collapse" href="#settings" aria-expanded="true">

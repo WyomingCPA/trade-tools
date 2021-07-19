@@ -101,10 +101,16 @@ Route::group(['prefix' => 'stock', 'middleware' => 'auth'], function () {
 	Route::post('profit/edit', ['as' => 'stock.profit.edit', 'uses' => 'StockController@update']);
 	Route::get('test', ['as' => 'stock.test', 'uses' => 'StockController@test']);	
 });
+
+Route::group(['prefix' => 'documentation', 'middleware' => 'auth'], function () {
+	Route::get('/', ['as' => 'documentation.index', 'uses' => 'DocumentationController@index']);
+});
+
 Route::group(['prefix' => 'stock'], function () {
 	Route::get('emachart/{id}', ['as' => 'stock.emachart', 'uses' => 'StockController@emachart']);
 	Route::get('emachart-today/{id}', ['as' => 'stock.emachart-today', 'uses' => 'StockController@emachartToday']);		
 });
+
 //Роуты журнала
 Route::group(['prefix' => 'journal', 'middleware' => 'auth'], function () {
 	Route::get('', ['as' => 'journal', 'uses' => 'JournalController@index']);

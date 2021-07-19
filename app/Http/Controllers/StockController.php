@@ -354,6 +354,7 @@ class StockController extends Controller
         $profits = Profit::all();
         return view('stock.profit', ['profits' => $profits]);
     }
+    
     public function update(Request $request)
     {
         if ($request->isMethod('post')) {

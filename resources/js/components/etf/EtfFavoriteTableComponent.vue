@@ -145,6 +145,16 @@ export default {
         return "";
       }
     },
+    filterHourCCI(data, filterString) {
+      var cci_hour = data;
+      var filterString = parseInt(filterString);
+      return data <= filterString;
+    },
+    filterDayCCI(data, filterString) {
+      var cci_hour = data;
+      var filterString = parseInt(filterString);
+      return data <= filterString;
+    },
   },
 
   data() {
@@ -161,10 +171,28 @@ export default {
         {
           label: "CCI 1H",
           field: "cci_hour",
+          type: "number",
+          filterOptions: {
+            styleClass: "class2", // class to be added to the parent th element
+            enabled: true, // enable filter for this column
+            placeholder: "Фильтр <= x", // placeholder for filter input
+            filterDropdownItems: [-200, -100, -50, 0], // dropdown (with selected values) instead of text input
+            filterFn: this.filterHourCCI, //custom filter function that
+            trigger: "enter", //only trigger on enter not on keyup
+          },
         },
         {
           label: "CCI 1D",
           field: "cci_day",
+          type: "number",
+          filterOptions: {
+            styleClass: "class2", // class to be added to the parent th element
+            enabled: true, // enable filter for this column
+            placeholder: "Фильтр <= x", // placeholder for filter input
+            filterDropdownItems: [-200, -100, -50, 0], // dropdown (with selected values) instead of text input
+            filterFn: this.filterDayCCI, //custom filter function that
+            trigger: "enter", //only trigger on enter not on keyup
+          },
         },
         {
           label: "EMA 1H",
