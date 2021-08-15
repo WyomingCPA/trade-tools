@@ -1,0 +1,1 @@
+@extends('layouts.app', ['activePage' => 'portfolio', 'titlePage' => __('Мой портфель') ])

@@ -7,14 +7,19 @@
       :rows="etfs"
       :sort-options="{
         enabled: true,
+        multipleColumns: true,
+        initialSortBy: [
+          { field: 'cci_hour', type: 'asc' },
+          { field: 'cci_day', type: 'asc' },
+        ],
       }"
       :line-numbers="true"
       :pagination-options="{
         enabled: true,
         mode: 'records',
-        perPage: 100,
+        perPage: 10,
         position: 'top',
-        perPageDropdown: [200, 300, 500],
+        perPageDropdown: [10, 30, 10],
         dropdownAllowAll: false,
         setCurrentPage: 1,
         nextLabel: 'next',

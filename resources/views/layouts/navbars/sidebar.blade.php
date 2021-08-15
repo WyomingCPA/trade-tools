@@ -144,6 +144,11 @@ $new_count_stock = Stock::where('created_at', '>=', Carbon::now()->subDays(7)->s
         </div>
       </li>
       <li class="nav-item ">
+        <a class="nav-link" href="{{ route('portfolio.index') }}">
+          <p>Мой портфель</p>
+        </a>
+      </li>
+      <li class="nav-item ">
         <a class="nav-link" href="{{ route('documentation.index') }}">
           <p>Справочник</p>
         </a>

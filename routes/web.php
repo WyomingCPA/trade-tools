@@ -102,6 +102,10 @@ Route::group(['prefix' => 'stock', 'middleware' => 'auth'], function () {
 	Route::get('test', ['as' => 'stock.test', 'uses' => 'StockController@test']);	
 });
 
+Route::group(['prefix' => 'portfolio', 'middleware' => 'auth'], function () {
+	Route::get('/', ['as' => 'portfolio.index', 'uses' => 'PortfolioController@index']);
+});
+
 Route::group(['prefix' => 'documentation', 'middleware' => 'auth'], function () {
 	Route::get('/', ['as' => 'documentation.index', 'uses' => 'DocumentationController@index']);
 });
