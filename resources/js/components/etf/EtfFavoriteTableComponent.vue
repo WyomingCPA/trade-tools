@@ -250,7 +250,7 @@ export default {
   position: absolute;
   left: -0.75rem;
   right: -0.75rem;
-  top: -0.75rem;
+  top: -0.76rem;
   bottom: -1.9rem;
   padding: 0.75rem;
 }
