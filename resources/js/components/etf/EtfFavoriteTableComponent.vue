@@ -8,16 +8,13 @@
       :sort-options="{
         enabled: true,
         multipleColumns: true,
-        initialSortBy: [
-          { field: 'cci_hour', type: 'asc' },
-          { field: 'cci_day', type: 'asc' },
-        ],
+        initialSortBy: [{ field: 'cci_day', type: 'asc' }],
       }"
       :line-numbers="true"
       :pagination-options="{
         enabled: true,
         mode: 'records',
-        perPage: 10,
+        perPage: 15,
         position: 'top',
         perPageDropdown: [10, 30, 10],
         dropdownAllowAll: false,
@@ -101,7 +98,6 @@
     </vue-good-table>
   </div>
 </template>
-
 <script>
 import VueGoodTablePlugin from "vue-good-table";
 
@@ -150,6 +146,9 @@ export default {
         return "";
       }
     },
+    filterCurrency(data, filterString) {
+      return data == filterString;
+    },
     filterHourCCI(data, filterString) {
       var cci_hour = data;
       var filterString = parseInt(filterString);
@@ -172,6 +171,14 @@ export default {
         {
           label: "Валюта",
           field: "currency",
+          filterOptions: {
+            styleClass: "class2", // class to be added to the parent th element
+            enabled: true, // enable filter for this column
+            placeholder: "Currency", // placeholder for filter input
+            filterDropdownItems: ["RUB", "USD", "EUR"], // dropdown (with selected values) instead of text input
+            filterFn: this.filterCurrency, //custom filter function that
+            trigger: "enter", //only trigger on enter not on keyup
+          },
         },
         {
           label: "CCI 1H",
