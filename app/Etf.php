@@ -9,7 +9,22 @@ use Illuminate\Support\Facades\DB;
 class Etf extends Model
 {
     protected $fillable = ['figi', 'ticker', 'isin', 'faceValue', 'minPriceIncrement', 'currency', 'name'];
-    protected $appends = ['cci_hour', 'ema_hour', 'ema_day', 'rsi_hour', 'rsi_day', 'cci_day'];
+    protected $appends = ['cci_hour', 'ema_hour', 'ema_day', 'rsi_hour', 'rsi_day', 'cci_day', 'is_portfolio'];
+
+
+    public function getIsPortfolioAttribute()
+    {
+        $model = Portfel::where('figi', '=', $this->figi)->where('tools_type', '=', 'etf')
+            ->where('created_at', '>=', Carbon::now()->subDay(3)->startOfDay())->orderBy('created_at', 'asc')->count();
+        if ($model != 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     public function getCciHourAttribute()
     {
@@ -29,17 +44,13 @@ class Etf extends Model
         }
 
         $cci = trader_cci($highs, $lows, $closes, $time_period);
-        if (!$cci)
-        {
+        if (!$cci) {
             return 0;
         }
         $last_element = end($cci);
-        if ($last_element)
-        {
+        if ($last_element) {
             return $last_element;
-        }
-        else
-        {
+        } else {
             return 0;
         }
     }
@@ -62,17 +73,13 @@ class Etf extends Model
         }
 
         $cci = trader_cci($highs, $lows, $closes, $time_period);
-        if (!$cci)
-        {
+        if (!$cci) {
             return 0;
         }
         $last_element = end($cci);
-        if ($last_element)
-        {
+        if ($last_element) {
             return $last_element;
-        }
-        else
-        {
+        } else {
             return 0;
         }
     }
@@ -172,8 +179,7 @@ class Etf extends Model
         }
         if (array_key_exists('close', $rsi_raw)) {
             $rsi = trader_rsi($rsi_raw['close'], 14);
-            if (!$rsi)
-            {
+            if (!$rsi) {
                 return 0;
             }
             foreach ($rsi as $key => $value) {
@@ -182,15 +188,11 @@ class Etf extends Model
             }
         }
         $rsi = array_pop($rsi_data);
-        if (isset($rsi[1]))
-        {
+        if (isset($rsi[1])) {
             return $rsi[1];
-        }
-        else
-        {
+        } else {
             return 0;
         }
-        
     }
 
     public function getRsiDayAttribute()
@@ -212,8 +214,7 @@ class Etf extends Model
         }
         if (array_key_exists('close', $rsi_raw)) {
             $rsi = trader_rsi($rsi_raw['close'], 14);
-            if (!$rsi)
-            {
+            if (!$rsi) {
                 return 0;
             }
             foreach ($rsi as $key => $value) {
@@ -222,13 +223,10 @@ class Etf extends Model
             }
         }
         $rsi = array_pop($rsi_data);
-        if (isset($rsi[1]))
-        {
+        if (isset($rsi[1])) {
             return $rsi[1];
-        }
-        else
-        {
+        } else {
             return 0;
-        }   
+        }
     }
 }

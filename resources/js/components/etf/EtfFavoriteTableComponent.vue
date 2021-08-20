@@ -8,7 +8,10 @@
       :sort-options="{
         enabled: true,
         multipleColumns: true,
-        initialSortBy: [{ field: 'cci_day', type: 'asc' }],
+        initialSortBy: [
+        { field: 'is_portfolio', type: 'desc' },
+        { field: 'cci_day', type: 'asc' }
+        ],
       }"
       :line-numbers="true"
       :pagination-options="{
@@ -93,6 +96,9 @@
             :href="'chart-1d/' + props.row.id"
             >График</a
           >
+        </span>
+        <span v-else-if="props.column.field === 'is_portfolio'">
+          {{ props.row.is_portfolio }}
         </span>
       </template>
     </vue-good-table>
@@ -229,6 +235,11 @@ export default {
         {
           label: "1D",
           field: "1d",
+        },
+        {
+          label: "My",
+          field: "is_portfolio",
+          type: 'boolean',
         },
       ],
     };
