@@ -27,11 +27,6 @@ use \jamesRUS52\TinkoffInvest\TIInstrumentInfo;
 
 class StockController extends Controller
 {
-    public function dividends(Request $request)
-    {
-        return view('stock.dividends');
-    }
-
     public function all(Request $request)
     {
         $favorite_ids = Auth::user()->favoritesBond->pluck('id')->toArray();
@@ -46,12 +41,32 @@ class StockController extends Controller
     public function stockRub(Request $request)
     {
         $favorite_ids = Auth::user()->favoritesBond->pluck('id')->toArray();
-
         $models = Stock::where('currency', '=', 'RUB')->whereNotIn('id', $favorite_ids)->get();
 
         return view('stock.rub', [
             'stocks' => $models
         ]);
+    }
+
+    public function dividends(Request $request)
+    {
+        $models = Stock::where('is_dividend', '=', true)->get();
+
+        return view('stock.dividends', [
+            'stocks' => $models
+        ]);
+    }
+
+    public function setDividends(Request $request)
+    {
+        $rows = $request->post('selRows');
+        foreach ($rows as $value) {
+            Stock::where('id', $value)->update(['is_dividend' => 1]);
+        }
+  
+        return response()->json([
+            'cod' => 200
+        ], 200);
     }
 
     public function stockUsd(Request $request)

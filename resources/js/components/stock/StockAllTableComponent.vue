@@ -35,9 +35,16 @@
       <div slot="selected-row-actions">
         <button v-on:click="hide">Hide</button>
       </div>
+      <div slot="selected-row-actions">
+        <button v-on:click="set_dividends">Set Dividends</button>
+      </div>
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field === 'name'">
-          <a target="_blank" :href="'https://www.tinkoff.ru/invest/stocks/' + props.row.ticker">{{ props.row.name }}</a> 
+          <a
+            target="_blank"
+            :href="'https://www.tinkoff.ru/invest/stocks/' + props.row.ticker"
+            >{{ props.row.name }}</a
+          >
         </span>
         <span v-else-if="props.column.field === 'ticker'">
           {{ props.row.ticker }}
@@ -82,6 +89,14 @@ export default {
       axios.post("favorite", { selRows: this.selRows }).then((response) => {
         window.location.href = "all";
       });
+    },
+    set_dividends: function (event, rows) {
+      var self = this;
+      axios
+        .post("set-dividends", { selRows: this.selRows })
+        .then((response) => {
+          window.location.href = "dividends";
+        });
     },
   },
   data() {
