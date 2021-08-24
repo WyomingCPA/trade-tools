@@ -8,7 +8,7 @@ use Carbon\Carbon;
 
 class Stock extends Model
 {
-    protected $fillable = ['figi', 'ticker', 'isin', 'minPriceIncrement', 'currency', 'name', 'min_precent', 'take_profit', 'is_dividend'];
+    protected $fillable = ['figi', 'ticker', 'isin', 'minPriceIncrement', 'currency', 'name', 'min_precent', 'take_profit', 'is_dividend', 'updated_at'];
     protected $appends = ['average15day', 'adx', 'min_precent', 'take_profit', 'cci_hour', 'rsi_hour', 'rsi_day', 'cci_day', 'is_portfolio'];
 
     public function getIsPortfolioAttribute()
