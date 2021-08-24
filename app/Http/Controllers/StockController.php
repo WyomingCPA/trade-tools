@@ -61,7 +61,7 @@ class StockController extends Controller
     {
         $rows = $request->post('selRows');
         foreach ($rows as $value) {
-            Stock::where('id', $value)->update(['is_dividend' => 1]);
+            Stock::where('id', $value)->update(['is_dividend' => true]);
         }
   
         return response()->json([
