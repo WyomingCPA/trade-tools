@@ -31,6 +31,7 @@ Vue.component('etf-chars', require('./components/etf/EtfCharsCandleComponent.vue
 Vue.component('stock-all-table', require('./components/stock/StockAllTableComponent.vue').default);
 Vue.component('stock-favorite-table', require('./components/stock/StockFavoriteTableComponent.vue').default);
 Vue.component('stock-new-table', require('./components/stock/StockNewTableComponent.vue').default);
+Vue.component('stock-dividends-table', require('./components/stock/StockDividendsComponent.vue').default);
 
 Vue.component('dashboard-operations', require('./components/operation/DashboardOperationTableComponent.vue').default);
 Vue.component('journal', require('./components/journal/JournalTableComponent.vue').default);

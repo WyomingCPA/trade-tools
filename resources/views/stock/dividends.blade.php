@@ -4,7 +4,7 @@
     <div class="row pt-5">
         <div class="col-md-12">
             <div id="app">
-                <stock-all-table :stocks="{{ $stocks }}"></stock-all-table>
+                <stock-dividends-table :stocks="{{ $stocks }}"></stock-dividends-table>
             </div>
         </div>
     </div>
