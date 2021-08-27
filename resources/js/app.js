@@ -33,6 +33,7 @@ Vue.component('stock-favorite-table', require('./components/stock/StockFavoriteT
 Vue.component('stock-new-table', require('./components/stock/StockNewTableComponent.vue').default);
 Vue.component('stock-dividends-table', require('./components/stock/StockDividendsComponent.vue').default);
 
+
 Vue.component('dashboard-operations', require('./components/operation/DashboardOperationTableComponent.vue').default);
 Vue.component('journal', require('./components/journal/JournalTableComponent.vue').default);
 

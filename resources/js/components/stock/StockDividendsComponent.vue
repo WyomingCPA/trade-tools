@@ -41,7 +41,7 @@
         <span v-if="props.column.field === 'name'">
           <a
             target="_blank"
-            :href="'https://www.tinkoff.ru/invest/etfs/' + props.row.ticker"
+            :href="'https://www.tinkoff.ru/invest/stocks/' + props.row.ticker"
             >{{ props.row.name }}</a
           >
         </span>

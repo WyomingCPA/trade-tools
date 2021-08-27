@@ -53,7 +53,7 @@ class GetPortfolio extends Command
         $client = new TIClient(env('TOKEN_TINKOFF'), TISiteEnum::EXCHANGE);
         $accounts = $client->getAccounts();
         $port = $client->getPortfolio($accounts);
-        //protected $fillable = ['tools_type', figi', 'ticker', 'isin', 'currency', 'name', 'lots', 'expectedYieldValue', 'averagePositionPrice'];
+        
         foreach ($port->getAllinstruments() as $item) {
             if ($item->getInstrumentType() != 'currency') {
                 $portfolio = new Portfel;

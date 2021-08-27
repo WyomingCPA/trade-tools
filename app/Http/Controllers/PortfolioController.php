@@ -8,6 +8,7 @@ class PortfolioController extends Controller
 {
     public function index()
     {
-        
+        $tools = '';
+        return view('portfolio.index', ['tools' => $tools]);
     }
 }
