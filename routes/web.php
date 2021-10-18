@@ -122,4 +122,10 @@ Route::group(['prefix' => 'journal', 'middleware' => 'auth'], function () {
 	Route::post('delete', ['as' => 'delete', 'uses' => 'JournalController@delete']);
 });
 
+//Роуты настроек
+Route::group(['prefix' => 'settings', 'middleware' => 'auth'], function () {
+	Route::get('phpmyinfo', function () {
+		phpinfo(); 
+	})->name('phpmyinfo');
+});
 
