@@ -127,5 +127,6 @@ Route::group(['prefix' => 'settings', 'middleware' => 'auth'], function () {
 	Route::get('phpmyinfo', function () {
 		phpinfo(); 
 	})->name('phpmyinfo');
+	Route::get('sqllog', ['as' => 'journal', 'uses' => 'SettingsController@querySlqLog']);
 });
 

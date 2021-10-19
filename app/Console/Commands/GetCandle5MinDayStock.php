@@ -73,7 +73,7 @@ class GetCandle5MinDayStock extends Command
             $to = new \DateTime();
             try {
                 $candles = $client->getHistoryCandles($item->figi, $from, $to, TIIntervalEnum::MIN5);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 echo $e->getMessage();
                 continue;
             }
@@ -94,7 +94,7 @@ class GetCandle5MinDayStock extends Command
                             'interval' => $candle->getInterval() ? $candle->getInterval() : 0,
                         ]
                     );
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     echo $e->getMessage();
                 }
             }
