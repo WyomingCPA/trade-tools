@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class SettingsController extends Controller
 {
-    public function queryLog(Request $request)
+    public function querySlqLog(Request $request)
     {
 
     }

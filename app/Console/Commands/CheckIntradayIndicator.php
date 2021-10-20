@@ -68,7 +68,7 @@ class CheckIntradayIndicator extends Command
             //if ($ema == 'nothing' || $rsi > 60 || $cci > -50) {
             //    continue;
             //}
-            if ($cci >= -90) {
+            if ($cci >= -210) {
                 continue;
             }
             //Находим старый индикатор,если нет, то создаем. 

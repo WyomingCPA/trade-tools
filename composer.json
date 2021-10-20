@@ -13,6 +13,7 @@
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^6.3.1|^7.0.1",
+        "haruncpi/laravel-log-reader": "^1.0",
         "james.rus52/tinkoffinvest": "^1.1",
         "jonnyw/php-phantomjs": "@dev",
         "laravel-frontend-presets/material-dashboard": "^1.1",
