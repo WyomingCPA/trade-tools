@@ -73,7 +73,7 @@ class StockController extends Controller
     {
         $favorite_ids = Auth::user()->favoritesBond->pluck('id')->toArray();
 
-        $models = Stock::where('currency', '=', 'USD')->whereNotIn('id', $favorite_ids)->get();
+        $models = Stock::where('currency', '=', 'USD')->whereIntegerNotInRaw('id', $favorite_ids)->get();
 
         return view('stock.usd', [
             'stocks' => $models
