@@ -38,13 +38,71 @@ class StockController extends Controller
         ]);
     }
 
+    public function stockUsd(Request $request)
+    {
+        $objects    = Stock::where('currency', '=', 'USD');
+
+        $sort       = $request->get('sort');
+        $direction  = $request->get('direction');
+        $name       = $request->get('name');
+        $created_by = $request->get('created_by');
+        $type       = $request->get('type');
+        //$limit      = (int)$request->get('limit');
+        $limit      = 20;
+        $page       = (int)$request->get('page');
+        $created_at = $request->get('created_at');
+
+          //$favorite_ids = Auth::user()->favoritesBond->pluck('id')->toArray();
+        //$models = Stock::where('currency', '=', 'RUB')->whereNotIn('id', $favorite_ids)->get();
+        if ($name !== null) {
+            $objects->where('name', 'like', '%' . $name['searchTerm'] . '%');
+        }
+        $objects->offset($limit * ($page - 1))->limit($limit);
+        $count = $objects->count();
+        $test = $request->isMethod('post');
+        if ($request->isMethod('post')) {
+            return response()->json([
+                'stocks'  => $objects->get()->toArray(),
+                'count' => $count
+            ]);
+        }
+        return view('stock.usd', [
+            'stocks' => $objects->get(),
+            'count'  => $count,
+        ]);
+    }
+
     public function stockRub(Request $request)
     {
-        $favorite_ids = Auth::user()->favoritesBond->pluck('id')->toArray();
-        $models = Stock::where('currency', '=', 'RUB')->whereNotIn('id', $favorite_ids)->get();
+        $objects    = Stock::where('currency', '=', 'RUB');
 
+        $sort       = $request->get('sort');
+        $direction  = $request->get('direction');
+        $name       = $request->get('name');
+        $created_by = $request->get('created_by');
+        $type       = $request->get('type');
+        //$limit      = (int)$request->get('limit');
+        $limit      = 20;
+        $page       = (int)$request->get('page');
+        $created_at = $request->get('created_at');
+
+        //$favorite_ids = Auth::user()->favoritesBond->pluck('id')->toArray();
+        //$models = Stock::where('currency', '=', 'RUB')->whereNotIn('id', $favorite_ids)->get();
+        if ($name !== null) {
+            $objects->where('name', 'like', '%' . $name['searchTerm'] . '%');
+        }
+        $objects->offset($limit * ($page - 1))->limit($limit);
+        $count = $objects->count();
+        $test = $request->isMethod('post');
+        if ($request->isMethod('post')) {
+            return response()->json([
+                'stocks'  => $objects->get()->toArray(),
+                'count' => $count
+            ]);
+        }
         return view('stock.rub', [
-            'stocks' => $models
+            'stocks' => $objects->get(),
+            'count'  => $count,
         ]);
     }
 
@@ -61,23 +119,12 @@ class StockController extends Controller
     {
         $rows = $request->post('selRows');
         foreach ($rows as $value) {
-            Stock::where('id', $value)->update(['is_dividend' => true]);        
+            Stock::where('id', $value)->update(['is_dividend' => true]);
         }
-  
+
         return response()->json([
             'cod' => 200
         ], 200);
-    }
-
-    public function stockUsd(Request $request)
-    {
-        $favorite_ids = Auth::user()->favoritesBond->pluck('id')->toArray();
-
-        $models = Stock::where('currency', '=', 'USD')->whereIntegerNotInRaw('id', $favorite_ids)->get();
-
-        return view('stock.usd', [
-            'stocks' => $models
-        ]);
     }
 
     public function newStock(Request $request)
@@ -110,7 +157,7 @@ class StockController extends Controller
             //Находим старый индикатор,если нет, то создаем. 
             $old_indicator = EmaDayIndicator::where('stock_id', $item->id)
                 ->orderByDesc('created_at')->first();
- 
+
             if ($old_indicator == null) {
                 $new_indicator = EmaDayIndicator::create([
                     'stock_id' => $item->id,
@@ -363,13 +410,13 @@ class StockController extends Controller
             'cod' => 200
         ], 200);
     }
-    
+
     public function profit(Request $request)
     {
         $profits = Profit::all();
         return view('stock.profit', ['profits' => $profits]);
     }
-    
+
     public function update(Request $request)
     {
         if ($request->isMethod('post')) {
@@ -385,9 +432,11 @@ class StockController extends Controller
             $profit = Profit::find($id);
             $take_profit = $profit->take_profit;
             $stop_loss = $profit->stop_loss;
-            return view('stock.profit.update', ['take_profit' => $take_profit, 
-                                                'stop_loss' => $stop_loss,
-                                                'id' => $id]);
-        }    
+            return view('stock.profit.update', [
+                'take_profit' => $take_profit,
+                'stop_loss' => $stop_loss,
+                'id' => $id
+            ]);
+        }
     }
 }

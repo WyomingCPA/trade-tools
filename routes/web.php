@@ -86,7 +86,9 @@ Route::group(['prefix' => 'stock', 'middleware' => 'auth'], function () {
 
 	Route::get('all', ['as' => 'stock.all', 'uses' => 'StockController@all']);
 	Route::get('rub', ['as' => 'stock.rub', 'uses' => 'StockController@stockRub']);
+	Route::post('rub', ['as' => 'stock.rub', 'uses' => 'StockController@stockRub']);
 	Route::get('usd', ['as' => 'stock.usd', 'uses' => 'StockController@stockUsd']);
+	Route::post('usd', ['as' => 'stock.usd', 'uses' => 'StockController@stockUsd']);
 	
 	Route::get('new', ['as' => 'stock.new', 'uses' => 'StockController@newStock']);
 	Route::get('favorites', ['as' => 'stock.favorites', 'uses' => 'StockController@favorite']);

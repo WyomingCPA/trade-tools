@@ -1,10 +1,16 @@
 <template>
   <div>
     <vue-good-table
+      @on-page-change="onPageChange"
+      @on-per-page-change="onPerPageChange"
       @on-selected-rows-change="selectionChanged"
+      @on-search="onSearch"
+      :isLoading.sync="isLoading"
+      :totalRows="count"
       :theme="nocturnal"
       :columns="columns"
       :rows="stocks"
+      mode="remote"
       :sort-options="{
         enabled: true,
       }"
@@ -12,9 +18,9 @@
       :pagination-options="{
         enabled: true,
         mode: 'records',
-        perPage: 100,
+        perPage: 20,
         position: 'top',
-        perPageDropdown: [200, 300, 500],
+        perPageDropdown: null,
         dropdownAllowAll: false,
         setCurrentPage: 1,
         nextLabel: 'next',
@@ -23,6 +29,7 @@
         ofLabel: 'of',
         pageLabel: 'page', // for 'pages' mode
         allLabel: 'All',
+        chunk: 5,
       }"
       :search-options="{ enabled: true }"
       :select-options="{
@@ -71,12 +78,29 @@ import "vue-good-table/dist/vue-good-table.css";
 import each from "lodash.foreach";
 Vue.use(VueGoodTablePlugin);
 
+var qs = require("qs");
+
 export default {
-  props: ["stocks"],
+  props: {
+    count: { type: Number },
+    stocks: { type: Array },
+    dataUrl: { type: String },
+  },
   name: "stock-all-table",
   methods: {
+    updateParams(newProps) {
+      this.serverParams = Object.assign({}, this.serverParams, newProps);
+    },
+    onPageChange(params) {
+      this.updateParams({ page: params.currentPage });
+      this.fetchRows();
+    },
     selectionChanged: function (params) {
       this.selRows = params.selectedRows;
+    },
+    onSearch(params) {
+      this.updateParams({ name: params });
+      this.fetchRows();
     },
     hide: function (event, rows) {
       var self = this;
@@ -98,9 +122,40 @@ export default {
           window.location.href = "dividends";
         });
     },
+    fetchRows() {
+      axios
+        .request({
+          method: "post",
+          url: this.dataUrl,
+          params: this.serverParams,
+          paramsSerializer: (params) => {
+            return qs.stringify(params);
+          },
+        })
+        .then((response) => {
+          this.stocks = response.data.stocks;
+          console.log(response.data.stocks);
+          this.totalRecords = response.count;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    created() {
+      this.fetchRows();
+    },
+    onPerPageChange(params) {
+      this.updateParams({ perPage: params.currentPerPage });
+      this.fetchRows();
+    },
   },
   data() {
     return {
+      rows: [],
+      isLoading: false,
+      serverParams: {
+        name: "",
+      },
       columns: [
         {
           label: "Name",
@@ -120,6 +175,18 @@ export default {
           type: "number",
         },
       ],
+    };
+  },
+  requestAdapter(data) {
+    return {
+      sort: data.orderBy ? data.orderBy : "name",
+      direction: data.ascending ? "asc" : "desc",
+      limit: data.limit ? data.limit : 5,
+      page: data.page,
+      name: data.query.name,
+      created_by: data.query.created_by,
+      type: data.query.type,
+      created_at: data.query.created_at,
     };
   },
 };
