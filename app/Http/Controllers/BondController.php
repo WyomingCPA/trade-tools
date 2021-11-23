@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Bond;
 use App\User;
-
+//test
 class BondController extends Controller
 {
     public function all(Request $request)
