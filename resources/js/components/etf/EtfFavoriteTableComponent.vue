@@ -121,6 +121,7 @@ export default {
     },
     unfavorite: function (event, rows) {
       var self = this;
+      
       axios.post("unfavorite", { selRows: this.selRows }).then((response) => {
         window.location.href = "favorites";
       });

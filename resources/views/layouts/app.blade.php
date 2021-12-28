@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- CSS Files -->
     <link href="{{ asset('material') }}/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
-
+    <script>window.Laravel = {csrfToken: '{{ csrf_token() }}'}</script>
     </head>
     <body class="{{ $class ?? '' }}">
         @auth()
