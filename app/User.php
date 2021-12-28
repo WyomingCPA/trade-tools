@@ -54,6 +54,6 @@ class User extends Authenticatable
 
     public function favoritesEtf()
     {
-        return $this->belongsToMany(Etf::class, 'etf_favorites', 'user_id', 'etf_id')->where('currency', '=', 'RUB')->withTimeStamps();
+        return $this->belongsToMany(Etf::class, 'etf_favorites', 'user_id', 'etf_id')->withTimeStamps();
     }
 }
