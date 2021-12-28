@@ -170,7 +170,7 @@ $new_count_stock = Stock::where('created_at', '>=', Carbon::now()->subDays(7)->s
         </div>
       </li>
       <li class="nav-item ">
-      <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Log out</a>
+      <a class="dropdown-item" href="#" onclick="event.preventDefault();location.reload();">Restart Token</a>
       </li>
     </ul>
   </div>
