@@ -14,6 +14,38 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+Route::post('/login', 'AuthController@login');
+Route::post('/register', 'AuthController@register');
+//Роуты акций
+Route::group(['prefix' => 'stock', 'middleware' => 'auth:sanctum'], function () {
+	Route::get('all', ['uses' => 'StockController@all']);
+	//Route::get('rub', ['uses' => 'StockController@stockRub']);
+	Route::post('rub', ['as' => 'stock.rub', 'uses' => 'StockController@stockRub']);
+	Route::post('usd', ['uses' => 'StockController@stockUsd']);	
+	Route::get('favorites', ['uses' => 'StockController@favorite']);
+	Route::post('favorite', ['uses' => 'StockController@favoriteStock']);
+	Route::post('unfavorite', ['uses' => 'StockController@unFavoriteStock']);
+	Route::post('set-dividends', ['uses' => 'StockController@setDividends']);
+	Route::get('dividends', ['uses' => 'StockController@dividends']);
+});
+//Роуты фондов
+Route::group(['prefix' => 'etf', 'middleware' => 'auth:sanctum'], function () {
+	Route::get('all', ['uses' => 'EtfController@all']);
+	Route::get('favorites', ['uses' => 'EtfController@favorite']);	
+	Route::post('favorite', ['uses' => 'EtfController@favoriteEtf']);
+	Route::post('unfavorite', ['uses' => 'EtfController@unFavoriteEtf']);
+});
+//Роуты облигаций
+Route::group(['prefix' => 'bond', 'middleware' => 'auth:sanctum'], function () {
+	Route::post('all', ['uses' => 'BondController@all']);
+	Route::post('favorite', ['uses' => 'BondController@favoriteBond']);
+	Route::get('favorites', ['uses' => 'BondController@favorites']);
+	Route::post('unfavorite', ['uses' => 'BondController@unFavoriteBond']);
+	Route::get('new', ['uses' => 'BondController@newBond']);
+	Route::get('trash', ['uses' => 'BondController@trash']);
+	Route::post('trash', ['uses' => 'BondController@trashBond']);
+	Route::post('untrash', ['uses' => 'BondController@untrashBond']);
 });

@@ -21,20 +21,17 @@ class EtfController extends Controller
 
         $models = Etf::whereNotIn('id', $favorite_ids)->get();
 
-        return view('etf.all', [
-            'etfs' => $models
-        ]);
+        return response([
+            'etfs' => $models,
+        ], 200);
     }
 
     public function favorite(Request $request)
     {
         $models = Auth::user()->favoritesEtf;
-        //$testModel = $models->first();
-        //$testavg = $testModel->testavg;
-        //$testRsi = $testModel->rsi;
-        return view('etf.favorite', [
-            'etfs' => $models
-        ]);
+        return response([
+            'etfs' => $models,
+        ], 200);
     }
 
     public function favoriteEtf(Request $request)
@@ -48,7 +45,7 @@ class EtfController extends Controller
         Auth::user()->favoritesEtf()->attach(array_values($select));
 
         return response()->json([
-            'cod' => 200
+            'status' => true,
         ], 200);
     }
     public function unFavoriteEtf(Request $request)
@@ -62,7 +59,7 @@ class EtfController extends Controller
         Auth::user()->favoritesEtf()->detach(array_values($select));
 
         return response()->json([
-            'cod' => 200
+            'status' => true,
         ], 200);
     }
 

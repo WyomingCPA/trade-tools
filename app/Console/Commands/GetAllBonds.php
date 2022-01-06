@@ -58,7 +58,8 @@ class GetAllBonds extends Command
             $figi = $item->getFigi();
             $ticker = $item->getTicker();
             $isin = $item->getIsin();
-            $faceValue = $item->getFaceValue() ? $item->getFaceValue() : 0;
+            //$faceValue = $item->getFaceValue() ? $item->getFaceValue() : 0;
+            $faceValue = 0;
             $minPriceIncrement = $item->getMinPriceIncrement() ? $item->getMinPriceIncrement() : 0;
             $currency = $item->getCurrency();
             $name = $item->getName();

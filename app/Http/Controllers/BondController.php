@@ -17,27 +17,46 @@ class BondController extends Controller
         $favorite_ids = Auth::user()->favoritesBond->pluck('id')->toArray();
         $notIn = array_merge(array_values($trash_ids), array_values($favorite_ids));
 
-        $models = Bond::whereNotIn('id', $notIn)->get();
+        $objects = Bond::whereNotIn('id', $notIn);
 
-        return view('bond.all', [
-            'bonds' => $models
-        ]);
+        $count = $objects->count();
+        $sort       = $request->get('sort');
+        $direction  = $request->get('direction');
+        $name       = $request->get('name');
+        $created_by = $request->get('created_by');
+        $type       = $request->get('type');
+        //$limit      = (int)$request->get('limit');
+        $limit      = 20;
+        $page       = (int)$request->get('page');
+        $created_at = $request->get('created_at');
+
+        if ($name !== null) {
+            $objects->where('name', 'like', '%' . $name['searchTerm'] . '%');
+        }
+        $objects->offset($limit * ($page - 1))->limit($limit);
+
+        if ($request->isMethod('post')) {
+            return response()->json([
+                'stocks'  => $objects->get()->toArray(),
+                'count' => $count
+            ]);
+        }
     }
 
     public function newBond(Request $request)
     {
         $models = Bond::where('created_at', '>=', Carbon::now()->subDays(7)->startOfDay())->get();
-        return view('bond.new', [
-            'bonds' => $models
-        ]);
+        return response([
+            'bonds' => $models,
+        ], 200);
     }
 
     public function favorites(Request $request)
     {
         $models = Auth::user()->favoritesBond;
-        return view('bond.favorites', [
-            'bonds' => $models
-        ]);
+        return response([
+            'bonds' => $models,
+        ], 200);
     }
     public function favoriteBond(Request $request)
     {
@@ -46,10 +65,9 @@ class BondController extends Controller
         foreach ($rows as $value) {
             $select[] = $value['id'];
         }
-        Auth::user()->favoritesBond()->attach(array_values($select));
-        
+        Auth::user()->favoritesBond()->attach(array_values($select));        
         return response()->json([
-            'cod' => 200
+            'status' => true,
         ], 200);
     }
 
@@ -60,9 +78,10 @@ class BondController extends Controller
         foreach ($rows as $value) {
             $select[] = $value['id'];
         }
+
         Auth::user()->trashBond()->attach(array_values($select));
         return response()->json([
-            'cod' => 200
+            'status' => true,
         ], 200);
     }
 
@@ -76,14 +95,16 @@ class BondController extends Controller
         Auth::user()->favoritesBond()->detach(array_values($select));
 
         return response()->json([
-            'cod' => 200
+            'status' => true,
         ], 200);
     }
 
     public function trash(Request $request)
     {
         $bonds = Auth::user()->trashBond;
-        return view('bond.trash', compact('bonds'));
+        return response([
+            'bonds' => $bonds,
+        ], 200);
     }
 
     public function untrashBond(Request $request)
@@ -95,8 +116,8 @@ class BondController extends Controller
         }
         Auth::user()->trashBond()->detach(array_values($select));
 
-       return response()->json([
-            'cod' => 200
+        return response()->json([
+            'status' => true,
         ], 200);
     }
 

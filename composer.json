@@ -18,6 +18,7 @@
         "jonnyw/php-phantomjs": "@dev",
         "laravel-frontend-presets/material-dashboard": "^1.1",
         "laravel/framework": "^7.29",
+        "laravel/sanctum": "^2.13",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^2.5",
         "sunra/php-simple-html-dom-parser": "^1.5",

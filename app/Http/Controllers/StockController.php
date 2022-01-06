@@ -30,18 +30,16 @@ class StockController extends Controller
     public function all(Request $request)
     {
         $favorite_ids = Auth::user()->favoritesBond->pluck('id')->toArray();
-
         $models = Stock::whereNotIn('id', $favorite_ids)->get();
-
-        return view('stock.all', [
-            'stocks' => $models
-        ]);
+        return response([
+            'stocks' => $models,
+        ], 200);
     }
 
     public function stockUsd(Request $request)
     {
         $objects    = Stock::where('currency', '=', 'USD');
-
+        $count = $objects->count();
         $sort       = $request->get('sort');
         $direction  = $request->get('direction');
         $name       = $request->get('name');
@@ -58,24 +56,19 @@ class StockController extends Controller
             $objects->where('name', 'like', '%' . $name['searchTerm'] . '%');
         }
         $objects->offset($limit * ($page - 1))->limit($limit);
-        $count = $objects->count();
-        $test = $request->isMethod('post');
+        
         if ($request->isMethod('post')) {
             return response()->json([
                 'stocks'  => $objects->get()->toArray(),
                 'count' => $count
             ]);
         }
-        return view('stock.usd', [
-            'stocks' => $objects->get(),
-            'count'  => $count,
-        ]);
     }
 
     public function stockRub(Request $request)
     {
         $objects    = Stock::where('currency', '=', 'RUB');
-
+        $count = $objects->count();
         $sort       = $request->get('sort');
         $direction  = $request->get('direction');
         $name       = $request->get('name');
@@ -92,27 +85,21 @@ class StockController extends Controller
             $objects->where('name', 'like', '%' . $name['searchTerm'] . '%');
         }
         $objects->offset($limit * ($page - 1))->limit($limit);
-        $count = $objects->count();
-        $test = $request->isMethod('post');
+        
         if ($request->isMethod('post')) {
             return response()->json([
                 'stocks'  => $objects->get()->toArray(),
                 'count' => $count
             ]);
         }
-        return view('stock.rub', [
-            'stocks' => $objects->get(),
-            'count'  => $count,
-        ]);
     }
 
     public function dividends(Request $request)
     {
         $models = Stock::where('is_dividend', '=', true)->get();
-
-        return view('stock.dividends', [
-            'stocks' => $models
-        ]);
+        return response([
+            'stocks' => $models,
+        ], 200);
     }
 
     public function setDividends(Request $request)
@@ -121,9 +108,8 @@ class StockController extends Controller
         foreach ($rows as $value) {
             Stock::where('id', $value)->update(['is_dividend' => true]);
         }
-
         return response()->json([
-            'cod' => 200
+            'status' => true,
         ], 200);
     }
 
@@ -138,12 +124,9 @@ class StockController extends Controller
     public function favorite(Request $request)
     {
         $models = Auth::user()->favoritesStock;
-        //$testModel = $models->first();
-        //$testavg = $testModel->testavg;
-        //$testRsi = $testModel->rsi;
-        return view('stock.favorite', [
-            'stocks' => $models
-        ]);
+        return response([
+            'stocks' => $models,
+        ], 200);
     }
     public function test(Request $reqeust)
     {
@@ -407,7 +390,7 @@ class StockController extends Controller
         Auth::user()->favoritesStock()->detach(array_values($select));
 
         return response()->json([
-            'cod' => 200
+            'status' => true,
         ], 200);
     }
 
