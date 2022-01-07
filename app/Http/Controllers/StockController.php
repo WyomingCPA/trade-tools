@@ -30,10 +30,27 @@ class StockController extends Controller
     public function all(Request $request)
     {
         $favorite_ids = Auth::user()->favoritesBond->pluck('id')->toArray();
-        $models = Stock::whereNotIn('id', $favorite_ids)->get();
-        return response([
-            'stocks' => $models,
-        ], 200);
+        $objects = Stock::whereNotIn('id', $favorite_ids);
+        $count = $objects->count();
+        $sort       = $request->get('sort');
+        $direction  = $request->get('direction');
+        $name       = $request->get('name');
+        $created_by = $request->get('created_by');
+        $type       = $request->get('type');
+        $limit      = 20;
+        $page       = (int)$request->get('page');
+        $created_at = $request->get('created_at');
+        
+        if ($name !== null) {
+            $objects->where('name', 'like', '%' . $name['searchTerm'] . '%');
+        }
+        $objects->offset($limit * ($page - 1))->limit($limit);
+        if ($request->isMethod('post')) {
+            return response()->json([
+                'stocks'  => $objects->get()->toArray(),
+                'count' => $count
+            ]);
+        }
     }
 
     public function stockUsd(Request $request)

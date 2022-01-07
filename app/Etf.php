@@ -11,7 +11,6 @@ class Etf extends Model
     protected $fillable = ['figi', 'ticker', 'isin', 'faceValue', 'minPriceIncrement', 'currency', 'name'];
     protected $appends = ['cci_hour', 'ema_hour', 'ema_day', 'rsi_hour', 'rsi_day', 'cci_day', 'is_portfolio'];
 
-
     public function getIsPortfolioAttribute()
     {
         $model = Portfel::where('figi', '=', $this->figi)->where('tools_type', '=', 'etf')

@@ -2,6 +2,7 @@
   <div>
     <vue-good-table
       @on-selected-rows-change="selectionChanged"
+      :isLoading="loading"
       theme="nocturnal"
       :columns="columns"
       :rows="items"
@@ -109,6 +110,7 @@ export default {
   name: "etf-favorite",
   data() {
     return {
+      loading: false,
       items: [
         {
           name: "",
@@ -256,13 +258,16 @@ export default {
     },
     getEtf() {
       let self = this;
+      this.loading = true;
       axios
         .get("/api/etf/favorites")
         .then(function (response) {
           self.items = response.data.etfs;
+          self.loading = false;
         })
         .catch(function (error) {
           console.error(error);
+          self.loading = false;
         });
     },
   },

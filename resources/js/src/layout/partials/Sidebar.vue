@@ -56,7 +56,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link pl-5" href="#">
+                <a class="nav-link pl-5" href="#" @click.prevent="logout">
                   <span class="menu-icon">
                     <i class="mdi mdi-power"></i>
                   </span>
@@ -80,7 +80,7 @@
         <li class="nav-item menu-items">
           <span
             class="nav-link"
-            v-b-toggle="'etf'"
+            v-b-toggle="'stock'"
             :class="{ active: subIsActive('/stock') }"
           >
             <span class="menu-icon">
@@ -89,7 +89,7 @@
             <span class="menu-title">Акций</span>
             <i class="menu-arrow"></i>
           </span>
-          <b-collapse accordion="sidebar-accordion" id="etf">
+          <b-collapse accordion="sidebar-accordion" id="stock">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
                 <router-link class="nav-link" to="/stock/all/"
@@ -218,6 +218,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "sidebar",
   data() {
@@ -255,6 +256,32 @@ export default {
       return paths.some((path) => {
         return this.$route.path.indexOf(path) === 0; // current path starts with this path string
       });
+    },
+    logout(evt) {
+        axios
+          .get("api/logout")
+          .then((response) => {
+            localStorage.removeItem("auth_token");
+
+            // remove any other authenticated user data you put in local storage
+
+            // Assuming that you set this earlier for subsequent Ajax request at some point like so:
+            // axios.defaults.headers.common['Authorization'] = 'Bearer ' + auth_token ;
+            delete axios.defaults.headers.common["Authorization"];
+
+            // If using 'vue-router' redirect to login page
+            this.$router.go("/login");
+          })
+          .catch((error) => {
+            // If the api request failed then you still might want to remove
+            // the same data from localStorage anyways
+            // perhaps this code should go in a finally method instead of then and catch
+            // methods to avoid duplication.
+            localStorage.removeItem("auth_token");
+            delete axios.defaults.headers.common["Authorization"];
+            this.$router.go("/login");
+          });
+      
     },
   },
   watch: {

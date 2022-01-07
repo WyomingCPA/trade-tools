@@ -19,9 +19,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::post('/login', 'AuthController@login');
 Route::post('/register', 'AuthController@register');
+Route::get('/logout', 'AuthController@logout');
 //Роуты акций
 Route::group(['prefix' => 'stock', 'middleware' => 'auth:sanctum'], function () {
-	Route::get('all', ['uses' => 'StockController@all']);
+	Route::post('all', ['uses' => 'StockController@all']);
 	//Route::get('rub', ['uses' => 'StockController@stockRub']);
 	Route::post('rub', ['as' => 'stock.rub', 'uses' => 'StockController@stockRub']);
 	Route::post('usd', ['uses' => 'StockController@stockUsd']);	
