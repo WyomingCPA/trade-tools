@@ -92,6 +92,14 @@ function configRoutes() {
             authRequired: true
           }
         },
+        {
+          path: 'indicator-tutci/:id',
+          name: 'stock-indicator-tutci',
+          component: () => import('@/pages/stock/charts/IndicatorTUTCI'),
+          meta: {
+            authRequired: true
+          }
+        },
       ]
     },
     {
@@ -163,7 +171,7 @@ function configRoutes() {
           name: 'stock-average-calculator',
           component: () => import('@/pages/calculator/StockAverageCalculator'),
           meta: {
-            //authRequired: true
+            authRequired: true
           }
         },
         {
@@ -171,7 +179,43 @@ function configRoutes() {
           name: 'stock-aim-average-calculator',
           component: () => import('@/pages/calculator/StockAimAverageCalculator'),
           meta: {
-            //authRequired: true
+            authRequired: true
+          }
+        },
+      ]
+    },
+    {
+      path: '/settings',
+      component: layout,
+      children: [
+        {
+          path: 'service',
+          name: 'settings-service',
+          component: () => import('@/pages/settings/Service'),
+          meta: {
+            authRequired: true
+          }
+        },
+      ]
+    },
+    {
+      path: '/finance',
+      component: layout,
+      children: [
+        {
+          path: 'create',
+          name: 'finance-create',
+          component: () => import('@/pages/check/Create'),
+          meta: {
+            authRequired: true
+          }
+        },
+        {
+          path: 'all',
+          name: 'finance-all',
+          component: () => import('@/pages/check/All'),
+          meta: {
+            authRequired: true
           }
         },
       ]

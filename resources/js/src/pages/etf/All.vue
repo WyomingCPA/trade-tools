@@ -2,6 +2,7 @@
   <div>
     <vue-good-table
       @on-selected-rows-change="selectionChanged"
+      :isLoading="loading"
       theme="nocturnal"
       :columns="columns"
       :rows="items"
@@ -66,6 +67,7 @@ export default {
   name: "etf-all",
   data() {
     return {
+      loading: false,
       items: [
         {
           name: "-",
@@ -98,13 +100,16 @@ export default {
   methods: {
     getEtf() {
       let self = this;
+      this.loading = true;
       axios
         .get("/api/etf/all")
         .then(function (response) {
           self.items = response.data.etfs;
+          self.loading = false;
         })
         .catch(function (error) {
           console.error(error);
+          self.loading = false;
         });
     },
     selectionChanged: function (params) {
@@ -120,11 +125,11 @@ export default {
             if (response.status) {
               console.log("Вызвали алерт");
               this.getEtf();
-              this.loading = false;
+              self.loading = false;
             } else {
               console.log("Не работает");
               console.log(response.status);
-              this.loading = false;
+              self.loading = false;
             }
           });
       });

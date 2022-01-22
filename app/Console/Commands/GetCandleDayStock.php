@@ -57,8 +57,13 @@ class GetCandleDayStock extends Command
     public function handle()
     {
         $client = new TIClient(env('TOKEN_TINKOFF'), TISiteEnum::EXCHANGE);
+        $user = User::select('id')->where('email', 'WyomingCPA@yandex.ru')->first();
+
         $stocks = Stock::where('is_dividend', '=', true)->get();
-        foreach ($stocks as $item) {
+        $favorite_stock = $user->favoritesStock;
+        $results = $stocks->merge($favorite_stock);
+
+        foreach ($results as $item) {
 
             //Удаляем старые свечи за день свечи, чтобы график не гючил
             $deleteCandleRows = Candle::where('tools_id', '=', $item->id)
@@ -76,7 +81,6 @@ class GetCandleDayStock extends Command
                 echo $e->getMessage();
                 continue;
             }
-
             foreach ($candles as $candle) {
                 try {
                     $model = Candle::firstOrCreate(

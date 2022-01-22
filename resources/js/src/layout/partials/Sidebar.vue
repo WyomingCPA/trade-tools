@@ -212,6 +212,55 @@
             </ul>
           </b-collapse>
         </li>
+        <li class="nav-item menu-items">
+          <span
+            class="nav-link"
+            v-b-toggle="'settings'"
+            :class="{ active: subIsActive('/settings') }"
+          >
+            <span class="menu-icon">
+              <i class="mdi mdi-settings"></i>
+            </span>
+            <span class="menu-title">Settings</span>
+            <i class="menu-arrow"></i>
+          </span>
+          <b-collapse accordion="sidebar-accordion" id="settings">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item">
+                <router-link class="nav-link" to="/settings/service/"
+                  >Внешние сервисы</router-link
+                >
+              </li>
+            </ul>
+          </b-collapse>
+        </li>
+        <li class="nav-item menu-items">
+          <span
+            class="nav-link"
+            v-b-toggle="'finance'"
+            :class="{ active: subIsActive('/finance') }"
+          >
+            <span class="menu-icon">
+              <i class="mdi mdi-credit-card"></i>
+            </span>
+            <span class="menu-title">Мой Финансы</span>
+            <i class="menu-arrow"></i>
+          </span>
+          <b-collapse accordion="sidebar-accordion" id="finance">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item">
+                <router-link class="nav-link" to="/finance/create/"
+                  >Создать</router-link
+                >
+              </li>
+              <li class="nav-item">
+                <router-link class="nav-link" to="/finance/all/"
+                  >Все</router-link
+                >
+              </li>
+            </ul>
+          </b-collapse>
+        </li>
       </ul>
     </nav>
   </section>
@@ -258,30 +307,29 @@ export default {
       });
     },
     logout(evt) {
-        axios
-          .get("api/logout")
-          .then((response) => {
-            localStorage.removeItem("auth_token");
+      axios
+        .get("api/logout")
+        .then((response) => {
+          localStorage.removeItem("auth_token");
 
-            // remove any other authenticated user data you put in local storage
+          // remove any other authenticated user data you put in local storage
 
-            // Assuming that you set this earlier for subsequent Ajax request at some point like so:
-            // axios.defaults.headers.common['Authorization'] = 'Bearer ' + auth_token ;
-            delete axios.defaults.headers.common["Authorization"];
+          // Assuming that you set this earlier for subsequent Ajax request at some point like so:
+          // axios.defaults.headers.common['Authorization'] = 'Bearer ' + auth_token ;
+          delete axios.defaults.headers.common["Authorization"];
 
-            // If using 'vue-router' redirect to login page
-            this.$router.go("/login");
-          })
-          .catch((error) => {
-            // If the api request failed then you still might want to remove
-            // the same data from localStorage anyways
-            // perhaps this code should go in a finally method instead of then and catch
-            // methods to avoid duplication.
-            localStorage.removeItem("auth_token");
-            delete axios.defaults.headers.common["Authorization"];
-            this.$router.go("/login");
-          });
-      
+          // If using 'vue-router' redirect to login page
+          this.$router.go("/login");
+        })
+        .catch((error) => {
+          // If the api request failed then you still might want to remove
+          // the same data from localStorage anyways
+          // perhaps this code should go in a finally method instead of then and catch
+          // methods to avoid duplication.
+          localStorage.removeItem("auth_token");
+          delete axios.defaults.headers.common["Authorization"];
+          this.$router.go("/login");
+        });
     },
   },
   watch: {

@@ -59,11 +59,11 @@
         <span v-else-if="props.column.field === 'adx'">
           {{ props.row.adx }}
         </span>
-        <span v-else-if="props.column.field === 'average15day'">
+        <span v-else-if="props.column.field === 'tutci'">
           <a
             target="_blank"
             class="btn btn-primary"
-            :href="'emachart/' + props.row.id"
+            :href="'/stock/indicator-tutci/' + props.row.id"
             >{{ props.row.average15day }}</a
           >
         </span>
@@ -110,8 +110,8 @@ export default {
           type: "number",
         },
         {
-          label: "ADX",
-          field: "adx",
+          label: "TUTCI",
+          field: "tutci",
         },
         {
           label: "Action",

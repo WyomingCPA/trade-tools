@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 class Etf extends Model
 {
     protected $fillable = ['figi', 'ticker', 'isin', 'faceValue', 'minPriceIncrement', 'currency', 'name'];
-    protected $appends = ['cci_hour', 'ema_hour', 'ema_day', 'rsi_hour', 'rsi_day', 'cci_day', 'is_portfolio'];
+    protected $appends = ['cci_hour', 'ema_hour', 'ema_day', 'rsi_hour', 'rsi_day', 'cci_day', 'is_portfolio', 'candle_charts'];
 
     public function getIsPortfolioAttribute()
     {
@@ -227,5 +227,16 @@ class Etf extends Model
         } else {
             return 0;
         }
+    }
+    public function getCandleChartsAttribute()
+    {
+        $candles = Candle::where('tools_id', '=', $this->id)->where('tools_type', '=', 'etf')->where('interval', '=', 'day')
+            ->where('created_at', '>=', Carbon::now()->subDays(20)->startOfDay())->orderBy('time', 'desc')->get();
+
+        return $candles->take(30);
+        //return response([
+        //    'candles' => $list_data,
+        //    'time' => $list_time,
+        //], 200);
     }
 }

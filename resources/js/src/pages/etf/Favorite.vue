@@ -44,6 +44,13 @@
         <span v-else-if="props.column.field === 'nominal'">
           {{ props.row.nominal }}
         </span>
+        <span v-else-if="props.column.field === 'charts'">
+          <line-chart
+            :width="30"
+            :height="30"
+            :datas="props.row.candle_charts"
+          ></line-chart>
+        </span>
         <span v-else-if="props.column.field === 'currency'">
           {{ props.row.currency }}
         </span>
@@ -100,16 +107,21 @@
     </vue-good-table>
   </div>
 </template>
-
 <script>
 // import the styles
 import axios from "axios";
 import "vue-good-table/dist/vue-good-table.css";
 
+import lineChart from "../../components/etf/charts/lineFavoriteChart";
 export default {
+  components: {
+    lineChart,
+  },
   name: "etf-favorite",
   data() {
     return {
+      labels: ["test1", "test2", "test3", "test4"],
+      datas: [4, 10, 0, 7],
       loading: false,
       items: [
         {
@@ -124,6 +136,10 @@ export default {
           label: "Name",
           field: "name",
         },
+        //{
+        //  label: "Charts",
+        //  field: "charts",
+        //},
         {
           label: "Валюта",
           field: "currency",
@@ -216,6 +232,20 @@ export default {
           });
       });
     },
+    getMiniChart(id) {
+      let items;
+      let self = this;
+      console.log("test");
+      console.log(id);
+      axios
+        .get("/api/etf/mini-charts/" + this.etfId)
+        .then(function (response) {
+          self.datas = response.data.candles;
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+    },
     getCellCciClass(cci_hour) {
       if (cci_hour <= -100) {
         return "is-green";
@@ -273,6 +303,7 @@ export default {
   },
   mounted: function () {
     this.getEtf();
+
   },
 };
 </script>

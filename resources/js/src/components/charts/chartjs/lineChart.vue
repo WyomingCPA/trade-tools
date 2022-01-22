@@ -23,23 +23,23 @@ export default {
         scales: {
           yAxes: [{
             ticks: {
-              beginAtZero: true
+              beginAtZero: false
             },
             gridLines: {
-              display: true
+              display: false
             }
           }],
           xAxes: [{
             ticks: {
-              beginAtZero: true
+              beginAtZero: false
             },
             gridLines: {
-              display: true
+              display: false
             }
           }]
         },
         legend: {
-          display: true
+          display: false
         },
         elements: {
           point: {

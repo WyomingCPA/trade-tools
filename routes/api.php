@@ -28,9 +28,12 @@ Route::group(['prefix' => 'stock', 'middleware' => 'auth:sanctum'], function () 
 	Route::post('usd', ['uses' => 'StockController@stockUsd']);	
 	Route::get('favorites', ['uses' => 'StockController@favorite']);
 	Route::post('favorite', ['uses' => 'StockController@favoriteStock']);
+	Route::post('indicator-tutci/{id}', ['uses' => 'StockController@tutci']);
+
 	Route::post('unfavorite', ['uses' => 'StockController@unFavoriteStock']);
 	Route::post('set-dividends', ['uses' => 'StockController@setDividends']);
 	Route::get('dividends', ['uses' => 'StockController@dividends']);
+	
 });
 //Роуты фондов
 Route::group(['prefix' => 'etf', 'middleware' => 'auth:sanctum'], function () {
@@ -38,6 +41,7 @@ Route::group(['prefix' => 'etf', 'middleware' => 'auth:sanctum'], function () {
 	Route::get('favorites', ['uses' => 'EtfController@favorite']);	
 	Route::post('favorite', ['uses' => 'EtfController@favoriteEtf']);
 	Route::post('unfavorite', ['uses' => 'EtfController@unFavoriteEtf']);
+	Route::get('mini-charts/{id}', ['uses' => 'EtfController@miniCandleCharts']);
 });
 //Роуты облигаций
 Route::group(['prefix' => 'bond', 'middleware' => 'auth:sanctum'], function () {
@@ -49,4 +53,12 @@ Route::group(['prefix' => 'bond', 'middleware' => 'auth:sanctum'], function () {
 	Route::get('trash', ['uses' => 'BondController@trash']);
 	Route::post('trash', ['uses' => 'BondController@trashBond']);
 	Route::post('untrash', ['uses' => 'BondController@untrashBond']);
+});
+
+//Роуты личных финансов
+Route::group(['prefix' => 'finance', 'middleware' => 'auth:sanctum'], function () {
+    Route::post('/store', 'CheckController@store');
+	Route::post('/delete', 'CheckController@delete');
+    Route::post('/set-balance', 'CheckController@setBalance');
+    Route::get('/', 'CheckController@index');
 });

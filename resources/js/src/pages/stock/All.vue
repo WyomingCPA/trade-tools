@@ -153,7 +153,7 @@ export default {
           .then((response) => {
             if (response.status) {
               console.log("Вызвали алерт");
-              this.getStock();
+              this.fetchRows();
               self.loading = false;
             } else {
               console.log("Не работает");

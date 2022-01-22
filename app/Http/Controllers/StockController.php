@@ -40,7 +40,7 @@ class StockController extends Controller
         $limit      = 20;
         $page       = (int)$request->get('page');
         $created_at = $request->get('created_at');
-        
+
         if ($name !== null) {
             $objects->where('name', 'like', '%' . $name['searchTerm'] . '%');
         }
@@ -67,13 +67,13 @@ class StockController extends Controller
         $page       = (int)$request->get('page');
         $created_at = $request->get('created_at');
 
-          //$favorite_ids = Auth::user()->favoritesBond->pluck('id')->toArray();
+        //$favorite_ids = Auth::user()->favoritesBond->pluck('id')->toArray();
         //$models = Stock::where('currency', '=', 'RUB')->whereNotIn('id', $favorite_ids)->get();
         if ($name !== null) {
             $objects->where('name', 'like', '%' . $name['searchTerm'] . '%');
         }
         $objects->offset($limit * ($page - 1))->limit($limit);
-        
+
         if ($request->isMethod('post')) {
             return response()->json([
                 'stocks'  => $objects->get()->toArray(),
@@ -102,7 +102,7 @@ class StockController extends Controller
             $objects->where('name', 'like', '%' . $name['searchTerm'] . '%');
         }
         $objects->offset($limit * ($page - 1))->limit($limit);
-        
+
         if ($request->isMethod('post')) {
             return response()->json([
                 'stocks'  => $objects->get()->toArray(),
@@ -438,5 +438,81 @@ class StockController extends Controller
                 'id' => $id
             ]);
         }
+    }
+
+    public function tutci(Request $request)
+    {
+        $id = $request->route('id');
+        $models = EmaDayIndicator::where('stock_id', $id)
+            ->orderByDesc('created_at')->limit(100)->get();
+        $ema_indicators = [];
+        $indicators = $models->where('action', 'buy')->pluck('updated_at')->toArray();
+        $count = 0;
+        foreach ($indicators as $item_carbon) {
+            $ema_indicators_time = str_pad($item_carbon->addHours(3)->timestamp, 13, "0");
+            if ($count == 1) {
+                $ema_indicators[] = [$ema_indicators_time, "Bay Ema", 1, "#34a853", 0.55];
+                $count = 0;
+            }
+            //[1617198300000, "Bay Ema Indicator", 0, "#34a853", 0.75],
+            $ema_indicators[] = [$ema_indicators_time, "Bay Ema", 0, "#34a853", 0.75];
+            $count++;
+        }
+
+
+
+        $sell_indicators = $models->where('action', 'sell')->pluck('updated_at')->toArray();
+        $count_sell = 0;
+        foreach ($sell_indicators as $item_carbon) {
+            $ema_indicators_time = str_pad($item_carbon->addHours(3)->timestamp, 13, "0");
+            if ($count_sell == 1) {
+                $ema_indicators[] = [$ema_indicators_time, "Sell Ema", 1, "#a84734", 0.55];
+                $count_sell = 0;
+            }
+            //[1617198300000, "Bay Ema Indicator", 0, "#34a853", 0.75],
+            $ema_indicators[] = [$ema_indicators_time, "Sell Ema", 0, "#a84734", 0.75];
+            $count++;
+        }
+
+
+
+        $candles = Candle::where('tools_id', '=', $id)->where('tools_type', '=', 'stock')
+            ->where('created_at', '>=', Carbon::now()->subDays(20)->startOfDay())->orderBy('time', 'asc')->get();
+        $list = [];
+        $rsi_data = [];
+        $rsi_raw = [];
+        $key_time = [];
+        $key_time_rsi = [];
+        foreach ($candles as $item) {
+            $timestamp = str_pad(Carbon::parse($item->time)->addHours(6)->timestamp, 13, "0");
+            if (!array_key_exists($timestamp, $key_time)) {
+                $rsi_raw['close'][] = $item->close;
+                $rsi_raw['time'][] = $timestamp;
+                $key_time_rsi[$timestamp] = $timestamp;
+            }
+        }
+        
+        if (array_key_exists('close', $rsi_raw)) {
+            $rsi = trader_rsi($rsi_raw['close'], 14);
+            foreach ($rsi as $key => $value) {
+                $time = $rsi_raw['time'][$key];
+                $rsi_data[] = [$time, $value];
+            }
+        }
+
+        foreach ($candles as $item) {
+            $timestamp = str_pad(Carbon::parse($item->time)->addHours(6)->timestamp, 13, "0");
+            if (!array_key_exists($timestamp, $key_time)) {
+                $list[] = array((int)$timestamp, $item->open, $item->high, $item->low, $item->close, $item->volume);
+                $key_time[$timestamp] = $timestamp;
+            }
+        }
+
+        return response()->json([
+            'event' => $models,
+            'candles' => $list,
+            'ema_indicators' => $ema_indicators,
+            'rsi_data' => $rsi_data,
+        ]);
     }
 }
