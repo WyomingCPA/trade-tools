@@ -41,6 +41,8 @@
                 <td>{{ totalBalance }}</td>
                 <td></td>
                 <td>{{ totalDifference }}</td>
+                <td></td>
+                <td>{{ totalCalculateSummPrecent }}</td>
               </template>
             </b-table>
             <!-- Info modal -->
@@ -113,13 +115,16 @@ export default {
           key: "difference_limit",
           label: "Разница",
           sortable: true,
-          // Variant applies to the whole column, including the header and footer
         },
         {
           key: "precent",
           label: "Проценты",
           sortable: true,
-          // Variant applies to the whole column, including the header and footer
+        },
+        {
+          key: "precent_month_calculate",
+          label: "Проценты за месяц",
+          sortable: true,
         },
         {
           key: "balances.updated_at",
@@ -223,9 +228,19 @@ export default {
     totalDifference() {
       let count = 0;
       this.items.forEach((value, index) => {
-          console.log(value);
+        console.log(value);
         if (value.difference_limit != null) {
           count += value.difference_limit;
+        }
+      });
+      return count;
+    },
+    totalCalculateSummPrecent() {
+      let count = 0;
+      this.items.forEach((value, index) => {
+        console.log(value);
+        if (value.precent_month_calculate != null) {
+          count += value.precent_month_calculate;
         }
       });
       return count;
