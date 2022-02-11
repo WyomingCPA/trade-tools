@@ -43,6 +43,7 @@
                 <td>{{ totalDifference }}</td>
                 <td></td>
                 <td>{{ totalCalculateSummPrecent }}</td>
+                <td>{{ overAllRatio }}</td>
               </template>
             </b-table>
             <!-- Info modal -->
@@ -118,12 +119,17 @@ export default {
         },
         {
           key: "precent",
-          label: "Проценты",
+          label: "%",
           sortable: true,
         },
         {
           key: "precent_month_calculate",
-          label: "Проценты за месяц",
+          label: "% monthly",
+          sortable: true,
+        },
+        {
+          key: "ratio",
+          label: "ratio",
           sortable: true,
         },
         {
@@ -244,6 +250,23 @@ export default {
         }
       });
       return count;
+    },
+
+    overAllRatio() {
+      let summLimit = 0;
+      let summBalance = 0;
+      this.items.forEach((value, index) => {
+        console.log(value);
+        if (value.limit != 0) {
+          summBalance += value.balances.balance;
+          summLimit += value.limit;
+        }
+      });
+      if (summLimit != 0) {
+        return (summBalance / summLimit) * 100;
+      } else {
+        return ' ';
+      }
     },
   },
 };

@@ -9,7 +9,7 @@ use App\Balance;
 class Check extends Model
 {
     protected $fillable = ['name', 'type', 'limit', 'precent'];
-    protected $appends = ['balances', 'difference_point', 'difference_limit', 'precent_month_calculate'];
+    protected $appends = ['balances', 'difference_point', 'difference_limit', 'precent_month_calculate', 'ratio'];
 
     public function balances()
     {
@@ -50,7 +50,23 @@ class Check extends Model
             $month_precent = round($day_precent*30);
 
         }
-
         return $month_precent;
+    }
+
+    public function getRatioAttribute()
+    {
+        if ($this->type === "credit")
+        {
+            $last_balance = Balance::where('check_id', '=', $this->id)->orderBy('created_at', 'desc')->skip(0)->take(2)->get()->first()->balance ?? 0;
+            $limit = $this->limit ?? 0;
+            if ($limit != 0)
+            {
+                $divide_balance_limit = $last_balance / $limit;
+                $ratio = $divide_balance_limit * 100;
+                return $ratio;
+            }
+        }
+
+        return null;
     }
 }
