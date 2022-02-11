@@ -63,7 +63,7 @@ class Check extends Model
             {
                 $divide_balance_limit = $last_balance / $limit;
                 $ratio = $divide_balance_limit * 100;
-                return $ratio;
+                return round($ratio, 2);
             }
         }
 

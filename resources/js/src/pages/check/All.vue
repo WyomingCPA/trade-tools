@@ -263,7 +263,8 @@ export default {
         }
       });
       if (summLimit != 0) {
-        return (summBalance / summLimit) * 100;
+        let overAll = (summBalance / summLimit) * 100;
+        return overAll.toFixed(2);
       } else {
         return ' ';
       }

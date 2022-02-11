@@ -249,13 +249,13 @@
           <b-collapse accordion="sidebar-accordion" id="finance">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
-                <router-link class="nav-link" to="/finance/create/"
-                  >Создать</router-link
+                <router-link class="nav-link" to="/finance/all/"
+                  >Все</router-link
                 >
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="/finance/all/"
-                  >Все</router-link
+                <router-link class="nav-link" to="/finance/create/"
+                  >Добавить</router-link
                 >
               </li>
             </ul>
