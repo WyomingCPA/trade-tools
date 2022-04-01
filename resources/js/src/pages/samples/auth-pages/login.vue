@@ -10,7 +10,7 @@
                   <img src="../../../assets/images/logo.svg" />
                 </div>
                 <h4>Hello! let's get started</h4>
-                <h6 class="font-weight-light">Sign in to continue.</h6>
+                <h6 class="font-weight-light"></h6>
                 <form action="#" class="pt-3" @submit.prevent="submit">
                   <div class="form-group">
                     <input
@@ -34,7 +34,12 @@
                     <button type="submit">Sign in</button>
                   </div>
                   <div
-                    class="my-2 d-flex justify-content-between align-items-center"
+                    class="
+                      my-2
+                      d-flex
+                      justify-content-between
+                      align-items-center
+                    "
                   >
                     <div class="form-check">
                       <label class="form-check-label text-muted">
@@ -75,13 +80,13 @@
 </template>
 
 <script>
-
 import { mapActions } from "vuex";
 
 export default {
   name: "login",
   data() {
     return {
+      userHasEmail: false,
       form: {
         email: "",
         password: "",
@@ -96,8 +101,7 @@ export default {
 
     async submit() {
       await this.signIn(this.form);
-
-      this.$router.push({name: 'dashboard'});
+      this.$router.push({ name: "dashboard" });
     },
   },
 };

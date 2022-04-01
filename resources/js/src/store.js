@@ -8,7 +8,8 @@ export const store = new Vuex.Store({
     strict: process.env.NODE_ENV !== 'production',
     state: {
         authenticated: false,
-        user: null
+        user: null,
+        error: "",
     },
     actions: {
         async signIn({ dispatch }, credentials) {
@@ -28,21 +29,26 @@ export const store = new Vuex.Store({
             return axios.get('api/user').then((response) => {
                 commit('SET_AUTHENTICATED', true)
                 commit('SET_USER', response.data)
-                
+
             }).catch(() => {
                 commit('SET_AUTHENTICATED', false)
                 commit('SET_USER', null)
             })
-        }
+        },
+        SET_ERROR: (context, errorMsg) => {
+            context.commit("POST_ERROR", errorMsg);
+        },
     },
     mutations: {
         SET_AUTHENTICATED(state, value) {
             state.authenticated = value
         },
-
         SET_USER(state, value) {
             state.user = value
-        }
+        },
+        POST_ERROR: (state, payload) => {
+            state.error = payload;
+        },
     },
     getters: {
         authenticated(state) {
