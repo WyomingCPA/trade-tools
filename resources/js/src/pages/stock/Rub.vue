@@ -77,7 +77,7 @@ var qs = require("qs");
 export default {
   name: "stock-rub",
   data() {
-    return {     
+    return {
       count: { type: Number },
       dataUrl: { type: String },
       loading: false,
@@ -93,6 +93,10 @@ export default {
         {
           label: "ticker",
           field: "ticker",
+        },
+        {
+          label: "figi",
+          field: "figi",
         },
         {
           label: "Валюта",

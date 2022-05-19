@@ -92,6 +92,10 @@ export default {
           field: "ticker",
         },
         {
+          label: "figi",
+          field: "figi",
+        },
+        {
           label: "Валюта",
           field: "currency",
         },
