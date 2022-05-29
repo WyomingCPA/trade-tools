@@ -77,6 +77,14 @@
             <span class="menu-title">Dashboard</span>
           </router-link>
         </li>
+        <li class="nav-item menu-items" v-on:click="collapseAll">
+          <router-link class="nav-link" to="/orders">
+            <span class="menu-icon">
+              <i class="mdi mdi-alert"></i>
+            </span>
+            <span class="menu-title">Orders</span>
+          </router-link>
+        </li>
         <li class="nav-item menu-items">
           <span
             class="nav-link"

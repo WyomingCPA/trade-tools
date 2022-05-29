@@ -49,6 +49,28 @@ function configRoutes() {
       ]
     },
     {
+      path: '/orders',
+      component: layout,
+      children: [
+        {
+          path: '',
+          name: 'order-index',
+          component: () => import('@/pages/orders/Index'),
+          meta: {
+            authRequired: true
+          }
+        },
+        {
+          path: 'stop-orders/:id',
+          name: 'stop-orders',
+          component: () => import('@/pages/orders/StopOrders'),
+          meta: {
+            authRequired: true
+          }
+        },
+      ]
+    },
+    {
       path: '/stock',
       component: layout,
       children: [
