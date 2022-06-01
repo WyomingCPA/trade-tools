@@ -61,7 +61,7 @@
           <a
             target="_blank"
             class="btn btn-primary"
-            :href="'/orders/mini-chart/' + props.row.id"
+            :href="'/orders/order-chart/' + props.row.id"
             >View</a
           >
         </span>
@@ -91,6 +91,10 @@ export default {
         {
           label: "id",
           field: "id",
+        },
+        {
+          label: "Name",
+          field: "name-instrument", 
         },
         {
           label: "Figi",

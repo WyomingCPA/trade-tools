@@ -58,6 +58,7 @@ Route::group(['prefix' => 'bond', 'middleware' => 'auth:sanctum'], function () {
 Route::group(['prefix' => 'orders',], function () {
     Route::post('/index', 'OrderController@index');
 	Route::get('stop-orders/{id}', ['uses' => 'OrderController@stopOrders']);
+	Route::get('chart-orders/{id}', ['uses' => 'OrderController@chartOrders']);
 });
 //Роуты личных финансов
 Route::group(['prefix' => 'finance', 'middleware' => 'auth:sanctum'], function () {

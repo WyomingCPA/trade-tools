@@ -68,6 +68,14 @@ function configRoutes() {
             authRequired: true
           }
         },
+        {
+          path: 'order-chart/:id',
+          name: 'order-chart',
+          component: () => import('@/pages/orders/chart/Test'),
+          meta: {
+            authRequired: true
+          }
+        },
       ]
     },
     {

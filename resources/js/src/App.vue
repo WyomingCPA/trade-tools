@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <ErrorMessage />
     <router-view></router-view>
   </div>
 </template>

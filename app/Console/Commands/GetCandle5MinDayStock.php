@@ -62,7 +62,7 @@ class GetCandle5MinDayStock extends Command
         $stocks = Stock::whereIn('id', $favorite_ids)->orderBy('updated_at')->get();
         foreach ($stocks as $item) {
 
-            //Удаляем старые свечи за день свечи, чтобы график не гючил
+            //Удаляем старые свечи за день свечи, чтобы график не глючил
             $deleteCandleRows = Candle::where('tools_id', '=', $item->id)
                                         ->where('tools_type', 'LIKE', '%stock%')
                                         ->where('time', '>=', Carbon::now()->subDays(1)->startOfDay())
