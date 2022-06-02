@@ -145,7 +145,7 @@ export default {
           },
         ],
       }),
-      overlays: [Overlays["RSI"]],
+      overlays: [Overlays['MACD']],
     };
   },
 };

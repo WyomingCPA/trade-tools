@@ -61,18 +61,18 @@ class OrderController extends Controller
         $key_time = [];
         $orders = [];
         foreach ($candles as $item) {
-            $timestamp = str_pad(Carbon::parse($item->time)->addHours(6)->timestamp, 13, "0");
+            $timestamp = str_pad(Carbon::parse($item->time)->addHours(3)->timestamp, 13, "0");
             if (!array_key_exists($timestamp, $key_time)) {
                 $list[] = array((int)$timestamp, $item->open, $item->high, $item->low, $item->close, $item->volume);
                 $key_time[$timestamp] = $timestamp;
             }
         }      
-
-        $event = Carbon::parse($order->created_at); 
-        $test = $event->addHours(3)->timestamp;
-        $end = str_pad($event->addHours(5)->timestamp, 13, "0");
-        $start = str_pad($event->subHour(10)->timestamp, 13, "0");
-        $order_indicators_time = str_pad($event->addHours(3)->timestamp, 13, "0");
+        $order_time = Carbon::parse($order->created_at)->addHours(3);//Временная мера 
+        $start_period = Carbon::parse($order_time)->subHour(10);
+        $end_period =  Carbon::parse($order_time)->addHours(6);
+        $end = str_pad($end_period->timestamp, 13, "0");
+        $start = str_pad($start_period->timestamp, 13, "0");
+        $order_indicators_time = str_pad($order_time->timestamp, 13, "0");
         //$orders [] = [$order_indicators_time, "Bay. Price: " . $order->current_price, 1, "#34a853", 0.55];
         $orders [] = [$order_indicators_time, 1, $order->current_price,  "Bay. Price: " . $order->current_price];
         //[1617198300000, "Bay Ema Indicator", 0, "#34a853", 0.75],
