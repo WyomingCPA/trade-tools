@@ -144,8 +144,18 @@ export default {
             },
           },
         ],
+        offchart: [
+          {
+            name: "MACD",
+            type: "MACD",
+            data: [],
+            settings: {
+              histColors: ["#35a776", "#79e0b3", "#e54150", "#ea969e"],
+            },
+          },
+        ],
       }),
-      overlays: [Overlays['MACD']],
+      overlays: [Overlays["MACD"]],
     };
   },
 };

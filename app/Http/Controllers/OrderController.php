@@ -51,11 +51,13 @@ class OrderController extends Controller
     {
         $id = $request->route('id');
         $order = Order::find($id);
+        $order_time = Carbon::parse($order->created_at);
 
         $stock_id = Stock::where('figi', $order->figi)->first()->id;
 
         $candles = Candle::where('tools_id', '=', $stock_id)->where('tools_type', '=', 'stock')->where('interval', '=', '5min')
-            ->where('created_at', '>=', Carbon::now()->subMonths(7)->startOfDay())->orderBy('time', 'asc')->get();
+            ->where('created_at', '>=', Carbon::create($order_time->year, $order_time->month, $order_time->day, 0))
+            ->where('created_at', '<=', Carbon::create($order_time->year, $order_time->month, $order_time->day, 24))->orderBy('time', 'asc')->get();
 
         $list = [];
         $key_time = [];
@@ -67,7 +69,7 @@ class OrderController extends Controller
                 $key_time[$timestamp] = $timestamp;
             }
         }      
-        $order_time = Carbon::parse($order->created_at);//Временная мера 
+         
         $start_period = Carbon::parse($order_time)->subHour(10);
         $end_period =  Carbon::parse($order_time)->addHours(6);
         $end = str_pad($end_period->timestamp, 13, "0");
