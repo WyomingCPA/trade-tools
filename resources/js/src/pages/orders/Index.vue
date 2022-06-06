@@ -103,6 +103,7 @@ export default {
         {
           label: "Current Price",
           field: "current_price",
+          type: "decimal",
         },
         {
           label: "Lot",

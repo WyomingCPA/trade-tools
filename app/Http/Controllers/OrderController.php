@@ -67,7 +67,7 @@ class OrderController extends Controller
                 $key_time[$timestamp] = $timestamp;
             }
         }      
-        $order_time = Carbon::parse($order->created_at)->addHours(3);//Временная мера 
+        $order_time = Carbon::parse($order->created_at);//Временная мера 
         $start_period = Carbon::parse($order_time)->subHour(10);
         $end_period =  Carbon::parse($order_time)->addHours(6);
         $end = str_pad($end_period->timestamp, 13, "0");
