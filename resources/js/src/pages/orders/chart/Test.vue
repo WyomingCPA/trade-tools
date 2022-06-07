@@ -11,7 +11,7 @@
 </template>
 <script>
 import axios from "axios";
-import each from "lodash.foreach";
+
 
 import OrderChart5M from "./OrderChart5M.vue";
 
@@ -22,10 +22,7 @@ export default {
   },
 
   methods: {
-    onResize(event) {
-      this.width = window.innerWidth - 700;
-      this.height = window.innerHeight - 250;
-    },
+
     fetchData() {
       console.log(this.$route.params.id);
       let self = this;

@@ -1,5 +1,9 @@
 <template>
   <div>
+    <div class="alert alert-primary" role="alert">
+      Запуск бота<code> nohup /var/www/trader/env/bin/python main.py & </code></br>
+      Проверка состояния процесса <code>ps -ef | grep python</code>
+    </div>
     <vue-good-table
       @on-page-change="onPageChange"
       @on-per-page-change="onPerPageChange"
@@ -55,7 +59,8 @@
             target="_blank"
             class="btn btn-primary"
             :href="'/orders/stop-orders/' + props.row.id"
-            >{{ props.row['stop-order-count'] }}</a>
+            >{{ props.row["stop-order-count"] }}</a
+          >
         </span>
         <span v-else-if="props.column.field === 'graph'">
           <a
@@ -94,7 +99,7 @@ export default {
         },
         {
           label: "Name",
-          field: "name-instrument", 
+          field: "name-instrument",
         },
         {
           label: "Figi",
