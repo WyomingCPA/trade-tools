@@ -47,6 +47,48 @@ class OrderController extends Controller
         ]);
     }
 
+    public function setSuccess(Request $request)
+    {
+        $rows = $request->post('selRows');
+        $select = [];
+        foreach ($rows as $value) {
+            $select[] = $value['id'];
+        }
+
+        $models = Order::whereIn('id', $select)->update(['status' => 'success']);
+        return response()->json([
+            'status' => true,
+        ], 200);
+    }
+
+    public function setFail(Request $request)
+    {
+        $rows = $request->post('selRows');
+        $select = [];
+        foreach ($rows as $value) {
+            $select[] = $value['id'];
+        }
+
+        $models = Order::whereIn('id', $select)->update(['status' => 'fail']);
+        return response()->json([
+            'status' => true,
+        ], 200);
+    }
+
+    public function setNothing(Request $request)
+    {
+        $rows = $request->post('selRows');
+        $select = [];
+        foreach ($rows as $value) {
+            $select[] = $value['id'];
+        }
+
+        $models = Order::whereIn('id', $select)->update(['status' => 'nothing']);
+        return response()->json([
+            'status' => true,
+        ], 200);
+    }
+    
     public function chartOrders(Request $request)
     {
         $id = $request->route('id');

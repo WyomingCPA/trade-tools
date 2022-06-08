@@ -59,6 +59,9 @@ Route::group(['prefix' => 'orders',], function () {
     Route::post('/index', 'OrderController@index');
 	Route::get('stop-orders/{id}', ['uses' => 'OrderController@stopOrders']);
 	Route::get('chart-orders/{id}', ['uses' => 'OrderController@chartOrders']);
+	Route::post('set-success', 'OrderController@setSuccess');
+	Route::post('set-fail', 'OrderController@setFail');
+	Route::post('set-nothing', 'OrderController@setNothing');
 });
 //Роуты личных финансов
 Route::group(['prefix' => 'finance', 'middleware' => 'auth:sanctum'], function () {

@@ -17,6 +17,9 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->string('figi');
             $table->string('order_id');
+            $table->string('strategy_name');
+            $table->text('note');
+            $table->enum('status', ['success', 'nothing', 'fail', 'empty'])->default('empty');
             $table->float('current_price');
             $table->integer('quantity');
             $table->string('direction');

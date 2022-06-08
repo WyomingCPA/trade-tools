@@ -41,10 +41,13 @@
       }"
     >
       <div slot="selected-row-actions">
-        <button v-on:click="favorite">Favorite</button>
+        <button v-on:click="successOrder">Успешная сделка</button>
       </div>
       <div slot="selected-row-actions">
-        <button v-on:click="set_dividends">Set Dividends</button>
+        <button v-on:click="failOrder">Неудачная сделка</button>
+      </div>
+      <div slot="selected-row-actions">
+        <button v-on:click="nothingOrder">Ничего</button>
       </div>
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field === 'name'">
@@ -69,6 +72,11 @@
             :href="'/orders/order-chart/' + props.row.id"
             >View</a
           >
+        </span>
+        <span v-else-if="props.column.field === 'status'">
+          <span :class="getStatusBadgeClass(props.row.status)">
+            {{ props.row.status }}
+          </span>
         </span>
       </template>
     </vue-good-table>
@@ -128,6 +136,14 @@ export default {
           label: "График",
           field: "graph",
         },
+        {
+          label: "Название стратегий",
+          field: "strategy_name",
+        },
+        {
+          label: "Status",
+          field: "status",
+        },
       ],
     };
   },
@@ -146,12 +162,12 @@ export default {
     selectionChanged: function (params) {
       this.selRows = params.selectedRows;
     },
-    set_dividends: function (event, rows) {
+    successOrder: function (event, rows) {
       var self = this;
       this.loading = true;
       axios.get("/sanctum/csrf-cookie").then((response) => {
         axios
-          .post("/api/stock/set-dividends", { selRows: this.selRows })
+          .post("/api/orders/set-success", { selRows: this.selRows })
           .then((response) => {
             if (response.status) {
               console.log("Вызвали алерт");
@@ -165,12 +181,31 @@ export default {
           });
       });
     },
-    favorite: function (event, rows) {
-      let self = this;
+    failOrder: function (event, rows) {
+      var self = this;
       this.loading = true;
       axios.get("/sanctum/csrf-cookie").then((response) => {
         axios
-          .post("/api/stock/favorite", { selRows: this.selRows })
+          .post("/api/orders/set-fail", { selRows: this.selRows })
+          .then((response) => {
+            if (response.status) {
+              console.log("Вызвали алерт");
+              this.fetchRows();
+              this.loading = false;
+            } else {
+              console.log("Не работает");
+              console.log(response.status);
+              this.loading = false;
+            }
+          });
+      });
+    },
+    nothingOrder: function (event, rows) {
+      var self = this;
+      this.loading = true;
+      axios.get("/sanctum/csrf-cookie").then((response) => {
+        axios
+          .post("/api/orders/set-nothing", { selRows: this.selRows })
           .then((response) => {
             if (response.status) {
               console.log("Вызвали алерт");
@@ -209,6 +244,19 @@ export default {
     onPerPageChange(params) {
       this.updateParams({ perPage: params.currentPerPage });
       this.fetchRows();
+    },
+    getStatusBadgeClass(status) {
+      if (status == "empty") {
+        return "badge badge-primary";
+      } else if (status == "success") {
+        return "badge badge-success";
+      } else if (status == "fail") {
+        return "badge badge-danger";
+      } else if (status == "nothing") {
+        return "badge badge-info";
+      } else {
+        return "";
+      }
     },
   },
   created() {

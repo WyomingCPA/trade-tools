@@ -9,7 +9,7 @@ use App\Stock;
 
 class Order extends Model
 {
-    protected $fillable = ['figi', 'current_price', 'quantity', 'created_at'];
+    protected $fillable = ['figi', 'current_price', 'note', 'strategy_name', 'status', 'quantity', 'created_at'];
     protected $appends = ['stop-order-count', 'name-instrument'];
 
     public function stops()
