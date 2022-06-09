@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="alert alert-primary" role="alert">
-      Запуск бота<code> nohup /var/www/trader/env/bin/python main.py & </code></br>
+      Запуск бота<code> nohup /var/www/trader/env/bin/python main.py & </code
+      ><br />
       Проверка состояния процесса <code>ps -ef | grep python</code>
     </div>
     <vue-good-table
@@ -65,6 +66,11 @@
             >{{ props.row["stop-order-count"] }}</a
           >
         </span>
+        <span v-else-if="props.column.field === 'created_at'">
+          <span @click="getNote(props.row, props.row.id, $event.target)">
+            {{ props.row.created_at }}</span
+          >
+        </span>
         <span v-else-if="props.column.field === 'graph'">
           <a
             target="_blank"
@@ -80,6 +86,15 @@
         </span>
       </template>
     </vue-good-table>
+    <!-- Info modal -->
+    <b-modal
+      ref="my-modal"
+      :id="infoModal.id"
+      :title="infoModal.title"
+      @hide="resetInfoModal"
+    >
+    <span v-html="infoModal.content"></span>
+    </b-modal>
   </div>
 </template>
 <script>
@@ -96,6 +111,11 @@ export default {
       count: { type: Number },
       dataUrl: { type: String },
       loading: false,
+      infoModal: {
+        id: "info-modal",
+        title: "",
+        content: "",
+      },
       serverParams: {
         figi: "",
       },
@@ -218,6 +238,23 @@ export default {
             }
           });
       });
+    },
+    getNote(item, index, button) {
+      this.infoModal.title = item.created_at;
+      this.infoModal.content = item.note;
+      this.idCheck = item.id;
+      console.log(item.note);
+      this.$root.$emit("bv::show::modal", this.infoModal.id, button);
+
+    },
+    handleOk(bvModalEvt) {
+      // Prevent modal from closing
+      bvModalEvt.preventDefault();
+      // Trigger submit handler
+      this.handleSubmit();
+    },
+    handleSubmit() {
+      
     },
     fetchRows() {
       let self = this;
