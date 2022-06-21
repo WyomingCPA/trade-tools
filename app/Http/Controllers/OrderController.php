@@ -98,8 +98,8 @@ class OrderController extends Controller
         $stock_id = Stock::where('figi', $order->figi)->first()->id;
 
         $candles = Candle::where('tools_id', '=', $stock_id)->where('tools_type', '=', 'stock')->where('interval', '=', '5min')
-            ->where('created_at', '>=', Carbon::create($order_time->year, $order_time->month, $order_time->day, 0))
-            ->where('created_at', '<=', Carbon::create($order_time->year, $order_time->month, $order_time->day, 24))->orderBy('time', 'asc')->get();
+            ->where('time', '>=', Carbon::create($order_time->year, $order_time->month, $order_time->day, 0))
+            ->where('time', '<=', Carbon::create($order_time->year, $order_time->month, $order_time->day, 24))->orderBy('time', 'asc')->get();
 
         $list = [];
         $key_time = [];

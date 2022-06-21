@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { store } from './store'
 import App from './App.vue'
 import router from './router'
-import BootstrapVue from 'bootstrap-vue'
+import { BootstrapVue } from 'bootstrap-vue'
 import VueSweetalert2 from 'vue-sweetalert2'
 import VueGoodTablePlugin from "vue-good-table";
 import axios from 'axios'

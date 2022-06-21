@@ -80,10 +80,37 @@
         <li class="nav-item menu-items" v-on:click="collapseAll">
           <router-link class="nav-link" to="/orders">
             <span class="menu-icon">
-              <i class="mdi mdi-alert"></i>
+              <i class="mdi mdi-chart-line-variant"></i>
             </span>
             <span class="menu-title">Orders</span>
           </router-link>
+        </li>
+        <li class="nav-item menu-items">
+          <span
+            class="nav-link"
+            v-b-toggle="'test-strategy'"
+            :class="{ active: subIsActive('/test-strategy') }"
+          >
+            <span class="menu-icon">
+              <i class="mdi mdi-alert"></i>
+            </span>
+            <span class="menu-title">Test Strategy</span>
+            <i class="menu-arrow"></i>
+          </span>
+          <b-collapse accordion="sidebar-accordion" id="test-strategy">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item">
+                <router-link class="nav-link" to="/test-strategy/"
+                  >Список тестов</router-link
+                >
+              </li>
+              <li class="nav-item">
+                <router-link class="nav-link" to="/test-strategy/create/"
+                  >Создать тест</router-link
+                >
+              </li>
+            </ul>
+          </b-collapse>
         </li>
         <li class="nav-item menu-items">
           <span
@@ -184,6 +211,33 @@
               <li class="nav-item">
                 <router-link class="nav-link" to="/bond/hide/"
                   >Скрытые</router-link
+                >
+              </li>
+            </ul>
+          </b-collapse>
+        </li>
+        <li class="nav-item menu-items">
+          <span
+            class="nav-link"
+            v-b-toggle="'futures'"
+            :class="{ active: subIsActive('/futures') }"
+          >
+            <span class="menu-icon">
+              <i class="mdi mdi-av-timer"></i>
+            </span>
+            <span class="menu-title">Фьючерсы</span>
+            <i class="menu-arrow"></i>
+          </span>
+          <b-collapse accordion="sidebar-accordion" id="futures">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item">
+                <router-link class="nav-link" to="/futures/all/"
+                  >Все</router-link
+                >
+              </li>
+              <li class="nav-item">
+                <router-link class="nav-link" to="/futures/favorite/"
+                  >Избранные</router-link
                 >
               </li>
             </ul>

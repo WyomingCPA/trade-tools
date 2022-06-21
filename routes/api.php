@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -62,6 +64,16 @@ Route::group(['prefix' => 'orders',], function () {
 	Route::post('set-success', 'OrderController@setSuccess');
 	Route::post('set-fail', 'OrderController@setFail');
 	Route::post('set-nothing', 'OrderController@setNothing');
+});
+//Роуты test strategy
+Route::group(['prefix' => 'test-strategy', 'middleware' => 'auth:sanctum'], function () {
+	Route::get('/index', 'TestStrategyController@index');
+	Route::get('/create', 'TestStrategyController@create');
+	Route::post('/store', 'TestStrategyController@store');
+	Route::post('/get-candle-test', 'TestStrategyController@getCandleTest');
+	Route::post('/set-orders-test', 'TestStrategyController@setOrdersTest');
+	Route::post('/delete-orders-test', 'TestStrategyController@deleteOrdersTest');
+	Route::get('strategy-chart/{id}', ['uses' => 'TestStrategyController@chartStrategy']);
 });
 //Роуты личных финансов
 Route::group(['prefix' => 'finance', 'middleware' => 'auth:sanctum'], function () {

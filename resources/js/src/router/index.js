@@ -79,6 +79,36 @@ function configRoutes() {
       ]
     },
     {
+      path: '/test-strategy',
+      component: layout,
+      children: [
+        {
+          path: '',
+          name: 'test-strategy-index',
+          component: () => import('@/pages/test_strategy/Index'),
+          meta: {
+            authRequired: true
+          }
+        },
+        {
+          path: 'create',
+          name: 'test-strategy-create',
+          component: () => import('@/pages/test_strategy/Create'),
+          meta: {
+            authRequired: true
+          }
+        },
+        {
+          path: 'strategy-chart/:id',
+          name: 'test-strategy-chart',
+          component: () => import('@/pages/test_strategy/chart/Test'),
+          meta: {
+            authRequired: true
+          }
+        },
+      ]
+    },
+    {
       path: '/stock',
       component: layout,
       children: [
