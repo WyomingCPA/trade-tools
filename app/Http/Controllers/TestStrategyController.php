@@ -193,7 +193,7 @@ class TestStrategyController extends Controller
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $command = escapeshellcmd("C:/wamp64/www/trader/venv/Scripts/python C:/wamp64/www/trader/test_strategy_from_laravel.py $string_command");
         } else {
-            $command = escapeshellcmd("/var/www/trader/env/bin/python test_strategy_from_laravel.py $string_command");
+            $command = escapeshellcmd("/var/www/trader/env/bin/python /var/www/trader/test_strategy_from_laravel.py $string_command");
         }
 
         $output = shell_exec($command);
