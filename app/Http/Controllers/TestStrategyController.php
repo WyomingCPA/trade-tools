@@ -215,4 +215,13 @@ class TestStrategyController extends Controller
             'status' => true,
         ], 200);
     }
+
+    public function openOrders(Request $request)
+    {
+        $id = $request->route('id');
+        $objects = Order::where('strategy_id', '=', $id)->orderByDesc('created_at');
+        return response()->json([
+            'orders'  => $objects->get()->toArray(),
+        ]);
+    }
 }

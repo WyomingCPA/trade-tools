@@ -63,6 +63,14 @@
             {{ props.row.status }}
           </span>
         </span>
+        <span v-else-if="props.column.field === 'count-orders'">
+          <a
+            target="_blank"
+            class="btn btn-primary"
+            :href="'/test-strategy/open-orders/' + props.row.id"
+            >{{ props.row["count-orders"] }}</a
+          >
+        </span>
         <span v-else-if="props.column.field === 'action'">
           <b-button
             size="sm"
@@ -120,7 +128,7 @@ export default {
         },
         {
           label: "Name",
-          field: "name-instrument",
+          field: "name-from-figi",
         },
         {
           label: "Figi",
@@ -149,6 +157,10 @@ export default {
         {
           label: "Status",
           field: "status",
+        },
+        {
+          label: "Open Order",
+          field: "count-orders",
         },
         {
           label: "Проведен",

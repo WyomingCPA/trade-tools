@@ -106,6 +106,14 @@ function configRoutes() {
             authRequired: true
           }
         },
+        {
+          path: 'open-orders/:id',
+          name: 'open-orders',
+          component: () => import('@/pages/test_strategy/orders/ListOrderDetail'),
+          meta: {
+            authRequired: true
+          }
+        },
       ]
     },
     {
