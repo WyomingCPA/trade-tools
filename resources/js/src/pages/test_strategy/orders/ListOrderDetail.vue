@@ -102,6 +102,10 @@ export default {
           type: "decimal",
         },
         {
+          label: "Max. change price 30 min.",
+          field: "max-change-price-after-order",
+        },
+        {
           label: "Время создания",
           field: "created_at",
         },

@@ -13,4 +13,5 @@ class StopOrder extends Model
     {
         return Carbon::parse($value)->format('H:i:s j F Y');
     }
+
 }
