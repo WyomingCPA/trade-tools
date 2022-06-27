@@ -16,7 +16,7 @@ class OrderController extends Controller
 
     public function index(Request $request)
     {
-        $objects = Order::where('current_price', '!=', 0)->orderByDesc('created_at');
+        $objects = Order::where('current_price', '!=', 0)->where('strategy_id', '=', 0)->orderByDesc('created_at');
         $count = $objects->count();
         $sort       = $request->get('sort');
         $direction  = $request->get('direction');

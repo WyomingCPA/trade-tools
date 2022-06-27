@@ -147,14 +147,15 @@ class TestStrategyController extends Controller
         }
         
         //$order_time = Carbon::parse($order->created_at);
-        $start_period = Carbon::parse($strategy->start_period);
+        $start_period = Carbon::parse($strategy->start_period)->format('Y-m-d H:i:00');
         $end_period = Carbon::parse($strategy->end_period);
+        $wanted_end_period = Carbon::create($end_period->year, $end_period->month, $end_period->day, 23, $end_period->minute,0)->format('Y-m-d H:i:00');
 
         $stock_id = Stock::where('figi', $strategy->figi)->first()->id;
 
         $candles = Candle::where('tools_id', '=', $stock_id)->where('tools_type', '=', 'stock')->where('interval', '=', '5min')
             ->where('time', '>=', $start_period)
-            ->where('time', '<=', $end_period)->orderBy('time', 'asc')->get();
+            ->where('time', '<=', $wanted_end_period)->orderBy('time', 'asc')->get();
 
         $list = [];
         $key_time = [];
