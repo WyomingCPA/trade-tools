@@ -57,7 +57,7 @@ Route::group(['prefix' => 'bond', 'middleware' => 'auth:sanctum'], function () {
 	Route::post('untrash', ['uses' => 'BondController@untrashBond']);
 });
 //Роуты сделок
-Route::group(['prefix' => 'orders',], function () {
+Route::group(['prefix' => 'orders', 'middleware' => 'auth:sanctum'], function () {
     Route::post('/index', 'OrderController@index');
 	Route::get('stop-orders/{id}', ['uses' => 'OrderController@stopOrders']);
 	Route::get('chart-orders/{id}', ['uses' => 'OrderController@chartOrders']);
@@ -75,6 +75,9 @@ Route::group(['prefix' => 'test-strategy', 'middleware' => 'auth:sanctum'], func
 	Route::post('/delete-orders-test', 'TestStrategyController@deleteOrdersTest');
 	Route::get('strategy-chart/{id}', ['uses' => 'TestStrategyController@chartStrategy']);
 	Route::get('open-orders/{id}', ['uses' => 'TestStrategyController@openOrders']);
+});
+Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:sanctum'], function () {
+	Route::get('/index', 'DashboardController@index');
 });
 //Роуты личных финансов
 Route::group(['prefix' => 'finance', 'middleware' => 'auth:sanctum'], function () {
