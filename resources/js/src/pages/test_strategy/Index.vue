@@ -93,6 +93,9 @@
           >
             Delete Orders
           </b-button>
+          <button size="sm" @click="deleteTestStrategy(props, $event.target)">
+            Delete Test Strategy
+          </button>
         </span>
       </template>
     </vue-good-table>
@@ -274,6 +277,27 @@ export default {
           });
       });
     },
+    async deleteTestStrategy(item, button) {
+      var self = this;
+      this.loading = true;
+      axios.get("/sanctum/csrf-cookie").then((response) => {
+        axios
+          .post("/api/test-strategy/delete-strategy-test", {
+            selRows: item,
+          })
+          .then((response) => {
+            if (response.status) {
+              console.log("Вызвали алерт");
+              this.loading = false;
+              this.fetchRows();
+            } else {
+              console.log("Не работает");
+              console.log(response.status);
+              this.loading = false;
+            }
+          });
+      });
+    },
     async deleteOrdersOnChart(item, button) {
       var self = this;
       this.loading = true;
@@ -286,6 +310,7 @@ export default {
             if (response.status) {
               console.log("Вызвали алерт");
               this.loading = false;
+              this.fetchRows();
             } else {
               console.log("Не работает");
               console.log(response.status);

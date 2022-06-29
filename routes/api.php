@@ -73,6 +73,7 @@ Route::group(['prefix' => 'test-strategy', 'middleware' => 'auth:sanctum'], func
 	Route::post('/get-candle-test', 'TestStrategyController@getCandleTest');
 	Route::post('/set-orders-test', 'TestStrategyController@setOrdersTest');
 	Route::post('/delete-orders-test', 'TestStrategyController@deleteOrdersTest');
+	Route::post('/delete-strategy-test', 'TestStrategyController@deleteStrategyTest');	
 	Route::get('strategy-chart/{id}', ['uses' => 'TestStrategyController@chartStrategy']);
 	Route::get('open-orders/{id}', ['uses' => 'TestStrategyController@openOrders']);
 });

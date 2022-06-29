@@ -101,7 +101,12 @@ class TestStrategyController extends Controller
             $from = new DateTime($value->format('Y-m-d 10:i:00'));
             $to = new DateTime($value->format('Y-m-d 19:i:00'));
             try {
-                $candles = $client->getHistoryCandles($figi, $from, $to, TIIntervalEnum::MIN5);
+                $interval = TIIntervalEnum::MIN5;
+                if ($time_frame == "15min")
+                {
+                    $interval = TIIntervalEnum::MIN15;
+                }
+                $candles = $client->getHistoryCandles($figi, $from, $to, $interval);
             } catch (\Exception $e) {
                 echo $e->getMessage();
                 continue;
@@ -153,7 +158,7 @@ class TestStrategyController extends Controller
 
         $stock_id = Stock::where('figi', $strategy->figi)->first()->id;
 
-        $candles = Candle::where('tools_id', '=', $stock_id)->where('tools_type', '=', 'stock')->where('interval', '=', '5min')
+        $candles = Candle::where('tools_id', '=', $stock_id)->where('tools_type', '=', 'stock')->where('interval', '=', $strategy->time_frame)
             ->where('time', '>=', $start_period)
             ->where('time', '<=', $wanted_end_period)->orderBy('time', 'asc')->get();
 
@@ -198,6 +203,19 @@ class TestStrategyController extends Controller
         }
 
         $output = shell_exec($command);
+
+        return response([
+            'status' => true,
+        ], 200);
+    }
+
+    public function deleteStrategyTest(Request $request)
+    {
+        
+        $rows = $request->post('selRows');
+        $strategy = TestStrategy::find($rows['row']['id']);
+        $order_models = Order::where('strategy_id', $strategy->id)->delete();
+        $strategy->delete();
 
         return response([
             'status' => true,
