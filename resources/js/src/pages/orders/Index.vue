@@ -1,7 +1,16 @@
 <template>
   <div>
     <div class="alert alert-primary" role="alert">
-      Запуск бота<code> nohup /var/www/trader/env/bin/python main.py & </code
+      Запуск бота 5 мин<code>
+        nohup /var/www/trader/env/bin/python SuperTrend_MACD_TimeFrame_5min.py & </code
+      ><br />
+      Запуск бота 15 мин<code>
+        nohup /var/www/trader/env/bin/python SuperTrend_MACD_TimeFrame_15min.py
+        & </code
+      ><br />
+      Запуск чекера стоп-ордеров<code>
+        nohup /var/www/trader/env/bin/python check_stop_order.py
+        & </code
       ><br />
       Проверка состояния процесса <code>ps -ef | grep python</code>
     </div>
@@ -93,7 +102,7 @@
       :title="infoModal.title"
       @hide="resetInfoModal"
     >
-    <span v-html="infoModal.content"></span>
+      <span v-html="infoModal.content"></span>
     </b-modal>
   </div>
 </template>
@@ -245,7 +254,6 @@ export default {
       this.idCheck = item.id;
       console.log(item.note);
       this.$root.$emit("bv::show::modal", this.infoModal.id, button);
-
     },
     handleOk(bvModalEvt) {
       // Prevent modal from closing
@@ -253,9 +261,7 @@ export default {
       // Trigger submit handler
       this.handleSubmit();
     },
-    handleSubmit() {
-      
-    },
+    handleSubmit() {},
     fetchRows() {
       let self = this;
       this.loading = true;

@@ -97,7 +97,16 @@ class OrderController extends Controller
 
         $stock_id = Stock::where('figi', $order->figi)->first()->id;
 
-        $candles = Candle::where('tools_id', '=', $stock_id)->where('tools_type', '=', 'stock')->where('interval', '=', '5min')
+        $mystring = $order->strategy_name;
+        $time_frame   = '15min';
+        $pos = strpos($mystring, $time_frame);
+        if ($pos === false) {
+            $time_frame = '5min';
+        } else {
+            $time_frame = '15min';
+        }
+
+        $candles = Candle::where('tools_id', '=', $stock_id)->where('tools_type', '=', 'stock')->where('interval', '=', $time_frame)
             ->where('time', '>=', Carbon::create($order_time->year, $order_time->month, $order_time->day, 0))
             ->where('time', '<=', Carbon::create($order_time->year, $order_time->month, $order_time->day, 24))->orderBy('time', 'asc')->get();
 
