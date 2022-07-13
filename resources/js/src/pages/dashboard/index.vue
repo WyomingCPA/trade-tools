@@ -4,63 +4,7 @@
       <div class="col-md-4 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
-            <h4 class="card-title">Current Balance</h4>
-            <radial-progress-bar
-              class="ml-auto mr-auto demo-progress-circle"
-              :diameter="200"
-              :completed-steps="40"
-              :total-steps="100"
-              innerStrokeColor="#0c0c0c"
-              startColor="#d53f3a"
-              stopColor="#d53f3a"
-              :strokeWidth="20"
-            >
-            </radial-progress-bar>
-            <div class="row my-1">
-              <div class="col-lg-7 mx-auto text-center">
-                <div
-                  id="currentBalanceCircle"
-                  class="progressbar-js-circle demo-progress-circle"
-                ></div>
-                <h3 class="card-text mb-0 mt-4">360$</h3>
-                <p class="card-text">Total Expense</p>
-              </div>
-            </div>
-            <div class="row mt-3">
-              <div
-                class="
-                  col-12
-                  bg-gray-dark
-                  d-flex
-                  flex-row
-                  py-3
-                  px-4
-                  rounded
-                  justify-content-between
-                "
-              >
-                <div>
-                  <h6 class="mb-1">Transfer to stripe</h6>
-                  <p class="card-text">Dec 25, 2018</p>
-                </div>
-                <div class="align-self-center">
-                  <h6 class="font-weight-bold mb-0">650$</h6>
-                </div>
-              </div>
-            </div>
-            <div class="row mt-3">
-              <div
-                class="col-12 bg-gray-dark d-flex flex-row py-3 px-4 rounded"
-              >
-                <div>
-                  <h6 class="mb-1">Transfer to Paypal</h6>
-                  <p class="card-text">Dec 31, 2018</p>
-                </div>
-                <div class="align-self-center flex-grow text-right">
-                  <h6 class="font-weight-bold mb-0">530$</h6>
-                </div>
-              </div>
-            </div>
+              <h4></h4>
           </div>
         </div>
       </div>

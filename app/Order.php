@@ -4,14 +4,36 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Log;
+
+use TelegramBot\Api\BotApi;
 
 use App\Stock;
 use App\Candle;
 
 class Order extends Model
 {
-    protected $fillable = ['figi', 'current_price', 'note', 'strategy_name', 'status', 'quantity', 'created_at', 'strategy_id'];
+    protected $fillable = ['figi', 'order_id', 'direction', 'order_type', 'current_price', 'note', 'strategy_name', 'status', 'quantity', 'created_at', 'strategy_id'];
     protected $appends = ['stop-order-count', 'name-instrument', 'max-change-price-after-order'];
+
+    public static function boot() {
+
+        parent::boot();
+
+        static::created(function($item) {
+
+            if ($item->strategy_id == 0)
+            {
+                $messageText = "Позиция открыта $item->created_at \n";
+                $messageText .= "Figi инструмента $item->figi \n";  
+        
+                $chatId = '-414528593';
+        
+                $bot = new BotApi(env('TELEGRAM_TOKEN'));
+                $bot->sendMessage($chatId, $messageText, 'HTML');
+            }
+        });
+    }
 
     public function stops()
     {

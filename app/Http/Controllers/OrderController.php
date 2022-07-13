@@ -177,4 +177,14 @@ class OrderController extends Controller
             'list_stop_orders2' => $list_stop_orders2,
         ], 200);
     }
+
+    public function store(Request $request)
+    {
+        //$post = $request->post();
+        $model = Order::create($request->all());
+
+        return response()->json([
+            'status' => true,
+        ], 200);
+    }
 }

@@ -80,10 +80,16 @@ Route::group(['prefix' => 'test-strategy', 'middleware' => 'auth:sanctum'], func
 Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:sanctum'], function () {
 	Route::get('/index', 'DashboardController@index');
 });
+
 //Роуты личных финансов
 Route::group(['prefix' => 'finance', 'middleware' => 'auth:sanctum'], function () {
     Route::post('/store', 'CheckController@store');
 	Route::post('/delete', 'CheckController@delete');
     Route::post('/set-balance', 'CheckController@setBalance');
     Route::get('/', 'CheckController@index');
+});
+
+//Роуты для алготорговли
+Route::group(['prefix' => 'trader',], function () {
+    Route::post('/store', 'OrderController@store');
 });
