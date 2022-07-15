@@ -185,6 +185,7 @@ class OrderController extends Controller
 
         return response()->json([
             'status' => true,
+            'order_id' => $model->id,
         ], 200);
     }
 }

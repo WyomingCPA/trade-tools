@@ -5,11 +5,11 @@
         <div class="content-wrapper d-flex align-items-center auth">
           <div class="row w-100 flex-grow">
             <div class="col-xl-4 col-lg-6 mx-auto">
-              <div class="auth-form-dark text-left p-5">
+              <div class="auth-form-dark text-center p-5">
                 <div class="brand-logo">
-                  <img src="../../../assets/images/logo.svg" />
+                  <img class="" src="../../../assets/images/trading-icon-4.jpg" />
                 </div>
-                <h4>Hello! let's get started</h4>
+                <h4></h4>
                 <h6 class="font-weight-light"></h6>
                 <form action="#" class="pt-3" @submit.prevent="submit">
                   <div class="form-group">
@@ -31,7 +31,7 @@
                     />
                   </div>
                   <div class="mt-3">
-                    <button type="submit">Sign in</button>
+                    <button class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn router-link-active" type="submit">Sign in</button>
                   </div>
                   <div
                     class="
@@ -41,31 +41,6 @@
                       align-items-center
                     "
                   >
-                    <div class="form-check">
-                      <label class="form-check-label text-muted">
-                        <input type="checkbox" class="form-check-input" />
-                        Keep me signed in
-                        <i class="input-helper"></i>
-                      </label>
-                    </div>
-                    <a href="javascript:void(0);" class="auth-link text-info"
-                      >Forgot password?</a
-                    >
-                  </div>
-                  <div class="mb-2">
-                    <button
-                      type="button"
-                      class="btn btn-block btn-facebook auth-form-btn"
-                    >
-                      <i class="mdi mdi-facebook mr-2"></i>Connect using
-                      facebook
-                    </button>
-                  </div>
-                  <div class="text-center mt-4 font-weight-light">
-                    Don't have an account?
-                    <router-link to="/auth-pages/register" class="text-primary"
-                      >Create</router-link
-                    >
                   </div>
                 </form>
               </div>

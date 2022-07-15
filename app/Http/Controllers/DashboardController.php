@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 use App\Order;
+use App\Candle;
 
 class DashboardController extends Controller
 {
@@ -26,10 +27,19 @@ class DashboardController extends Controller
             ->whereMonth('created_at', date('m'))
             ->orderByDesc('created_at')->count();
 
+        $count_all_candles = Candle::all()->count(); 
+        $candles_last_ago = Candle::where('created_at', '>=', Carbon::now()->subDays(1)->startOfDay())->orderByDesc('created_at')->first();
+        if ($candles_last_ago != null)
+        {
+            $candles_lastg_ago_text = $candles_last_ago->created_at->diffForHumans();
+        }   
+        
         return response([
             'today_open_orders' => $today_open_orders,
             'week_open_orders' => $week_open_orders,
             'month_open_orders' => $month_open_orders,
+            'count_all_candles' => $count_all_candles,
+            'candles_last_ago' => $candles_lastg_ago_text ?? 'No',
         ], 200);
     }
 }
