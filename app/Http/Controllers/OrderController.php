@@ -13,7 +13,6 @@ use App\StopOrder;
 
 class OrderController extends Controller
 {
-
     public function index(Request $request)
     {
         $objects = Order::where('current_price', '!=', 0)->where('strategy_id', '=', 0)->orderByDesc('created_at');
@@ -88,7 +87,7 @@ class OrderController extends Controller
             'status' => true,
         ], 200);
     }
-    
+
     public function chartOrders(Request $request)
     {
         $id = $request->route('id');
@@ -119,54 +118,44 @@ class OrderController extends Controller
                 $list[] = array((int)$timestamp, $item->open, $item->high, $item->low, $item->close, $item->volume);
                 $key_time[$timestamp] = $timestamp;
             }
-        }      
-         
+        }
+
         $start_period = Carbon::parse($order_time)->subHour(10);
         $end_period =  Carbon::parse($order_time)->addHours(6);
         $end = str_pad($end_period->timestamp, 13, "0");
         $start = str_pad($start_period->timestamp, 13, "0");
         $order_indicators_time = str_pad($order_time->timestamp, 13, "0");
         //$orders [] = [$order_indicators_time, "Bay. Price: " . $order->current_price, 1, "#34a853", 0.55];
-        $orders [] = [$order_indicators_time, 1, $order->current_price,  "Bay. Price: " . $order->current_price];
+        $orders[] = [$order_indicators_time, 1, $order->current_price,  "Bay. Price: " . $order->current_price];
         //[1617198300000, "Bay Ema Indicator", 0, "#34a853", 0.75],
         //Делаем время начала и конец в timestamp
-        
+
         //Получаем список стоп-ордеоров, разделяя их на стоплосс и тайкпрофит
         $stop_orders_list = $order->stops;
         $list_take_profit1 = [];
         $list_take_profit2 = [];
         $list_stop_orders1 = [];
         $list_stop_orders2 = [];
-        foreach ($stop_orders_list as $item)
-        {
-            if ($item->expiration_type == 'StopOrderType.STOP_ORDER_TYPE_STOP_LOSS')
-            {
+        foreach ($stop_orders_list as $item) {
+            if ($item->expiration_type == 'StopOrderType.STOP_ORDER_TYPE_STOP_LOSS') {
                 for ($i = 1; $i <= 2; $i++) {
-                    if ($i == 1)
-                    {
+                    if ($i == 1) {
                         $list_stop_orders1 = [$start, $item->price];
-                    }
-                    else 
-                    {
+                    } else {
                         $list_stop_orders2 = [$end, $item->price];
                     }
                 }
-            }
-            else
-            {
+            } else {
                 for ($i = 1; $i <= 2; $i++) {
-                    if ($i == 1)
-                    {
+                    if ($i == 1) {
                         $list_take_profit1 = [$start, $item->price];
-                    }
-                    else 
-                    {
+                    } else {
                         $list_take_profit2 = [$end, $item->price];
                     }
                 }
             }
         }
-        
+
 
         return response([
             'candles' => $list,
@@ -186,6 +175,21 @@ class OrderController extends Controller
         return response()->json([
             'status' => true,
             'order_id' => $model->id,
+        ], 200);
+    }
+
+    public function delete(Request $request)
+    {
+        $rows = $request->post('selRows');
+        $select = [];
+        foreach ($rows as $value) {
+            $select[] = $value['id'];
+        }
+        $stop_orders = StopOrder::whereIn('order_id', $select)->delete();
+        $orders = Order::whereIn('id', $select)->delete();
+
+        return response([
+            'status' => true,
         ], 200);
     }
 }

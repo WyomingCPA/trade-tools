@@ -9,8 +9,7 @@
         & </code
       ><br />
       Запуск чекера стоп-ордеров<code>
-        nohup /var/www/trader/env/bin/python check_stop_order.py
-        & </code
+        nohup /var/www/trader/env/bin/python check_stop_order.py & </code
       ><br />
       Проверка состояния процесса <code>ps -ef | grep python</code>
     </div>
@@ -58,6 +57,9 @@
       </div>
       <div slot="selected-row-actions">
         <button v-on:click="nothingOrder">Ничего</button>
+      </div>
+      <div slot="selected-row-actions">
+        <button class="btn btn-danger" v-on:click="deleteOrder">Delete</button>
       </div>
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field === 'name'">
@@ -235,6 +237,25 @@ export default {
       axios.get("/sanctum/csrf-cookie").then((response) => {
         axios
           .post("/api/orders/set-nothing", { selRows: this.selRows })
+          .then((response) => {
+            if (response.status) {
+              console.log("Вызвали алерт");
+              this.fetchRows();
+              this.loading = false;
+            } else {
+              console.log("Не работает");
+              console.log(response.status);
+              this.loading = false;
+            }
+          });
+      });
+    },
+    deleteOrder: function (event, rows) {
+      var self = this;
+      this.loading = true;
+      axios.get("/sanctum/csrf-cookie").then((response) => {
+        axios
+          .post("/api/orders/delete", { selRows: this.selRows })
           .then((response) => {
             if (response.status) {
               console.log("Вызвали алерт");

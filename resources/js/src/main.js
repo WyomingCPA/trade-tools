@@ -13,8 +13,8 @@ Vue.use(VueSweetalert2)
 Vue.use(VueGoodTablePlugin);
 Vue.config.productionTip = false
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-axios.defaults.baseURL = 'http://localhost/trade-tools/public'
-//axios.defaults.baseURL = 'http://trade-tools.simpleitrunner.ru:3000/';
+//axios.defaults.baseURL = 'http://localhost/trade-tools/public'
+axios.defaults.baseURL = 'http://trade-tools.simpleitrunner.ru:3000/';
 axios.defaults.withCredentials = true
 
 store.dispatch('me').then(() => {
