@@ -13,6 +13,8 @@ use App\Candle;
 
 class Order extends Model
 {
+    public $timestamps = false;
+
     protected $fillable = ['figi', 'order_id', 'direction', 'order_type', 'current_price', 'note', 'strategy_name', 'status', 'quantity', 'created_at', 'strategy_id'];
     protected $appends = ['stop-order-count', 'name-instrument', 'max-change-price-after-order'];
 
