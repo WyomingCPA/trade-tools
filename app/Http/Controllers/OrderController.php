@@ -10,6 +10,7 @@ use App\Candle;
 use App\Order;
 use App\Stock;
 use App\StopOrder;
+use App\OrderSpot;
 
 class OrderController extends Controller
 {
@@ -43,6 +44,25 @@ class OrderController extends Controller
         $objects = StopOrder::where('order_id', '=', $id)->orderByDesc('created_at');
         return response()->json([
             'stocks'  => $objects->get()->toArray(),
+        ]);
+    }
+
+    public function spotOrders(Request $request)
+    {
+        $id = $request->route('id');
+        $objects = OrderSpot::where('order_id', '=', $id)->orderByDesc('created_at');
+        return response()->json([
+            'spots'  => $objects->get()->toArray(),
+        ]);
+    }
+
+    public function spotDetail(Request $request)
+    {
+        $id = $request->route('id');
+        $model = OrderSpot::find($id);
+        $data = json_decode($model->data, true);
+        return response()->json([
+            'data' => $data,
         ]);
     }
 
@@ -176,6 +196,18 @@ class OrderController extends Controller
             'status' => true,
             'order_id' => $model->id,
         ], 200);
+    }
+
+    public function addSpot(Request $request)
+    {
+        $model = OrderSpot::create([
+            'order_id' => $request->order_id,
+            'type' => $request->type,
+            'data' => $request->value,
+        ]);
+        return response([
+            'status' => true,
+        ], 200);        
     }
 
     public function delete(Request $request)

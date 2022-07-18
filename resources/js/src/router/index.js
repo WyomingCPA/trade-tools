@@ -69,6 +69,22 @@ function configRoutes() {
           }
         },
         {
+          path: 'spot-orders/:id',
+          name: 'spot-orders',
+          component: () => import('@/pages/orders/SpotOrders'),
+          meta: {
+            authRequired: true
+          }
+        },
+        {
+          path: 'spot-detil/:id',
+          name: 'spot-detil',
+          component: () => import('@/pages/spot/Detail'),
+          meta: {
+            authRequired: true
+          }
+        },
+        {
           path: 'order-chart/:id',
           name: 'order-chart',
           component: () => import('@/pages/orders/chart/Test'),

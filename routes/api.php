@@ -60,6 +60,8 @@ Route::group(['prefix' => 'bond', 'middleware' => 'auth:sanctum'], function () {
 Route::group(['prefix' => 'orders', 'middleware' => 'auth:sanctum'], function () {
     Route::post('/index', 'OrderController@index');
 	Route::get('stop-orders/{id}', ['uses' => 'OrderController@stopOrders']);
+	Route::get('spot-orders/{id}', ['uses' => 'OrderController@spotOrders']);
+	Route::get('spot-detil/{id}', ['uses' => 'OrderController@spotDetail']);
 	Route::get('chart-orders/{id}', ['uses' => 'OrderController@chartOrders']);
 	Route::post('set-success', 'OrderController@setSuccess');
 	Route::post('set-fail', 'OrderController@setFail');
@@ -94,4 +96,5 @@ Route::group(['prefix' => 'finance', 'middleware' => 'auth:sanctum'], function (
 //Роуты для алготорговли
 Route::group(['prefix' => 'trader',], function () {
     Route::post('/store', 'OrderController@store');
+	Route::post('/add_spot', 'OrderController@addSpot');
 });

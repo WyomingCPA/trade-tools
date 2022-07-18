@@ -16,7 +16,7 @@ class Order extends Model
     public $timestamps = false;
 
     protected $fillable = ['figi', 'order_id', 'direction', 'order_type', 'current_price', 'note', 'strategy_name', 'status', 'quantity', 'created_at', 'strategy_id'];
-    protected $appends = ['stop-order-count', 'name-instrument', 'max-change-price-after-order'];
+    protected $appends = ['stop-order-count', 'spot-order-count', 'name-instrument', 'max-change-price-after-order'];
 
     public static function boot() {
 
@@ -50,6 +50,12 @@ class Order extends Model
     public function getStopOrderCountAttribute()
     {
         $stop_orders = StopOrder::where('order_id', '=', $this->id)->count();
+        return $stop_orders;
+    }
+
+    public function getSpotOrderCountAttribute()
+    {
+        $stop_orders = OrderSpot::where('order_id', '=', $this->id)->count();
         return $stop_orders;
     }
 

@@ -69,6 +69,14 @@
             >{{ props.row.name }}</a
           >
         </span>
+        <span v-else-if="props.column.field === 'spot-order-count'">
+          <a
+            target="_blank"
+            class="btn btn-primary"
+            :href="'/orders/spot-orders/' + props.row.id"
+            >{{ props.row["spot-order-count"] }}</a
+          >
+        </span>
         <span v-else-if="props.column.field === 'stop-order-count'">
           <a
             target="_blank"
@@ -152,6 +160,11 @@ export default {
         {
           label: "Lot",
           field: "quantity",
+        },
+        {
+          label: "Indicators",
+          field: "spot-order-count",
+          type: "number",
         },
         {
           label: "STOP Orders",
