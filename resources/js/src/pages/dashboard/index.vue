@@ -53,6 +53,38 @@
                       </div>
                     </div>
                   </div>
+                  <div class="preview-item border-bottom py-3">
+                    <div class="preview-thumbnail">
+                      <div class="preview-icon bg-primary rounded">
+                        <i class="mdi mdi-check"></i>
+                      </div>
+                    </div>
+                    <div class="preview-item-content d-sm-flex flex-grow">
+                      <div class="flex-grow">
+                        <h6 class="preview-subject">
+                          Общее количество ордеров
+                        </h6>
+                        <p class="mb-0">{{ count_all_orders }}</p>
+                      </div>
+                      <div class="mr-auto text-sm-right pt-2 pt-sm-0">
+                        <p class="text-muted">{{ orders_last_ago }}</p>
+                        <b-button
+                          v-on:click="deleteAllOrders"
+                          type="submit"
+                          variant="success"
+                          class="mr-2"
+                          ><span v-show="!loading"> Удалить все </span>
+                          <div
+                            v-show="loading"
+                            class="spinner-border spinner-border-sm"
+                            role="status"
+                          >
+                            <span class="sr-only">Loading...</span>
+                          </div>
+                        </b-button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -125,6 +157,8 @@ export default {
       month_open_orders: { type: Number },
       count_all_candles: { type: Number },
       candles_last_ago: { type: String },
+      count_all_orders: { type: Number },
+      orders_last_ago: { type: String },
       dataUrl: { type: String },
       loading: false,
       id_order: 0,
@@ -145,7 +179,9 @@ export default {
           self.month_open_orders = response.data.month_open_orders;
           self.count_all_candles = response.data.count_all_candles;
           self.candles_last_ago = response.data.candles_last_ago;
-          
+          self.count_all_orders = response.data.count_all_orders;
+          self.orders_last_ago = response.data.orders_last_ago;
+
           self.loading = false;
           console.log(response.data.count_all_candles);
         })
@@ -158,8 +194,29 @@ export default {
       this.loading = true;
       axios.get("/sanctum/csrf-cookie").then((response) => {
         axios
-          .post("/api/dashboard/delete-all-candles", {
+          .post("/api/dashboard/delete-all-candles", {})
+          .then((response) => {
+            if (response.status) {
+              self.loading = false;
+              this.fetchData();
+            } else {
+              console.log("Не работает");
+              console.log(response.status);
+              self.loading = false;
+            }
           })
+          .catch(function (error) {
+            console.log(response);
+            console.error(error);
+          });
+      });
+    },
+    async deleteAllOrders() {
+      let self = this;
+      this.loading = true;
+      axios.get("/sanctum/csrf-cookie").then((response) => {
+        axios
+          .post("/api/dashboard/delete-all-orders", {})
           .then((response) => {
             if (response.status) {
               self.loading = false;

@@ -218,9 +218,21 @@ class OrderController extends Controller
             $select[] = $value['id'];
         }
         $stop_orders = StopOrder::whereIn('order_id', $select)->delete();
+        $spot_orders = OrderSpot::whereIn('order_id', $select)->delete();
         $orders = Order::whereIn('id', $select)->delete();
 
         return response([
+            'status' => true,
+        ], 200);
+    }
+
+    public function deleteAll(Request $request)
+    {
+        $order = Order::truncate();
+        $stop_order = StopOrder::truncate();
+        $spots = OrderSpot::truncate();
+
+        return response()->json([
             'status' => true,
         ], 200);
     }

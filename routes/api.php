@@ -83,6 +83,7 @@ Route::group(['prefix' => 'test-strategy', 'middleware' => 'auth:sanctum'], func
 Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:sanctum'], function () {
 	Route::get('/index', 'DashboardController@index');
 	Route::post('/delete-all-candles', 'CandleController@deleteAll');
+	Route::post('/delete-all-orders', 'OrderController@deleteAll');
 });
 
 //Роуты личных финансов
