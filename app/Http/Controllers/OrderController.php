@@ -11,6 +11,7 @@ use App\Order;
 use App\Stock;
 use App\StopOrder;
 use App\OrderSpot;
+use App\StatusScript;
 
 class OrderController extends Controller
 {
@@ -208,6 +209,24 @@ class OrderController extends Controller
         return response([
             'status' => true,
         ], 200);        
+    }
+
+    public function checkScript(Request $request)
+    {
+        $post  = $request->post();
+        foreach ($post as $name => $value)
+        {
+
+            $model = StatusScript::updateOrCreate(
+                ['name' => $name,],
+                [
+                    'is_run' => (int)$value,
+                ]
+            );
+        } 
+        return response([
+            'status' => true,
+        ], 200);  
     }
 
     public function delete(Request $request)

@@ -7,6 +7,7 @@ use Carbon\Carbon;
 
 use App\Order;
 use App\Candle;
+use App\StatusScript;
 
 class DashboardController extends Controller
 {
@@ -39,7 +40,9 @@ class DashboardController extends Controller
         if ($orders_last_ago != null)
         {
             $orders_lastg_ago_text = $orders_last_ago->created_at;
-        } 
+        }
+        $all_scripts = StatusScript::all(); 
+
         return response([
             'today_open_orders' => $today_open_orders,
             'week_open_orders' => $week_open_orders,
@@ -48,6 +51,7 @@ class DashboardController extends Controller
             'candles_last_ago' => $candles_lastg_ago_text ?? 'No',
             'count_all_orders' => $count_all_orders,
             'orders_last_ago' => $orders_lastg_ago_text ?? 'No',
+            'all_scripts' => $all_scripts,
         ], 200);
     }
 }

@@ -13,8 +13,7 @@
           <div class="card-body">
             <div class="d-flex flex-row justify-content-between">
               <div>
-                <h4 class="card-title">Быстрые действия</h4>
-                <p>Статус</p>
+                <h4 class="card-title">Сервис</h4>
               </div>
               <div class="align-self-center">
                 <p class="text-muted">Действия</p>
@@ -23,6 +22,31 @@
             <div class="row">
               <div class="col-12">
                 <div class="preview-list">
+                  <div class="row mt-3" v-for="item in all_scripts" v-bind:key="item.id">
+                    <div
+                      class="
+                        col-12
+                        bg-gray-dark
+                        d-flex
+                        flex-row
+                        py-3
+                        px-4
+                        rounded
+                        justify-content-between
+                      "
+                    >
+                      <div>
+                        <h6 class="mb-1">{{ item.name }}</h6>
+                        <p class="card-text">Last update {{ item.updated_at }}</p>
+                      </div>
+                      <div class="align-self-center">
+                        <h6 class="font-weight-bold mb-0 " :class="getStatusBadgeClass(item.is_run)">
+                          <span v-if="item.is_run == 1">Работает</span>
+                          <span v-else>Не работает</span>
+                        </h6>
+                      </div>
+                    </div>
+                  </div>
                   <div class="preview-item border-bottom py-3">
                     <div class="preview-thumbnail">
                       <div class="preview-icon bg-primary rounded">
@@ -159,6 +183,7 @@ export default {
       candles_last_ago: { type: String },
       count_all_orders: { type: Number },
       orders_last_ago: { type: String },
+      all_scripts: [],
       dataUrl: { type: String },
       loading: false,
       id_order: 0,
@@ -181,7 +206,7 @@ export default {
           self.candles_last_ago = response.data.candles_last_ago;
           self.count_all_orders = response.data.count_all_orders;
           self.orders_last_ago = response.data.orders_last_ago;
-
+          self.all_scripts = response.data.all_scripts;
           self.loading = false;
           console.log(response.data.count_all_candles);
         })
@@ -232,6 +257,19 @@ export default {
             console.error(error);
           });
       });
+    },
+    getStatusBadgeClass(status) {
+      if (status == "empty") {
+        return "badge badge-primary";
+      } else if (status == 1) {
+        return "badge badge-success";
+      } else if (status == 0) {
+        return "badge badge-danger";
+      } else if (status == "nothing") {
+        return "badge badge-info";
+      } else {
+        return "";
+      }
     },
   },
   created() {
