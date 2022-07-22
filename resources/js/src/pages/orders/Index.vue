@@ -4,20 +4,6 @@
       Запуск бота 5 мин<code>
         nohup /var/www/trader/env/bin/python SuperTrend_MACD_TimeFrame_5min.py &
       </code>
-      <b-button
-        v-on:click="startScriptSuperTrend5min"
-        type="submit"
-        variant="success"
-        class="mr-2"
-        ><span v-show="!loading">Запустить</span>
-        <div
-          v-show="loading"
-          class="spinner-border spinner-border-sm"
-          role="status"
-        >
-          <span class="sr-only">Loading...</span>
-        </div>
-      </b-button>
       <br />
       Запуск бота 15 мин<code>
         nohup /var/www/trader/env/bin/python SuperTrend_MACD_TimeFrame_15min.py
@@ -26,21 +12,7 @@
       <br />
       Запуск чекера стоп-ордеров<code>
         nohup /var/www/trader/env/bin/python check_stop_order.py &
-      </code>
-      <b-button
-        v-on:click="startScriptCheckStopOrder"
-        type="submit"
-        variant="success"
-        class="mr-2"
-        ><span v-show="!loading">Запустить</span>
-        <div
-          v-show="loading"
-          class="spinner-border spinner-border-sm"
-          role="status"
-        >
-          <span class="sr-only">Loading...</span>
-        </div> </b-button
-      ><br />
+      </code><br/>
       Проверка состояния процесса <code>ps -ef | grep python</code>
     </div>
     <vue-good-table
@@ -235,50 +207,6 @@ export default {
     },
     selectionChanged: function (params) {
       this.selRows = params.selectedRows;
-    },
-    async startScriptSuperTrend5min() {
-      let self = this;
-      this.loading = true;
-      axios.get("/sanctum/csrf-cookie").then((response) => {
-        axios
-          .post("/api/orders/start-script-super-trend-5min", {})
-          .then((response) => {
-            if (response.status) {
-              self.loading = false;
-              this.fetchData();
-            } else {
-              console.log("Не работает");
-              console.log(response.status);
-              self.loading = false;
-            }
-          })
-          .catch(function (error) {
-            console.log(response);
-            console.error(error);
-          });
-      });
-    },
-    async startScriptCheckStopOrder() {
-      let self = this;
-      this.loading = true;
-      axios.get("/sanctum/csrf-cookie").then((response) => {
-        axios
-          .post("/api/orders/start-script-check-stop-order", {})
-          .then((response) => {
-            if (response.status) {
-              self.loading = false;
-              this.fetchData();
-            } else {
-              console.log("Не работает");
-              console.log(response.status);
-              self.loading = false;
-            }
-          })
-          .catch(function (error) {
-            console.log(response);
-            console.error(error);
-          });
-      });
     },
     successOrder: function (event, rows) {
       var self = this;

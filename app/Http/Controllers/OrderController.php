@@ -255,39 +255,4 @@ class OrderController extends Controller
             'status' => true,
         ], 200);
     }
-
-    public function startScriptSuperTrend5min(Request $request)
-    {     
-        $command = '';
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            
-        } else {
-            $command = escapeshellcmd("nohup /var/www/trader/env/bin/python SuperTrend_MACD_TimeFrame_5min.py &");
-            $output = shell_exec($command);
-        }
-
-        return response([
-            'status' => true,
-        ], 200);
-    }
-
-    public function startScriptCheckStopOrder(Request $request)
-    {     
-        $file_name = 
-        $command = 'check_stop_order.py';
-        $string_command = "-sn $file_name";
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            
-        } else {
-            $command = escapeshellcmd("sudo /var/www/trader/env/bin/python /var/www/trader/tools/bash_start_script/start_script.py $string_command");
-            //$command = escapeshellcmd("nohup /var/www/trader/env/bin/python /var/www/trader/check_stop_order.py &");
-            $output = shell_exec($command);
-        }
-
-        return response([
-            'status' => true,
-        ], 200);
-    }
-
-
 }
