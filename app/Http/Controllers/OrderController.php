@@ -273,11 +273,13 @@ class OrderController extends Controller
 
     public function startScriptCheckStopOrder(Request $request)
     {     
-        $command = '';
+        $file_name = 
+        $command = 'check_stop_order.py';
+        $string_command = "-sn $file_name";
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             
         } else {
-            $command = escapeshellcmd("nohup /var/www/trader/env/bin/python check_stop_order.py &");
+            $command = escapeshellcmd("/var/www/trader/env/bin/python /var/www/trader/tools/bash_start_script/start_script.py $string_command");
             $output = shell_exec($command);
         }
 
