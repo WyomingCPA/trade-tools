@@ -279,7 +279,8 @@ class OrderController extends Controller
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             
         } else {
-            $command = escapeshellcmd("/var/www/trader/env/bin/python /var/www/trader/tools/bash_start_script/start_script.py $string_command");
+            //$command = escapeshellcmd("/var/www/trader/env/bin/python /var/www/trader/tools/bash_start_script/start_script.py $string_command");
+            $command = escapeshellcmd("nohup /var/www/trader/env/bin/python /var/www/trader/check_stop_order.py &");
             $output = shell_exec($command);
         }
 
