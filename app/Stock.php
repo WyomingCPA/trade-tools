@@ -196,10 +196,6 @@ class Stock extends Model
         
     }
 
-    public function emaDayIndicator()
-    {
-        return $this->hasOne('App\EmaDayIndicator');
-    }
     //Аттрибут расчитывает минимальную цену за период
     //И возвращает процентную разницу
     public function getMinPrecentAttribute()
