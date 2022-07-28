@@ -231,7 +231,7 @@
           <b-collapse accordion="sidebar-accordion" id="futures">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
-                <router-link class="nav-link" to="/futures/all/"
+                <router-link class="nav-link" to="/futures/index/"
                   >Все</router-link
                 >
               </li>

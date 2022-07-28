@@ -209,6 +209,28 @@ function configRoutes() {
       ]
     },
     {
+      path: '/futures',
+      component: layout,
+      children: [
+        {
+          path: 'index',
+          name: 'futures-index',
+          component: () => import('@/pages/futures/Index'),
+          meta: {
+            authRequired: true
+          }
+        },
+        {
+          path: 'favorite',
+          name: 'futures-favorite',
+          component: () => import('@/pages/futures/Favorite'),
+          meta: {
+            authRequired: true
+          }
+        },
+      ]
+    },
+    {
       path: '/bond',
       component: layout,
       children: [

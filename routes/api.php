@@ -45,6 +45,15 @@ Route::group(['prefix' => 'etf', 'middleware' => 'auth:sanctum'], function () {
 	Route::post('unfavorite', ['uses' => 'EtfController@unFavoriteEtf']);
 	Route::get('mini-charts/{id}', ['uses' => 'EtfController@miniCandleCharts']);
 });
+//Роуты Фьючерсов
+Route::group(['prefix' => 'futures', 'middleware' => 'auth:sanctum'], function () {
+	Route::get('all', ['uses' => 'FuturesController@index']);
+	Route::post('/get-all-futures', 'FuturesController@getAllFutures');
+	Route::post('favorite', ['uses' => 'FuturesController@setFavorite']);
+	Route::get('favorites', ['uses' => 'FuturesController@getFavorite']);
+	Route::post('unfavorite', ['uses' => 'FuturesController@unFavoriteFutures']);		
+});
+
 //Роуты облигаций
 Route::group(['prefix' => 'bond', 'middleware' => 'auth:sanctum'], function () {
 	Route::post('all', ['uses' => 'BondController@all']);
@@ -99,4 +108,8 @@ Route::group(['prefix' => 'trader',], function () {
 	Route::post('/check-script', 'OrderController@checkScript');
     Route::post('/store', 'OrderController@store');
 	Route::post('/add_spot', 'OrderController@addSpot');
+	Route::post('/store-all-futures', 'FuturesController@storeAllFutures');
+
+	Route::get('favorites', ['uses' => 'FuturesController@getFavoriteNotAuth']);
+	
 });

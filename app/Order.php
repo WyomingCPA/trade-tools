@@ -24,7 +24,7 @@ class Order extends Model
 
         static::created(function($item) {
 
-            if ($item->strategy_id == 0)
+            if ($item->strategy_id == 0 && $item->strategy_name != 'SuperTrend_MACD_TimeFrame_5min_future_simple')
             {
                 $messageText = "Позиция открыта $item->created_at \n";
                 $messageText .= "Figi инструмента $item->figi \n";  
@@ -34,6 +34,20 @@ class Order extends Model
                 $bot = new BotApi(env('TELEGRAM_TOKEN'));
                 $bot->sendMessage($chatId, $messageText, 'HTML');
             }
+            if ($item->strategy_id == 0 && $item->strategy_name === 'SuperTrend_MACD_TimeFrame_5min_future_simple')
+            {
+                $future = Futures::where('figi', $item->figi)->first();
+                $messageText = "Сигнал SuperTrend 5 min на $item->direction \n";
+
+                $messageText .= "Название инструмента $future->name \n";
+                $messageText .= "<a target='_blank' href='https://www.tinkoff.ru/invest/futures/{$future->ticker}'>{$future->name}</a>\n";  
+        
+                $chatId = '-607026497';
+        
+                $bot = new BotApi(env('TELEGRAM_TOKEN'));
+                $bot->sendMessage($chatId, $messageText, 'HTML');
+            }
+
         });
     }
 
