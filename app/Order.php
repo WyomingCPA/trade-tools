@@ -40,6 +40,7 @@ class Order extends Model
                 $messageText = "Сигнал SuperTrend 5 min на $item->direction \n";
 
                 $messageText .= "Название инструмента $future->name \n";
+
                 $messageText .= "<a target='_blank' href='https://www.tinkoff.ru/invest/futures/{$future->ticker}'>{$future->name}</a>\n";  
         
                 $chatId = '-607026497';
@@ -75,7 +76,7 @@ class Order extends Model
 
     public function getNameInstrumentAttribute()
     {
-        $name = Stock::where('figi', $this->figi)->first()->name;
+        $name = Stock::where('figi', $this->figi)->first()->name ?? Futures::where('figi', $this->figi)->first()->name;
         return $name;
     }
 
@@ -83,7 +84,7 @@ class Order extends Model
     {
         $order_time = Carbon::parse($this->created_at);
 
-        $stock_id = Stock::where('figi', $this->figi)->first()->id;
+        $stock_id = Stock::where('figi', $this->figi)->first()->id ?? Futures::where('figi', $this->figi)->first()->id;
 
         $candles = Candle::where('tools_id', '=', $stock_id)->where('tools_type', '=', 'stock')->where('interval', '=', '5min')
             ->where('time', '>=', Carbon::create($order_time->year, $order_time->month, $order_time->day, $order_time->hour-3, $order_time->minute))

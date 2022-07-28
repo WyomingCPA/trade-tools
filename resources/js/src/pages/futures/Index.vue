@@ -24,8 +24,12 @@
     </div>
 
     <vue-good-table
+      @on-page-change="onPageChange"
+      @on-per-page-change="onPerPageChange"
+      @on-search="onSearch"
       @on-selected-rows-change="selectionChanged"
       :isLoading="loading"
+      :totalRows="count"
       theme="nocturnal"
       :columns="columns"
       :rows="items"
@@ -36,9 +40,9 @@
       :pagination-options="{
         enabled: true,
         mode: 'records',
-        perPage: 100,
+        perPage: 20,
         position: 'top',
-        perPageDropdown: [200, 300, 500],
+        perPageDropdown: null,
         dropdownAllowAll: false,
         setCurrentPage: 1,
         nextLabel: 'next',
@@ -47,6 +51,7 @@
         ofLabel: 'of',
         pageLabel: 'page', // for 'pages' mode
         allLabel: 'All',
+        chunk: 5,
       }"
       :search-options="{ enabled: true }"
       :select-options="{
@@ -85,12 +90,17 @@
 // import the styles
 import axios from "axios";
 import "vue-good-table/dist/vue-good-table.css";
+var qs = require("qs");
 
 export default {
   name: "futures-all",
   data() {
     return {
       loading: false,
+      count: { type: Number },
+      serverParams: {
+        name: "",
+      },
       items: [
         {
           name: "-",
@@ -132,14 +142,22 @@ export default {
       let self = this;
       this.loading = true;
       axios
-        .get("/api/futures/all")
-        .then(function (response) {
-          self.items = response.data.futures;
-          console.log(response.data.futures);
-          self.loading = false;
+        .request({
+          method: "get",
+          url: "/api/futures/all",
+          params: this.serverParams,
+          paramsSerializer: (params) => {
+            return qs.stringify(params);
+          },
         })
-        .catch(function (error) {
-          console.error(error);
+        .then((response) => {
+          self.items = response.data.futures;
+          self.count = response.data.count;
+          self.loading = false;
+          console.log("test")
+        })
+        .catch((error) => {
+          console.log(error);
           self.loading = false;
         });
     },
@@ -164,6 +182,23 @@ export default {
             console.error(error);
           });
       });
+    },
+    updateParams(newProps) {
+      this.serverParams = Object.assign({}, this.serverParams, newProps);
+    },
+    onPageChange(params) {
+      this.updateParams({ page: params.currentPage });
+      this.fetchData();
+
+    },
+    onSearch(params) {
+      this.updateParams({ name: params });
+      this.fetchData();
+      this.loading = false;
+    },
+    onPerPageChange(params) {
+      this.updateParams({ perPage: params.currentPerPage });
+      this.fetchData();
     },
     selectionChanged: function (params) {
       this.selRows = params.selectedRows;

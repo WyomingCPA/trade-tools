@@ -29,7 +29,7 @@ class OrderController extends Controller
         $created_at = $request->get('created_at');
 
         if ($figi !== null) {
-            $objects->where('name', 'like', '%' . $figi['searchTerm'] . '%');
+            $objects->where('figi', 'like', '%' . $figi['searchTerm'] . '%');
         }
         $objects->offset($limit * ($page - 1))->limit($limit);
         if ($request->isMethod('post')) {
@@ -62,6 +62,7 @@ class OrderController extends Controller
         $id = $request->route('id');
         $model = OrderSpot::find($id);
         $data = json_decode($model->data, true);
+        
         return response()->json([
             'data' => $data,
         ]);

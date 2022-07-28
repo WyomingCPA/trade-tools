@@ -18,7 +18,6 @@
     <vue-good-table
       @on-page-change="onPageChange"
       @on-per-page-change="onPerPageChange"
-      @on-search="onSearch"
       @on-selected-rows-change="selectionChanged"
       :isLoading="loading"
       :totalRows="count"
@@ -46,7 +45,7 @@
         allLabel: 'All',
         chunk: 5,
       }"
-      :search-options="{ enabled: true }"
+
       :select-options="{
         enabled: true,
       }"
