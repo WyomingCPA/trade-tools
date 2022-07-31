@@ -132,13 +132,29 @@ class OrderController extends Controller
             ->where('time', '<=', Carbon::create($order_time->year, $order_time->month, $order_time->day, 24))->orderBy('time', 'asc')->get();
 
         $list = [];
+        $rsi_data = [];
+        $rsi_raw = [];
         $key_time = [];
         $orders = [];
+        $key_time_rsi = [];
+
         foreach ($candles as $item) {
             $timestamp = str_pad(Carbon::parse($item->time)->addHours(3)->timestamp, 13, "0");
             if (!array_key_exists($timestamp, $key_time)) {
                 $list[] = array((int)$timestamp, $item->open, $item->high, $item->low, $item->close, $item->volume);
                 $key_time[$timestamp] = $timestamp;
+                $rsi_raw['close'][] = $item->close;
+                $rsi_raw['time'][] = $timestamp;
+                $key_time_rsi[$timestamp] = $timestamp;   
+            }
+        }
+        if (array_key_exists('close', $rsi_raw)) {
+            $rsi = trader_rsi($rsi_raw['close'], 14);
+            if ($rsi != false) {
+                foreach ($rsi as $key => $value) {
+                    $time = $rsi_raw['time'][$key];
+                    $rsi_data[] = [$time, $value];
+                }
             }
         }
 
@@ -177,11 +193,12 @@ class OrderController extends Controller
                 }
             }
         }
-
+        
 
         return response([
             'candles' => $list,
             'order' => $orders,
+            'rsi_data' => $rsi_data,
             'list_take_profit1' => $list_take_profit1,
             'list_take_profit2' => $list_take_profit2,
             'list_stop_orders1' => $list_stop_orders1,

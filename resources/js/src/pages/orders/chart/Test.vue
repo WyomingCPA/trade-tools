@@ -2,6 +2,7 @@
   <test
     v-if="load"
     :candles="cand"
+    :rsi_data="rsi"
     :orders="order"
     :take_profit1="list_take_profit1"
     :take_profit2="list_take_profit2"
@@ -32,6 +33,7 @@ export default {
         .then(function (response) {
           self.cand = response.data.candles;
           self.order = response.data.order;
+          self.rsi = response.data.rsi_data;
           self.list_take_profit1 = response.data.list_take_profit1;
           self.list_take_profit2 = response.data.list_take_profit2;
           self.list_stop_orders1 = response.data.list_stop_orders1;
@@ -54,6 +56,7 @@ export default {
       load: false,
       order: [],
       cand: [],
+      rsi: [], 
       list_take_profit1: [],
       list_take_profit2: [],
       list_stop_orders1: [],
