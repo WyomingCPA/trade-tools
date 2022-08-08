@@ -1,175 +1,35 @@
 <template>
-  <div>
-    <vue-good-table
-      @on-page-change="onPageChange"
-      @on-per-page-change="onPerPageChange"
-      @on-search="onSearch"
-      @on-selected-rows-change="selectionChanged"
-      :isLoading="loading"
-      :totalRows="count"
-      theme="nocturnal"
-      :columns="columns"
-      :rows="items"
-      mode="remote"
-      :sort-options="{
-        enabled: true,
-      }"
-      :line-numbers="true"
-      :pagination-options="{
-        enabled: true,
-        mode: 'records',
-        perPage: 20,
-        position: 'top',
-        perPageDropdown: null,
-        dropdownAllowAll: false,
-        setCurrentPage: 1,
-        nextLabel: 'next',
-        prevLabel: 'prev',
-        rowsPerPageLabel: 'Rows per page',
-        ofLabel: 'of',
-        pageLabel: 'page', // for 'pages' mode
-        allLabel: 'All',
-        chunk: 5,
-      }"
-      :search-options="{ enabled: true }"
-      :select-options="{
-        enabled: true,
-      }"
-    >
-      <template slot="table-row" slot-scope="props">
-        <span v-if="props.column.field === 'name'">
-          <a
-            target="_blank"
-            :href="'https://www.tinkoff.ru/invest/stocks/' + props.row.ticker"
-            >{{ props.row.name }}</a
-          >
-        </span>
-        <span v-else-if="props.column.field === 'stop-order-count'">
-          <a
-            target="_blank"
-            class="btn btn-primary"
-            :href="'/orders/stop-orders/' + props.row.id"
-            >{{ props.row["stop-order-count"] }}</a
-          >
-        </span>
-        <span v-else-if="props.column.field === 'graph'">
-          <a
-            target="_blank"
-            class="btn btn-primary"
-            :href="'/orders/mini-chart/' + props.row.id"
-            >View</a
-          >
-        </span>
-      </template>
-    </vue-good-table>
-  </div>
+  <super-trend-table v-bind:items="items" v-if="type === 'supertrend'"></super-trend-table>
+  <macd-table v-bind:items="items" v-else-if="type === 'macd'"></macd-table>
 </template>
 <script>
 // import the styles
 import axios from "axios";
 import "vue-good-table/dist/vue-good-table.css";
+import SuperTrendTable from "./Components/SuperTrendTable.vue";
+import MacdTable from "./Components/MacdTable.vue";
 
 var qs = require("qs");
 
 export default {
   name: "stop-orders",
+  components: {
+    SuperTrendTable,
+    MacdTable,
+  },
   data() {
     return {
       count: { type: Number },
       dataUrl: { type: String },
+      type: { type: String },
       loading: false,
       id_order: 0,
       serverParams: {},
       items: [],
-      columns: [
-        {
-          label: "ST",
-          field: "ST",
-        },
-        {
-          label: "TR",
-          field: "TR",
-        },
-        {
-          label: "ATR",
-          field: "ATR",
-        },
-        {
-          label: "BLB",
-          field: "BLB",
-        },
-        {
-          label: "BUB",
-          field: "BUB",
-        },
-        {
-          label: "FLB",
-          field: "FLB",
-        },
-        {
-          label: "FUB",
-          field: "FUB",
-        },
-        {
-          label: "Low",
-          field: "Low",
-        },
-        {
-          label: "tr0",
-          field: "tr0",
-        },
-        {
-          label: "tr1",
-          field: "tr1",
-        },
-        {
-          label: "tr2",
-          field: "tr2",
-        },
-        {
-          label: "High",
-          field: "High",
-        },
-        {
-          label: "Open",
-          field: "Open",
-        },
-        {
-          label: "Time",
-          field: "Time",
-        },
-        {
-          label: "Close",
-          field: "Close",
-        },
-        {
-          label: "Volume",
-          field: "Volume",
-        },
-        {
-          label: "ST_BUY_SELL",
-          field: "ST_BUY_SELL",
-        },
-      ],
     };
   },
   methods: {
-    updateParams(newProps) {
-      this.serverParams = Object.assign({}, this.serverParams, newProps);
-    },
-    onPageChange(params) {
-      this.updateParams({ page: params.currentPage });
-      this.fetchRows();
-    },
-    onSearch(params) {
-      this.updateParams({ name: params });
-      this.fetchRows();
-    },
-    selectionChanged: function (params) {
-      this.selRows = params.selectedRows;
-    },
     fetchRows() {
-      console.log(this.$route.params.id);
       let self = this;
       this.loading = true;
       this.id_order = this.$route.params.id;
@@ -177,31 +37,17 @@ export default {
         .get("/api/orders/spot-detil/" + this.$route.params.id)
         .then(function (response) {
           self.items = response.data.data;
+          self.type = response.data.type;
+          console.log(self.items);
           self.loading = false;
         })
         .catch(function (error) {
           console.error(error);
         });
     },
-    onPerPageChange(params) {
-      this.updateParams({ perPage: params.currentPerPage });
-      this.fetchRows();
-    },
   },
   created() {
     this.fetchRows();
-  },
-  requestAdapter(data) {
-    return {
-      sort: data.orderBy ? data.orderBy : "name",
-      direction: data.ascending ? "asc" : "desc",
-      limit: data.limit ? data.limit : 5,
-      page: data.page,
-      name: data.query.name,
-      created_by: data.query.created_by,
-      type: data.query.type,
-      created_at: data.query.created_at,
-    };
   },
 };
 </script>

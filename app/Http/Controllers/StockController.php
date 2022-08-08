@@ -144,6 +144,15 @@ class StockController extends Controller
         ], 200);
     }
 
+    public function getFavoriteNotAuth(Request $request)
+    {
+        $user = User::select('id')->where('email', 'WyomingCPA@yandex.ru')->first();
+        $models = $user->favoritesStock;
+        return response([
+            'stocks' => $models,
+        ], 200);
+    }
+
     public function action(Request $request)
     {
         $id = $request->route('id');

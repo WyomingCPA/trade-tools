@@ -109,7 +109,6 @@ Route::group(['prefix' => 'trader',], function () {
     Route::post('/store', 'OrderController@store');
 	Route::post('/add_spot', 'OrderController@addSpot');
 	Route::post('/store-all-futures', 'FuturesController@storeAllFutures');
-
 	Route::get('favorites', ['uses' => 'FuturesController@getFavoriteNotAuth']);
-	
+	Route::get('favorites-stock', ['uses' => 'StockController@getFavoriteNotAuth']);
 });

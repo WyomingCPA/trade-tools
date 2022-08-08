@@ -64,8 +64,10 @@ class OrderController extends Controller
         $data = json_decode($model->data, true);
         
         return response()->json([
-            'data' => $data,
-        ]);
+            'status' => true,
+            'type' => $model->type,
+            'data' => array_slice($data, -10),
+        ], 200);
     }
 
     public function setSuccess(Request $request)
