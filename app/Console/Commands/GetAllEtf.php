@@ -62,7 +62,7 @@ class GetAllEtf extends Command
             $currency = $item->getCurrency();
             $name = $item->getName();
 
-            $etf = Etf::firstOrCreate(['isin' => $isin],                        
+            $etf = Etf::firstOrCreate(['isin' => $isin, 'name' => $name,],                        
                 [
                                 'figi' => $figi, 
                                 'ticker' => $ticker, 

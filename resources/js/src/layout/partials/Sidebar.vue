@@ -77,13 +77,42 @@
             <span class="menu-title">Dashboard</span>
           </router-link>
         </li>
-        <li class="nav-item menu-items" v-on:click="collapseAll">
-          <router-link class="nav-link" to="/orders">
+        <li class="nav-item menu-items">
+          <span
+            class="nav-link"
+            v-b-toggle="'algo-trading'"
+            :class="{ active: subIsActive('/orders') }"
+          >
             <span class="menu-icon">
               <i class="mdi mdi-chart-line-variant"></i>
             </span>
-            <span class="menu-title">Orders</span>
-          </router-link>
+            <span class="menu-title">Algorithmic trading</span>
+            <i class="menu-arrow"></i>
+          </span>
+          <b-collapse accordion="sidebar-accordion" id="algo-trading">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item">
+                <router-link class="nav-link" to="/orders"
+                  >Список Ордеров</router-link
+                >
+              </li>
+              <li class="nav-item">
+                <router-link class="nav-link" to="/test-strategy/create/"
+                  >Список ботов</router-link
+                >
+              </li>
+              <li class="nav-item">
+                <router-link class="nav-link" to="/test-strategy/create/"
+                  >Список сигналов</router-link
+                >
+              </li>
+              <li class="nav-item">
+                <router-link class="nav-link" to="/test-strategy/create/"
+                  >Список стратегий</router-link
+                >
+              </li>
+            </ul>
+          </b-collapse>
         </li>
         <li class="nav-item menu-items">
           <span
