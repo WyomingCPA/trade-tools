@@ -146,6 +146,15 @@ export default {
         ],
         offchart: [
           {
+            name: "RSI",
+            type: "RSI",
+            data: rsi_data,
+            settings: {
+              backColor: "#9b9ba316",
+              bandColor: "#666",
+            },
+          },
+          {
             name: "MACD",
             type: "MACD",
             data: [],
@@ -157,7 +166,8 @@ export default {
           },
         ],
       }),
-      overlays: [Overlays["MACD"]],
+
+      overlays: [Overlays["MACD", "RSI"]],
     };
   },
 };

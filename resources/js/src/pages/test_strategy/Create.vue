@@ -89,6 +89,7 @@ export default {
       ],
       optionsStrategy: [
         { value: 'SuperTrend+MACD_TimeFrame_5min', text: "SuperTrend+MACD TimeFrame 5min" },
+        { value: 'RSI+MACD_TimeFrame_5min', text: "RSI+MACD TimeFrame 5min" },
         { value: 'SuperTrend+MACD_TimeFrame_15min', text: "SuperTrend+MACD TimeFrame 15min" },
       ],
     };

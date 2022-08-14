@@ -164,7 +164,8 @@ class TestStrategyController extends Controller
 
         $list = [];
         $key_time = [];
-
+        $rsi_data = [];
+        $rsi_raw = [];
         foreach ($candles as $item) {
             $timestamp = str_pad(Carbon::parse($item->time)->addHours(3)->timestamp, 13, "0");
             if (!array_key_exists($timestamp, $key_time)) {
@@ -172,10 +173,30 @@ class TestStrategyController extends Controller
                 $key_time[$timestamp] = $timestamp;
             }
         }
+        foreach ($candles as $item) {
+            $timestamp = str_pad(Carbon::parse($item->time)->addHours(3)->timestamp, 13, "0");
+            if (!array_key_exists($timestamp, $key_time)) {
+                $list[] = array((int)$timestamp, $item->open, $item->high, $item->low, $item->close, $item->volume);
+                $key_time[$timestamp] = $timestamp;
+                $rsi_raw['close'][] = $item->close;
+                $rsi_raw['time'][] = $timestamp;
+                $key_time_rsi[$timestamp] = $timestamp;   
+            }
+        }
+        if (array_key_exists('close', $rsi_raw)) {
+            $rsi = trader_rsi($rsi_raw['close'], 14);
+            if ($rsi != false) {
+                foreach ($rsi as $key => $value) {
+                    $time = $rsi_raw['time'][$key];
+                    $rsi_data[] = [$time, $value];
+                }
+            }
+        }
 
         return response([
             'candles' => $list,
             'order' => $orders,
+            'rsi_data' => $rsi_data,
             'list_take_profit1' => [],
             'list_take_profit2' => [],
             'list_stop_orders1' => [],
@@ -192,14 +213,25 @@ class TestStrategyController extends Controller
         $end_period = date('Y-m-d', $time_end);;
         $time_frame = $rows['row']['time_frame'];
         $figi = $rows['row']['figi'];
+        $strategy_name = $rows['row']['strategy_name'];
         $strategy_id = $rows['row']['id'];
         $string_command = "-sp $start_period -ep $end_period -tf $time_frame -f $figi -si $strategy_id";
         
+        $script_name = '';
+        if ($strategy_name === 'SuperTrend+MACD_TimeFrame_5min')
+        {
+            $script_name = 'test_strategy_from_laravel.py';
+        }
+        if ($strategy_name === 'RSI+MACD_TimeFrame_5min')
+        {
+            $script_name = 'test_strategy_from_laravel macd_rsi.py';
+        }
+
         $command = '';
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            $command = escapeshellcmd("C:/wamp64/www/trader/venv/Scripts/python C:/wamp64/www/trader/test_strategy_from_laravel.py $string_command");
+            $command = escapeshellcmd("C:/wamp64/www/trader/venv/Scripts/python C:/wamp64/www/trader/$script_name $string_command");
         } else {
-            $command = escapeshellcmd("/var/www/trader/env/bin/python /var/www/trader/test_strategy_from_laravel.py $string_command");
+            $command = escapeshellcmd("/var/www/trader/env/bin/python /var/www/trader/$script_name $string_command");
         }
 
         $output = shell_exec($command);
@@ -210,8 +242,7 @@ class TestStrategyController extends Controller
     }
 
     public function deleteStrategyTest(Request $request)
-    {
-        
+    {    
         $rows = $request->post('selRows');
         $strategy = TestStrategy::find($rows['row']['id']);
         $order_models = Order::where('strategy_id', $strategy->id)->delete();
