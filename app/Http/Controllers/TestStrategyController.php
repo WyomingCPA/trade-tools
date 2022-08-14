@@ -224,7 +224,7 @@ class TestStrategyController extends Controller
         }
         if ($strategy_name === 'RSI+MACD_TimeFrame_5min')
         {
-            $script_name = 'test_strategy_from_laravel macd_rsi.py';
+            $script_name = 'test_strategy_from_laravel_macd_rsi.py';
         }
 
         $command = '';
