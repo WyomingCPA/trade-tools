@@ -359,7 +359,7 @@ export default {
           .then((response) => {
             if (response.status) {
               self.loading = false;
-              this.fetchData();
+              this.fetchRows();
             } else {
               console.log("Не работает");
               console.log(response.status);
@@ -381,7 +381,7 @@ export default {
           .then((response) => {
             if (response.status) {
               self.loading = false;
-              this.fetchData();
+              this.fetchRows();
             } else {
               console.log("Не работает");
               console.log(response.status);
