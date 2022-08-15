@@ -275,4 +275,35 @@ class OrderController extends Controller
             'status' => true,
         ], 200);
     }
+
+    public function startScriptSuperTrend5min(Request $request)
+    {     
+        $command = '';
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+
+        } else {
+            $command = escapeshellcmd("/var/www/trader/env/bin/python /var/www/trader/SuperTrend_MACD_TimeFrame_5min.py");
+            $output = shell_exec($command);
+        }
+
+        return response([
+            'status' => true,
+        ], 200);
+    }
+
+    public function startScriptCheckStopOrder(Request $request)
+    {     
+        $command = '';
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+
+        } else {
+            $command = escapeshellcmd("/var/www/trader/env/bin/python /var/www/trader/check_stop_order.py");
+            $output = shell_exec($command);
+        }
+
+        return response([
+            'status' => true,
+        ], 200);
+    }
+
 }
