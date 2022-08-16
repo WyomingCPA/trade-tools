@@ -279,6 +279,7 @@ class OrderController extends Controller
     public function startScriptSuperTrend5min(Request $request)
     {     
         $command = '';
+        $output=  '';
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 
         } else {
@@ -288,6 +289,7 @@ class OrderController extends Controller
 
         return response([
             'status' => true,
+            'output' => $output,
         ], 200);
     }
 
