@@ -77,6 +77,7 @@ Route::group(['prefix' => 'orders', 'middleware' => 'auth:sanctum'], function ()
 	Route::post('set-nothing', 'OrderController@setNothing');
 	Route::post('delete', 'OrderController@delete');
 	Route::post('start-script-super-trend-5min', 'OrderController@startScriptSuperTrend5min');
+	Route::post('stop-script-super-trend-5min', 'OrderController@stopScriptSuperTrend5min');
 	Route::post('start-script-check-stop-order', 'OrderController@startScriptCheckStopOrder');
 });
 //Роуты test strategy

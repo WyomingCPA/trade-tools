@@ -18,6 +18,20 @@
           <span class="sr-only">Loading...</span>
         </div>
       </b-button>
+      <b-button
+        v-on:click="stopScriptSuperTrend5min"
+        type="submit"
+        variant="btn-danger"
+        class="mr-2"
+        ><span v-show="!loading">Остановить</span>
+        <div
+          v-show="loading"
+          class="spinner-border spinner-border-sm"
+          role="status"
+        >
+          <span class="sr-only">Loading...</span>
+        </div>
+      </b-button>
       <br />
       Запуск бота 15 мин<code>
         nohup /var/www/trader/env/bin/python SuperTrend_MACD_TimeFrame_15min.py
@@ -356,6 +370,28 @@ export default {
       axios.get("/sanctum/csrf-cookie").then((response) => {
         axios
           .post("/api/orders/start-script-super-trend-5min", {})
+          .then((response) => {
+            if (response.status) {
+              self.loading = false;
+              this.fetchRows();
+            } else {
+              console.log("Не работает");
+              console.log(response.status);
+              self.loading = false;
+            }
+          })
+          .catch(function (error) {
+            console.log(response);
+            console.error(error);
+          });
+      });
+    },
+    async stopScriptSuperTrend5min() {
+      let self = this;
+      this.loading = true;
+      axios.get("/sanctum/csrf-cookie").then((response) => {
+        axios
+          .post("/api/orders/stop-script-super-trend-5min", {})
           .then((response) => {
             if (response.status) {
               self.loading = false;
