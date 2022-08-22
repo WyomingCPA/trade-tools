@@ -27,6 +27,7 @@
                       <tr>
                         <th scope="col">Figi</th>
                         <th scope="col">RSI</th>
+                        <th scope="col">RSI Strategy</th>
                         <th scope="col">MACD</th>
                         <th scope="col">Last Supertrend</th>
                         <th scope="col">Time</th>
@@ -36,6 +37,7 @@
                       <tr v-for="item in event.data" :key="item.id">
                         <th scope="col">{{ item.figi }}</th>
                         <th scope="col">{{ item.RSI }}</th>
+                        <th scope="col">{{ item.rsi_strategy_info }}</th>
                         <th scope="col">{{ item.MACD }}</th>
                         <th scope="col">{{ item.last_row_supertrend }}</th>
                         <th scope="col">{{ item.time }}</th>
