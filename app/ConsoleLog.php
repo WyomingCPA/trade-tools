@@ -11,6 +11,6 @@ class ConsoleLog extends Model
 
     public function getCreatedAtAttribute($value)
     {
-        return Carbon::parse($value)->format('H:i:s j F Y');
+        return Carbon::parse($value)->addHours(3)->format('H:i:s j F Y');
     }
 }
