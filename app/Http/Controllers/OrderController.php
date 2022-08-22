@@ -300,7 +300,7 @@ class OrderController extends Controller
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 
         } else {
-            $command = escapeshellcmd("/var/www/trader/env/bin/python /var/www/trader/tools/bash_start_script/kill_process.py SuperTrend_MACD_TimeFrame_5min");
+            $command = escapeshellcmd("/var/www/trader/env/bin/python /var/www/trader/tools/bash_start_script/kill_process.py -sn SuperTrend_MACD_TimeFrame_5min");
             $output = shell_exec($command);
         }
 
