@@ -4,7 +4,8 @@
       <div class="col-md-4 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
-            <h4></h4>
+            <h4>Trade Scalper</h4>
+            <MiniConsole />
           </div>
         </div>
       </div>
@@ -170,10 +171,13 @@
 
 <script>
 import axios from "axios";
+import MiniConsole from "./Components/SimpleConsole.vue";
 
 export default {
   name: "dashboard",
-  components: {},
+  components: {
+    MiniConsole,
+  },
   data() {
     return {
       today_open_orders: { type: Number },

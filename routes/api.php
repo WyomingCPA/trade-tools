@@ -107,6 +107,12 @@ Route::group(['prefix' => 'finance', 'middleware' => 'auth:sanctum'], function (
 });
 
 //Роуты для алготорговли
+Route::group(['prefix' => 'console',], function () {
+	Route::post('/store', 'ConsoleLogController@store');
+	Route::get('last-events-console', ['uses' => 'ConsoleLogController@getLastEventsConsole']);
+});
+
+//Роуты для алготорговли
 Route::group(['prefix' => 'trader',], function () {
 	Route::post('/check-script', 'OrderController@checkScript');
     Route::post('/store', 'OrderController@store');

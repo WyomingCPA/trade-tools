@@ -21,7 +21,7 @@
       <b-button
         v-on:click="stopScriptSuperTrend5min"
         type="submit"
-        variant="btn-danger"
+        variant="danger"
         class="mr-2"
         ><span v-show="!loading">Остановить</span>
         <div
