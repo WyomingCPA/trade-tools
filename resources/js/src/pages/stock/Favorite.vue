@@ -97,6 +97,10 @@ export default {
           field: "name",
         },
         {
+          label: "Figi",
+          field: "figi",
+        },
+        {
           label: "ticker",
           field: "ticker",
         },
