@@ -62,7 +62,7 @@ class Stocks extends Command
             $currency = $item->getCurrency();
             $name = $item->getName();
 
-            $bond = Stock::firstOrCreate(['isin' => $isin],                        
+            $model = Stock::firstOrCreate(['figi' => $figi, 'name' => $name],                        
                 [
                                 'figi' => $figi, 
                                 'ticker' => $ticker, 
@@ -70,7 +70,14 @@ class Stocks extends Command
                                 'minPriceIncrement' => $minPriceIncrement,
                                 'currency' => $currency,
                                 'name' => $name,
+                                'is_dividend' => 0,
             ]);
+            if ($model->wasRecentlyCreated) {
+                // model just created in the database; it didn't exist before.
+                echo "$model->name добавлена\n";
+            } else {
+                // model already existed and was pulled from database.
+            }
         }
 
         return 0;

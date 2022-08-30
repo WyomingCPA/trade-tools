@@ -167,16 +167,16 @@ class TestStrategyController extends Controller
         $rsi_data = [];
         $rsi_raw = [];
         foreach ($candles as $item) {
-            $timestamp = str_pad(Carbon::parse($item->time)->addHours(3)->timestamp, 13, "0");
+            $timestamp = str_pad(Carbon::parse($item->time)->timestamp, 13, "0");
             if (!array_key_exists($timestamp, $key_time)) {
                 $list[] = array((int)$timestamp, $item->open, $item->high, $item->low, $item->close, $item->volume);
                 $key_time[$timestamp] = $timestamp;
             }
         }
         foreach ($candles as $item) {
-            $timestamp = str_pad(Carbon::parse($item->time)->addHours(3)->timestamp, 13, "0");
+            $timestamp = str_pad(Carbon::parse($item->time)->timestamp, 13, "0");
             if (!array_key_exists($timestamp, $key_time)) {
-                $list[] = array((int)$timestamp, $item->open, $item->high, $item->low, $item->close, $item->volume);
+
                 $key_time[$timestamp] = $timestamp;
                 $rsi_raw['close'][] = $item->close;
                 $rsi_raw['time'][] = $timestamp;
@@ -230,8 +230,10 @@ class TestStrategyController extends Controller
         $command = '';
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $command = escapeshellcmd("C:/wamp64/www/trader/venv/Scripts/python C:/wamp64/www/trader/$script_name $string_command");
+            echo "break";
         } else {
             $command = escapeshellcmd("/var/www/trader/env/bin/python /var/www/trader/$script_name $string_command");
+            echo "break";
         }
 
         $output = shell_exec($command);
