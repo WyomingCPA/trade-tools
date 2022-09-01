@@ -4,7 +4,12 @@
       <div class="col-md-4 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
-            <h4>Trade Scalper</h4>
+            <h4>Trade Parser Log</h4>          
+            <a
+            target="_blank"
+            class="btn btn-danger"
+            :href="'/orders/last-error/'"
+            >Last Error Bot</a>
             <MiniConsole />
           </div>
         </div>

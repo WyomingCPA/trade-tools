@@ -11,9 +11,10 @@ class ConsoleLogController extends Controller
     public function store(Request $request)
     {
         $countIterration = ConsoleLog::count();
-        if ($countIterration >= 1000)
+        if ($countIterration >= 2000)
         {
-            $models = ConsoleLog::truncate();
+            $search = 'error';
+            $models = ConsoleLog::where('message', 'not like', '%' . $search . '%')->delete();
         }
         $model = ConsoleLog::create([
             'type' => $request->type,

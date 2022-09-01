@@ -79,6 +79,7 @@ Route::group(['prefix' => 'orders', 'middleware' => 'auth:sanctum'], function ()
 	Route::post('start-script-super-trend-5min', 'OrderController@startScriptSuperTrend5min');
 	Route::post('stop-script-super-trend-5min', 'OrderController@stopScriptSuperTrend5min');
 	Route::post('start-script-check-stop-order', 'OrderController@startScriptCheckStopOrder');
+	Route::get('/last-error', ['uses' => 'OrderController@lastError']);
 });
 //Роуты test strategy
 Route::group(['prefix' => 'test-strategy', 'middleware' => 'auth:sanctum'], function () {

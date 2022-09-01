@@ -12,6 +12,8 @@ use App\Stock;
 use App\StopOrder;
 use App\OrderSpot;
 use App\StatusScript;
+use App\ConsoleLog;
+
 
 class OrderController extends Controller
 {
@@ -325,4 +327,13 @@ class OrderController extends Controller
         ], 200);
     }
 
+    public function lastError(Request $request)
+    {
+        $search = 'error';
+        $errors = ConsoleLog::where('message', 'like', '%' . $search . '%')->orderByDesc('created_at');
+        return response([
+            'errors' => $errors->get()->toArray(),
+            'status' => true,
+        ], 200);
+    }
 }

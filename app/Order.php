@@ -10,6 +10,7 @@ use TelegramBot\Api\BotApi;
 
 use App\Stock;
 use App\Candle;
+use Exception;
 
 class Order extends Model
 {
@@ -82,27 +83,33 @@ class Order extends Model
 
     public function getMaxChangePriceAfterOrderAttribute()
     {
-        $order_time = Carbon::parse($this->created_at);
+        try {
+            $order_time = Carbon::parse($this->created_at);
 
-        $stock_id = Stock::where('figi', $this->figi)->first()->id ?? Futures::where('figi', $this->figi)->first()->id;
-
-        $candles = Candle::where('tools_id', '=', $stock_id)->where('tools_type', '=', 'stock')->where('interval', '=', '5min')
-            ->where('time', '>=', Carbon::create($order_time->year, $order_time->month, $order_time->day, $order_time->hour-3, $order_time->minute))
-            ->orderBy('time', 'asc')->limit(6)->get();
-
-        $list_max = [];
-        foreach ($candles as $item) {
-            $list_max [] = $item->close;
+            $stock_id = Stock::where('figi', $this->figi)->first()->id ?? Futures::where('figi', $this->figi)->first()->id;
+    
+            $candles = Candle::where('tools_id', '=', $stock_id)->where('tools_type', '=', 'stock')->where('interval', '=', '5min')
+                ->where('time', '>=', Carbon::create($order_time->year, $order_time->month, $order_time->day, $order_time->hour-3, $order_time->minute))
+                ->orderBy('time', 'asc')->limit(6)->get();
+    
+            $list_max = [];
+            foreach ($candles as $item) {
+                $list_max [] = $item->close;
+            }
+    
+            $max = 0;
+            $percentChange = '';
+            if (!empty($list_max))
+            {
+                $max = max($list_max);
+                $percentChange = (1 - $this->current_price / $max) * 100;
+            }
+           
+            return "$max ($percentChange%)";
         }
-
-        $max = 0;
-        $percentChange = '';
-        if (!empty($list_max))
+        catch(Exception $e)
         {
-            $max = max($list_max);
-            $percentChange = (1 - $this->current_price / $max) * 100;
+            return 0;
         }
-       
-        return "$max ($percentChange%)";
     }
 }

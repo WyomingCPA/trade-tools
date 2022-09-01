@@ -61,6 +61,14 @@ function configRoutes() {
           }
         },
         {
+          path: 'last-error',
+          name: 'last-error',
+          component: () => import('@/pages/orders/Errors'),
+          meta: {
+            authRequired: true
+          }
+        },
+        {
           path: 'stop-orders/:id',
           name: 'stop-orders',
           component: () => import('@/pages/orders/StopOrders'),

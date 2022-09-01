@@ -25,8 +25,10 @@
 <script>
 import { TradingVue, DataCube } from "trading-vue-js";
 import Overlays from "tvjs-overlays";
+
 import axios from "axios";
 import each from "lodash.foreach";
+
 
 export default {
   name: "OrderChart",
@@ -111,6 +113,8 @@ export default {
           data: cand,
           indexBased: true,
           tf: "5m",
+          settings: {},
+          grid: {},
         },
         onchart: [
           {
@@ -160,12 +164,11 @@ export default {
             data: [],
             settings: {
               histColors: ["#35a776", "#79e0b3", "#e54150", "#ea969e"],
-              timezone: 3,
             },
           },
         ],
       }),
-      overlays: [Overlays[("MACD", "RSI")]],
+      overlays: [Overlays[("RSI", "MACD")]],
     };
   },
 };
