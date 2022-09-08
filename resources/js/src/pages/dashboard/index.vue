@@ -4,12 +4,13 @@
       <div class="col-md-4 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
-            <h4>Trade Parser Log</h4>          
+            <h4>Trade Parser Log</h4>
             <a
-            target="_blank"
-            class="btn btn-danger"
-            :href="'/orders/last-error/'"
-            >Last Error Bot</a>
+              target="_blank"
+              class="btn btn-danger"
+              :href="'/orders/last-error/'"
+              >Last Error Bot</a
+            >
             <MiniConsole />
           </div>
         </div>
@@ -28,7 +29,11 @@
             <div class="row">
               <div class="col-12">
                 <div class="preview-list">
-                  <div class="row mt-3" v-for="item in all_scripts" v-bind:key="item.id">
+                  <div
+                    class="row mt-3"
+                    v-for="item in all_scripts"
+                    v-bind:key="item.id"
+                  >
                     <div
                       class="
                         col-12
@@ -43,10 +48,15 @@
                     >
                       <div>
                         <h6 class="mb-1">{{ item.name }}</h6>
-                        <p class="card-text">Last update {{ item.updated_at }}</p>
+                        <p class="card-text">
+                          Last update {{ item.updated_at }}
+                        </p>
                       </div>
                       <div class="align-self-center">
-                        <h6 class="font-weight-bold mb-0 " :class="getStatusBadgeClass(item.is_run)">
+                        <h6
+                          class="font-weight-bold mb-0"
+                          :class="getStatusBadgeClass(item.is_run)"
+                        >
                           <span v-if="item.is_run == 1">Работает</span>
                           <span v-else>Не работает</span>
                         </h6>
@@ -129,7 +139,11 @@
             <div class="d-flex flex-row p-3">
               <div class="align-self-top">
                 <p class="card-title mb-1 font-weight-bold">
-                  Сделки за сегодня
+                  <a
+                    target="_blank"
+                    :href="'/orders/today'"
+                    >Сделки За Сегодня</a
+                  >
                 </p>
                 <h3 class="mb-0">{{ today_open_orders }}</h3>
               </div>
@@ -145,7 +159,13 @@
           <div class="card-body">
             <div class="d-flex flex-row p-3">
               <div class="align-self-top">
-                <p class="card-title mb-1 font-weight-bold">Сделки за Неделю</p>
+                <p class="card-title mb-1 font-weight-bold">
+                  <a
+                    target="_blank"
+                    :href="'https://www.tinkoff.ru/invest/stocks/'"
+                    >Сделки за Неделю</a
+                  >
+                </p>
                 <h3 class="mb-0">{{ week_open_orders }}</h3>
               </div>
               <div class="align-self-center flex-grow text-right">
@@ -160,7 +180,13 @@
           <div class="card-body">
             <div class="d-flex flex-row p-3">
               <div class="align-self-top">
-                <p class="card-title mb-1 font-weight-bold">Сделки За Месяц</p>
+                <p class="card-title mb-1 font-weight-bold">
+                  <a
+                    target="_blank"
+                    :href="'https://www.tinkoff.ru/invest/stocks/'"
+                    >Сделки за Месяц</a
+                  >
+                </p>
                 <h3 class="mb-0">{{ month_open_orders }}</h3>
               </div>
               <div class="align-self-center flex-grow text-right">

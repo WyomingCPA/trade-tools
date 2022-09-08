@@ -61,6 +61,14 @@ function configRoutes() {
           }
         },
         {
+          path: 'today',
+          name: 'order-today',
+          component: () => import('@/pages/orders/list/Today'),
+          meta: {
+            authRequired: true
+          }
+        },
+        {
           path: 'last-error',
           name: 'last-error',
           component: () => import('@/pages/orders/Errors'),

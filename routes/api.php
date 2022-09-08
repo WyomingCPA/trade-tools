@@ -68,6 +68,8 @@ Route::group(['prefix' => 'bond', 'middleware' => 'auth:sanctum'], function () {
 //Роуты сделок
 Route::group(['prefix' => 'orders', 'middleware' => 'auth:sanctum'], function () {
     Route::post('/index', 'OrderController@index');
+	Route::post('/today', 'OrderController@today');
+	
 	Route::get('stop-orders/{id}', ['uses' => 'OrderController@stopOrders']);
 	Route::get('spot-orders/{id}', ['uses' => 'OrderController@spotOrders']);
 	Route::get('spot-detil/{id}', ['uses' => 'OrderController@spotDetail']);
