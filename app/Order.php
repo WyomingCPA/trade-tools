@@ -83,8 +83,8 @@ class Order extends Model
 
     public function getTickerAttribute()
     {
-        $name = Stock::where('figi', $this->figi)->first()->name ?? Futures::where('figi', $this->figi)->first()->ticker;
-        return $name;
+        $ticker = Stock::where('figi', $this->figi)->first()->ticker ?? Futures::where('figi', $this->figi)->first()->ticker;
+        return $ticker;
     }
 
     public function getMaxChangePriceAfterOrderAttribute()
