@@ -86,6 +86,7 @@ export default {
       optionsTimeFrame: [
         { value: "5min", text: "5 min" },
         { value: "15min", text: "15 min" },
+        { value: "1hours", text: "1 hour" },
       ],
       optionsStrategy: [
         { value: 'SuperTrend+MACD_TimeFrame_5min', text: "SuperTrend+MACD TimeFrame 5min" },

@@ -17,7 +17,7 @@ class Order extends Model
     public $timestamps = false;
 
     protected $fillable = ['figi', 'order_id', 'direction', 'order_type', 'current_price', 'note', 'strategy_name', 'status', 'quantity', 'created_at', 'strategy_id'];
-    protected $appends = ['stop-order-count', 'spot-order-count', 'name-instrument', 'max-change-price-after-order'];
+    protected $appends = ['stop-order-count', 'spot-order-count', 'name-instrument', 'max-change-price-after-order', 'ticker'];
 
     public static function boot() {
 
@@ -78,6 +78,12 @@ class Order extends Model
     public function getNameInstrumentAttribute()
     {
         $name = Stock::where('figi', $this->figi)->first()->name ?? Futures::where('figi', $this->figi)->first()->name;
+        return $name;
+    }
+
+    public function getTickerAttribute()
+    {
+        $name = Stock::where('figi', $this->figi)->first()->name ?? Futures::where('figi', $this->figi)->first()->ticker;
         return $name;
     }
 

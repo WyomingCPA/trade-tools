@@ -104,11 +104,11 @@
         <button class="btn btn-danger" v-on:click="deleteOrder">Delete</button>
       </div>
       <template slot="table-row" slot-scope="props">
-        <span v-if="props.column.field === 'name'">
+        <span v-if="props.column.field === 'name-instrument'">
           <a
             target="_blank"
             :href="'https://www.tinkoff.ru/invest/stocks/' + props.row.ticker"
-            >{{ props.row.name }}</a
+            >{{ props.row["name-instrument"] }}</a
           >
         </span>
         <span v-else-if="props.column.field === 'spot-order-count'">

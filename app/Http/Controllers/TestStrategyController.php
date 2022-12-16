@@ -106,6 +106,10 @@ class TestStrategyController extends Controller
                 {
                     $interval = TIIntervalEnum::MIN15;
                 }
+                if ($time_frame == "1hour")
+                {
+                    
+                }
                 $candles = $client->getHistoryCandles($figi, $from, $to, $interval);
             } catch (\Exception $e) {
                 echo $e->getMessage();
