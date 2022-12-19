@@ -73,7 +73,8 @@ Route::group(['prefix' => 'orders', 'middleware' => 'auth:sanctum'], function ()
 	Route::get('stop-orders/{id}', ['uses' => 'OrderController@stopOrders']);
 	Route::get('spot-orders/{id}', ['uses' => 'OrderController@spotOrders']);
 	Route::get('spot-detil/{id}', ['uses' => 'OrderController@spotDetail']);
-	Route::get('chart-orders/{id}', ['uses' => 'OrderController@chartOrders']);
+	Route::get('chart-orders-15/{id}', ['uses' => 'OrderController@chart15Orders']);
+	
 	Route::post('set-success', 'OrderController@setSuccess');
 	Route::post('set-fail', 'OrderController@setFail');
 	Route::post('set-nothing', 'OrderController@setNothing');

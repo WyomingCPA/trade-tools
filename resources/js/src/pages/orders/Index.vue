@@ -132,11 +132,19 @@
             {{ props.row.created_at }}</span
           >
         </span>
-        <span v-else-if="props.column.field === 'graph'">
+        <span v-else-if="props.column.field === 'graph5min'">
           <a
             target="_blank"
             class="btn btn-primary"
             :href="'/orders/order-chart/' + props.row.id"
+            >View</a
+          >
+        </span>
+        <span v-else-if="props.column.field === 'graph15min'">
+          <a
+            target="_blank"
+            class="btn btn-primary"
+            :href="'/orders/order-chart-15min/' + props.row.id"
             >View</a
           >
         </span>
@@ -219,8 +227,12 @@ export default {
           field: "created_at",
         },
         {
-          label: "График",
-          field: "graph",
+          label: "Chart 5min",
+          field: "graph5min",
+        },
+        {
+          label: "Chart 15min",
+          field: "graph15min",
         },
         {
           label: "Название стратегий",

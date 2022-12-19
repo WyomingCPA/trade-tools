@@ -139,7 +139,7 @@ class OrderController extends Controller
             'status' => true,
         ], 200);
     }
-
+    
     public function chartOrders(Request $request)
     {
         $id = $request->route('id');
@@ -158,6 +158,101 @@ class OrderController extends Controller
         }
 
         $candles = Candle::where('tools_id', '=', $stock_id)->where('tools_type', '=', 'stock')->where('interval', '=', $time_frame)
+            ->where('time', '>=', Carbon::create($order_time->year, $order_time->month, $order_time->day, 0))
+            ->where('time', '<=', Carbon::create($order_time->year, $order_time->month, $order_time->day, 24))->orderBy('time', 'asc')->get();
+
+        $list = [];
+        $rsi_data = [];
+        $rsi_raw = [];
+        $key_time = [];
+        $orders = [];
+        $key_time_rsi = [];
+
+        foreach ($candles as $item) {
+            $timestamp = str_pad(Carbon::parse($item->time)->addHours(3)->timestamp, 13, "0");
+            if (!array_key_exists($timestamp, $key_time)) {
+                $list[] = array((int)$timestamp, $item->open, $item->high, $item->low, $item->close, $item->volume);
+                $key_time[$timestamp] = $timestamp;
+                $rsi_raw['close'][] = $item->close;
+                $rsi_raw['time'][] = $timestamp;
+                $key_time_rsi[$timestamp] = $timestamp;   
+            }
+        }
+        if (array_key_exists('close', $rsi_raw)) {
+            $rsi = trader_rsi($rsi_raw['close'], 14);
+            if ($rsi != false) {
+                foreach ($rsi as $key => $value) {
+                    $time = $rsi_raw['time'][$key];
+                    $rsi_data[] = [$time, $value];
+                }
+            }
+        }
+
+        $start_period = Carbon::parse($order_time)->subHour(10);
+        $end_period =  Carbon::parse($order_time)->addHours(6);
+        $end = str_pad($end_period->timestamp, 13, "0");
+        $start = str_pad($start_period->timestamp, 13, "0");
+        $order_indicators_time = str_pad($order_time->timestamp, 13, "0");
+        //$orders [] = [$order_indicators_time, "Bay. Price: " . $order->current_price, 1, "#34a853", 0.55];
+        $orders[] = [$order_indicators_time, 1, $order->current_price,  "Bay. Price: " . $order->current_price];
+        //[1617198300000, "Bay Ema Indicator", 0, "#34a853", 0.75],
+        //Делаем время начала и конец в timestamp
+
+        //Получаем список стоп-ордеоров, разделяя их на стоплосс и тайкпрофит
+        $stop_orders_list = $order->stops;
+        $list_take_profit1 = [];
+        $list_take_profit2 = [];
+        $list_stop_orders1 = [];
+        $list_stop_orders2 = [];
+        foreach ($stop_orders_list as $item) {
+            if ($item->expiration_type == 'StopOrderType.STOP_ORDER_TYPE_STOP_LOSS') {
+                for ($i = 1; $i <= 2; $i++) {
+                    if ($i == 1) {
+                        $list_stop_orders1 = [$start, $item->price];
+                    } else {
+                        $list_stop_orders2 = [$end, $item->price];
+                    }
+                }
+            } else {
+                for ($i = 1; $i <= 2; $i++) {
+                    if ($i == 1) {
+                        $list_take_profit1 = [$start, $item->price];
+                    } else {
+                        $list_take_profit2 = [$end, $item->price];
+                    }
+                }
+            }
+        }
+        
+
+        return response([
+            'candles' => $list,
+            'order' => $orders,
+            'rsi_data' => $rsi_data,
+            'list_take_profit1' => $list_take_profit1,
+            'list_take_profit2' => $list_take_profit2,
+            'list_stop_orders1' => $list_stop_orders1,
+            'list_stop_orders2' => $list_stop_orders2,
+        ], 200);
+    }
+    public function chart15Orders(Request $request)
+    {
+        $id = $request->route('id');
+        $order = Order::find($id);
+        $order_time = Carbon::parse($order->created_at);
+
+        $stock_id = Stock::where('figi', $order->figi)->first()->id;
+
+        $mystring = $order->strategy_name;
+        $time_frame   = '15min';
+        $pos = strpos($mystring, $time_frame);
+        if ($pos === false) {
+            $time_frame = '5min';
+        } else {
+            $time_frame = '15min';
+        }
+
+        $candles = Candle::where('tools_id', '=', $stock_id)->where('tools_type', '=', 'stock')->where('interval', '=', '15min')
             ->where('time', '>=', Carbon::create($order_time->year, $order_time->month, $order_time->day, 0))
             ->where('time', '<=', Carbon::create($order_time->year, $order_time->month, $order_time->day, 24))->orderBy('time', 'asc')->get();
 

@@ -29,7 +29,7 @@ export default {
       let self = this;
       this.id_order = this.$route.params.id;
       axios
-        .get("/api/orders/chart-orders/" + this.$route.params.id)
+        .get("/api/orders/chart-orders-15/" + this.$route.params.id)
         .then(function (response) {
           self.cand = response.data.candles;
           self.order = response.data.order;

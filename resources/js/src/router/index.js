@@ -108,6 +108,14 @@ function configRoutes() {
             authRequired: true
           }
         },
+        {
+          path: 'order-chart-15min/:id',
+          name: 'order-chart-15min',
+          component: () => import('@/pages/orders/chart/15min'),
+          meta: {
+            authRequired: true
+          }
+        },
       ]
     },
     {
