@@ -233,6 +233,36 @@ function configRoutes() {
       ]
     },
     {
+      path: '/trade-ideas',
+      component: layout,
+      children: [
+        {
+          path: 'index',
+          name: 'trade-ideas-index',
+          component: () => import('@/pages/trade-ideas/Index'),
+          meta: {
+            authRequired: true
+          }
+        },
+        {
+          path: 'create',
+          name: 'trade-ideas-create',
+          component: () => import('@/pages/trade-ideas/Create'),
+          meta: {
+            authRequired: true
+          }
+        },
+        {
+          path: 'favorite',
+          name: 'etf-favorite',
+          component: () => import('@/pages/etf/Favorite'),
+          meta: {
+            authRequired: true
+          }
+        },
+      ]
+    },
+    {
       path: '/futures',
       component: layout,
       children: [

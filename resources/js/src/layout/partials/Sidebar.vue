@@ -306,6 +306,33 @@
         <li class="nav-item menu-items">
           <span
             class="nav-link"
+            v-b-toggle="'trade-ideas'"
+            :class="{ active: subIsActive('/trade-ideas') }"
+          >
+            <span class="menu-icon">
+              <i class="mdi mdi-credit-card"></i>
+            </span>
+            <span class="menu-title">Торговые идей</span>
+            <i class="menu-arrow"></i>
+          </span>
+          <b-collapse accordion="sidebar-accordion" id="trade-ideas">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item">
+                <router-link class="nav-link" to="/trade-ideas/index/"
+                  >Список</router-link
+                >
+              </li>
+              <li class="nav-item">
+                <router-link class="nav-link" to="/trade-ideas/create/"
+                  >Добавить</router-link
+                >
+              </li>
+            </ul>
+          </b-collapse>
+        </li>
+        <li class="nav-item menu-items">
+          <span
+            class="nav-link"
             v-b-toggle="'settings'"
             :class="{ active: subIsActive('/settings') }"
           >

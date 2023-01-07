@@ -42,7 +42,9 @@ class Order extends Model
                 $messageText = "Сигнал SuperTrend 15 min на $item->direction \n";
 
                 $messageText .= "Название инструмента $stock->name \n";
-
+                $notetag = str_replace("<br>", "\n", $item->note);
+                $messageText .= "$notetag \n";
+               
                 $messageText .= "<a target='_blank' href='https://www.tinkoff.ru/invest/stocks/{$stock->ticker}'>{$stock->name}</a>\n";  
         
                 $chatId = '-414528593';
