@@ -13,6 +13,19 @@
                 <div class="col-sm-10">
                   <b-form-group
                     horizontal
+                    label="Figi инструмента"
+                    label-for="figi-tools"
+                  >
+                    <b-form-input
+                      v-model="figiTools"
+                      type="text"
+                      id="figi-tools"
+                    ></b-form-input>
+                  </b-form-group>
+                </div>
+                <div class="col-sm-10">
+                  <b-form-group
+                    horizontal
                     label="Название идей"
                     label-for="title-idea"
                   >
@@ -40,7 +53,7 @@
                 <div class="col-sm-10">
                   <b-form-group
                     horizontal
-                    label="Горизонт(время входа, указываем максимальное):"
+                    label="Горизонт(время входа, указываем максимальное в днях):"
                     label-for="horizont-idea"
                   >
                     <b-form-input
@@ -65,14 +78,32 @@
                   </b-form-group>
                 </div>
                 <div class="col-sm-10">
-                  <b-form-textarea
-                    id="textarea"
-                    v-model="descriptionIdea"
-                    placeholder="Enter something..."
-                    rows="10"
-                  ></b-form-textarea>
-
-                  <pre class="mt-3 mb-0">{{ descriptionIdea }}</pre>
+                  <b-form-group
+                    horizontal
+                    label="Описание идей:"
+                    label-for="description-idea"
+                  >
+                    <b-form-textarea
+                      id="description-idea"
+                      v-model="descriptionIdea"
+                      placeholder="Enter something..."
+                      rows="10"
+                    ></b-form-textarea>
+                  </b-form-group>
+                </div>
+                <div class="col-sm-10">
+                  <b-form-group
+                    horizontal
+                    label="Статус"
+                    label-for="status-idea"
+                  >
+                    <b-form-select
+                      v-model="statusIdea"
+                      :options="statusIdeaOptions"
+                      size="sm"
+                      class="mt-3"
+                    ></b-form-select>
+                  </b-form-group>
                 </div>
               </div>
               <div class="d-flex">
@@ -96,55 +127,57 @@ export default {
   data() {
     return {
       nameIdea: "",
+      figiTools: "",
       typeIdea: "",
       typeIdeaOptions: [
         { value: "long", text: "Long" },
         { value: "short", text: "Short" },
       ],
-      limitCheck: 0,
+      limitDayIdea: 0,
       aimIdea: "",
       descriptionIdea: "",
-      options: [
-        { value: "credit", text: "Кредитная карта" },
-        { value: "debet", text: "Дебетовая карта" },
-        { value: "broker", text: "Брокерский счет" },
-        { value: "deposit", text: "Депозит" },
-        //'credit', 'debet', 'broker', 'deposit'
+      statusIdea: "",
+      statusIdeaOptions: [
+        //'draft', 'research', 'open', 'close'
+        { value: "draft", text: "Черновик" },
+        { value: "research", text: "Исследование" },
+        { value: "open", text: "Open" },
+        { value: "close", text: "Close" },
       ],
     };
   },
   methods: {
+    getPostData() {
+      let self = this;
+      axios
+        .get("/api/posts/create")
+        .then(function (response) {
+          self.category = response.data.categorys;
+          self.optionsCategory = self.category.map(function (category) {
+            return { value: category.id, text: category.title };
+          });
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+    },
     async create() {
+      let self = this;
       axios.get("/sanctum/csrf-cookie").then((response) => {
         axios
-          .post("/api/trade-ideas/store", {
-            name_check: this.nameCheck,
-            type_check: this.typeCheck,
-            limit_check: this.limitCheck,
-            precent_check: this.precentCheck,
+          .post("/api/ideas/store", {
+            figi_idea: self.figiTools,
+            name_idea: self.nameIdea,
+            type_idea: self.typeIdea,
+            limit_day_idea: self.limitDayIdea,
+            aim_idea: self.aimIdea,
+            description_idea: self.descriptionIdea,
+            status_idea: self.statusIdea,
           })
           .then((response) => {
             if (response.status) {
-              this.$snotify.async(
-                "Called with promise",
-                "Success async",
-                () =>
-                  new Promise((resolve, reject) => {
-                    setTimeout(
-                      () =>
-                        resolve({
-                          title: "Success!!!",
-                          test: reject,
-                          body: "We got an example success!",
-                          config: {
-                            closeOnClick: true,
-                          },
-                        }),
-                      2000
-                    );
-                  })
-              );
               console.log("Вызвали алерт");
+              this.$router.push({ path: "/trade-ideas/index" });
             } else {
               console.log("Не работает");
               console.log(response.status);

@@ -109,6 +109,12 @@ Route::group(['prefix' => 'finance', 'middleware' => 'auth:sanctum'], function (
     Route::post('/set-balance', 'CheckController@setBalance');
     Route::get('/', 'CheckController@index');
 });
+//Роуты торговых идей
+Route::group(['prefix' => 'ideas', 'middleware' => 'auth:sanctum'], function () {
+	Route::get('/index', 'IdeasController@index');
+    Route::post('/store', 'IdeasController@store');
+});
+
 
 //Роуты для алготорговли
 Route::group(['prefix' => 'console',], function () {
