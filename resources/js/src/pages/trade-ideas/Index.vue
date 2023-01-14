@@ -47,7 +47,7 @@
         </span>
         <span v-else-if="props.column.field === 'name'">
           <a target="_blank" :href="'/trade-ideas/description/' + props.row.id">{{
-            props.row.id
+            props.row.name
           }}</a>
         </span>
         <span v-else-if="props.column.field === 'created_at'">

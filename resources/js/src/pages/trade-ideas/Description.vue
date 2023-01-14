@@ -2,7 +2,8 @@
   <div class="row g-5">
     <div class="col-md-8">
       <article class="blog-post">
-        {{ descriptionIdea }}
+        <div v-html="descriptionIdea"></div>
+        
       </article>
     </div>
   </div>
