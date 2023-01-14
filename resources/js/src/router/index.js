@@ -260,6 +260,14 @@ function configRoutes() {
             authRequired: true
           }
         },
+        {
+          path: 'description/:id',
+          name: 'trade-ideas-description',
+          component: () => import('@/pages/trade-ideas/Description'),
+          meta: {
+            authRequired: true
+          }
+        },
       ]
     },
     {

@@ -121,6 +121,18 @@
                     ></b-form-select>
                   </b-form-group>
                 </div>
+                <div class="col-sm-10">
+                  <b-form-group
+                    horizontal
+                    label="Время обновления"
+                    label-for="time-idea"
+                  >
+                    <date-picker
+                      v-model="timeUpdate"
+                      valueType="format"
+                    ></date-picker>
+                  </b-form-group>
+                </div>
               </div>
               <div class="d-flex">
                 <b-button type="submit" variant="success" class="mr-2"
@@ -144,15 +156,19 @@
 <script>
 import axios from "axios";
 import Editor from "@tinymce/tinymce-vue";
+import DatePicker from "vue2-datepicker";
+import "vue2-datepicker/index.css";
 
 export default {
   name: "group-create",
   components: {
     editor: Editor,
+    DatePicker,
   },
   data() {
     return {
       loading: false,
+      timeUpdate: null,
       nameIdea: "",
       figiTools: "",
       typeIdea: "",
@@ -187,6 +203,8 @@ export default {
           self.aimIdea = response.data.idea.aim_price;
           self.descriptionIdea = response.data.idea.description;
           self.statusIdea = response.data.idea.status;
+          self.timeUpdate = response.data.idea.updatet_at;
+          console.log(response.data.idea.updated_at);
         })
         .catch(function (error) {
           console.error(error);
@@ -206,6 +224,7 @@ export default {
             aim_idea: self.aimIdea,
             description_idea: self.descriptionIdea,
             status_idea: self.statusIdea,
+            updated_at: self.timeUpdate,
           })
           .then((response) => {
             if (response.status) {

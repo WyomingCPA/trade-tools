@@ -34,6 +34,7 @@ class IdeasController extends Controller
             'aim_price' => $request->aim_idea,
             'description' => $request->description_idea,
             'status' => $request->status_idea,
+            'updated_at' => $request->updated_at,
         ]);
         
         return response([
@@ -47,7 +48,7 @@ class IdeasController extends Controller
         foreach ($rows as $value) {
             Idea::where('id', $value)->delete();
         }
-        
+
         return response()->json([
             'status' => true,
         ], 200);
@@ -66,6 +67,17 @@ class IdeasController extends Controller
         ]);
         return response([
             'status' => true,
+        ], 200);
+    }
+
+    public function getDescription(Request $request)
+    {
+        $id = $request->route('id');
+        $model = Idea::find($id);
+
+        return response()->json([
+            'status' => true,
+            'description' => $model->description ?? 'No',
         ], 200);
     }
 }

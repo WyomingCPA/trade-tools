@@ -46,11 +46,9 @@
           }}</a>
         </span>
         <span v-else-if="props.column.field === 'name'">
-          <a
-            target="_blank"
-            :href="'https://www.tinkoff.ru/invest/stocks/' + props.row.ticker"
-            >{{ props.row.name }}</a
-          >
+          <a target="_blank" :href="'/trade-ideas/description/' + props.row.id">{{
+            props.row.id
+          }}</a>
         </span>
         <span v-else-if="props.column.field === 'created_at'">
           <span>{{ props.row.created_at }}</span>

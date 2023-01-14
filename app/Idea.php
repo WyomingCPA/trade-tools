@@ -10,7 +10,7 @@ use App\Stock;
 
 class Idea extends Model
 {
-    protected $fillable = ['figi', 'name', 'action', 'min_period', 'aim_price', 'data', 'description', 'status'];
+    protected $fillable = ['figi', 'name', 'action', 'min_period', 'aim_price', 'data', 'description', 'status', 'updated_at'];
     protected $appends = ['name-instrument', 'ticker'];
     
     public function getUpdatedAtAttribute($value)

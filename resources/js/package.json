@@ -58,7 +58,7 @@
     "vue-sweetalert2": "^2.1.5",
     "vue-trix": "github:hanhdt/vue-trix",
     "vue2-ace-editor": "0.0.15",
-    "vue2-datepicker": "^3.1.1",
+    "vue2-datepicker": "^3.11.1",
     "vue2-dragula": "^2.5.4",
     "vue2-google-maps": "^0.10.7",
     "vuelidate": "^0.7.4",
