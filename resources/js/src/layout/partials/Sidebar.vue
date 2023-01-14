@@ -300,6 +300,13 @@
                   >Stock Aim Average Calculator</router-link
                 >
               </li>
+              <li class="nav-item">
+                <router-link
+                  class="nav-link"
+                  to="/calculator/stock-lots-calculation/0"
+                  >Узнать лотность инструмента</router-link
+                >
+              </li>
             </ul>
           </b-collapse>
         </li>

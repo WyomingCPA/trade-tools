@@ -37,7 +37,12 @@
       }"
     >
       <template slot="table-row" slot-scope="props">
-        <span v-if="props.column.field === 'name'">
+        <span v-if="props.column.field === 'id'">
+          <a target="_blank" :href="'/trade-ideas/edit/' + props.row.id">{{
+            props.row.id
+          }}</a>
+        </span>
+        <span v-else-if="props.column.field === 'name'">
           <a
             target="_blank"
             :href="'https://www.tinkoff.ru/invest/stocks/' + props.row.ticker"
@@ -61,7 +66,16 @@
           </span>
         </span>
         <span v-else-if="props.column.field === 'action'">
-            {{ props.row.action }}
+          {{ props.row.action }}
+        </span>
+        <span v-else-if="props.column.field === 'operation'">
+          <b-button
+            size="sm"
+            @click="calculateLots(props, $event.target)"
+            class="mr-1"
+          >
+            Рассчитать лотность
+          </b-button>
         </span>
       </template>
     </vue-good-table>
@@ -96,6 +110,10 @@ export default {
           field: "id",
         },
         {
+          label: "Tools",
+          field: "name-instrument",
+        },
+        {
           label: "Name",
           field: "name",
         },
@@ -123,10 +141,21 @@ export default {
           label: "Направление",
           field: "action",
         },
+        {
+          label: "Операций",
+          field: "operation",
+        },
       ],
     };
   },
   methods: {
+    calculateLots(item, button) {
+      console.log(item);
+      let route = this.$router.resolve({
+        path: "/calculator/stock-lots-calculation/" + item.row.id,
+      });
+      window.open(route.href);
+    },
     updateParams(newProps) {
       this.serverParams = Object.assign({}, this.serverParams, newProps);
     },
@@ -229,7 +258,6 @@ export default {
           });
       });
     },
-
   },
 
   created() {

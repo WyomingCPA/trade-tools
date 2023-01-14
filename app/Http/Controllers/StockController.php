@@ -237,6 +237,7 @@ class StockController extends Controller
             'status' => true,
         ], 200);
     }
+    
 
 
 

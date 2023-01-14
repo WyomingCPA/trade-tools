@@ -10,6 +10,7 @@
   "dependencies": {
     "@johmun/vue-tags-input": "^2.1.0",
     "@mdi/font": "^4.5.95",
+    "@tinymce/tinymce-vue": "^3.2.8",
     "bootstrap": "^4.6.1",
     "bootstrap-vue": "^2.22.0",
     "bootstrap-vue-treeview": "^1.0.8",

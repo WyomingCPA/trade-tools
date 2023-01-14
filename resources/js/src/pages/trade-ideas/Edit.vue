@@ -5,9 +5,9 @@
         <div class="card">
           <div class="card-body">
             <h4 class="card-title">Идея</h4>
-            <form class="form-sample" @submit.prevent="create">
+            <form class="form-sample" @submit.prevent="update">
               <p class="card-description">
-                <strong>Создание торговой идей</strong>
+                <strong>Редактирование торговой идей</strong>
               </p>
               <div class="row">
                 <div class="col-sm-10">
@@ -123,8 +123,15 @@
               </div>
               <div class="d-flex">
                 <b-button type="submit" variant="success" class="mr-2"
-                  >Создать</b-button
-                >
+                  ><span v-show="!loading"> Обновить </span>
+                  <div
+                    v-show="loading"
+                    class="spinner-border spinner-border-sm"
+                    role="status"
+                  >
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </b-button>
               </div>
             </form>
           </div>
@@ -144,6 +151,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       nameIdea: "",
       figiTools: "",
       typeIdea: "",
@@ -168,22 +176,28 @@ export default {
     getPostData() {
       let self = this;
       axios
-        .get("/api/posts/create")
+        .get("/api/ideas/edit/" + this.$route.params.id)
         .then(function (response) {
-          self.category = response.data.categorys;
-          self.optionsCategory = self.category.map(function (category) {
-            return { value: category.id, text: category.title };
-          });
+          console.log(response.data.idea.figi);
+          self.figiTools = response.data.idea.figi;
+          self.nameIdea = response.data.idea.name;
+          self.typeIdea = response.data.idea.action;
+          self.limitDayIdea = response.data.idea.min_period;
+          self.aimIdea = response.data.idea.aim_price;
+          self.descriptionIdea = response.data.idea.description;
+          self.statusIdea = response.data.idea.status;
         })
         .catch(function (error) {
           console.error(error);
         });
     },
-    async create() {
+    async update() {
       let self = this;
+      this.loading = true;
       axios.get("/sanctum/csrf-cookie").then((response) => {
         axios
-          .post("/api/ideas/store", {
+          .post("/api/ideas/update", {
+            idea_id: this.$route.params.id,
             figi_idea: self.figiTools,
             name_idea: self.nameIdea,
             type_idea: self.typeIdea,
@@ -194,8 +208,8 @@ export default {
           })
           .then((response) => {
             if (response.status) {
-              console.log("Вызвали алерт");
-              this.$router.push({ path: "/trade-ideas/index" });
+              this.makeToast("success");
+              self.loading = false;
             } else {
               console.log("Не работает");
               console.log(response.status);
@@ -207,7 +221,16 @@ export default {
           });
       });
     },
+    makeToast(variant = null) {
+      this.$bvToast.toast("Данные успешно обновлены", {
+        title: `${variant || "default"}`,
+        variant: variant,
+        solid: true,
+      });
+    },
   },
-  mounted: function () {},
+  mounted: function () {
+    this.getPostData();
+  },
 };
 </script>

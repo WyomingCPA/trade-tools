@@ -112,9 +112,12 @@ Route::group(['prefix' => 'finance', 'middleware' => 'auth:sanctum'], function (
 //Роуты торговых идей
 Route::group(['prefix' => 'ideas', 'middleware' => 'auth:sanctum'], function () {
 	Route::get('/index', 'IdeasController@index');
+	Route::get('/edit/{id}', 'IdeasController@edit');
+	Route::post('/update', 'IdeasController@update');
+	Route::get('/get-idea/{id}', 'CalculateController@getIdea');
     Route::post('/store', 'IdeasController@store');
+	Route::post('/calculate-lots', 'CalculateController@calculateLotsForStock');
 });
-
 
 //Роуты для алготорговли
 Route::group(['prefix' => 'console',], function () {

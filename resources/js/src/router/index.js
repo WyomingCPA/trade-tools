@@ -253,9 +253,9 @@ function configRoutes() {
           }
         },
         {
-          path: 'favorite',
-          name: 'etf-favorite',
-          component: () => import('@/pages/etf/Favorite'),
+          path: 'edit/:id',
+          name: 'trade-ideas-edit',
+          component: () => import('@/pages/trade-ideas/Edit'),
           meta: {
             authRequired: true
           }
@@ -338,6 +338,14 @@ function configRoutes() {
           path: 'stock-aim-average-calculator',
           name: 'stock-aim-average-calculator',
           component: () => import('@/pages/calculator/StockAimAverageCalculator'),
+          meta: {
+            authRequired: true
+          }
+        },
+        {
+          path: 'stock-lots-calculation/:id',
+          name: 'stock-lots-calculation',
+          component: () => import('@/pages/calculator/StockLotsCalculation'),
           meta: {
             authRequired: true
           }
