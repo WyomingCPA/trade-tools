@@ -53,7 +53,7 @@
                 <div class="col-sm-10">
                   <b-form-group
                     horizontal
-                    label="Горизонт(время входа, указываем максимальное в днях):"
+                    label="Горизонт(время входа, указываем минимальное в днях):"
                     label-for="horizont-idea"
                   >
                     <b-form-input
@@ -72,7 +72,8 @@
                   >
                     <b-form-input
                       v-model="aimIdea"
-                      type="text"
+                      type="number"
+                      step="any"
                       id="aim-idea"
                     ></b-form-input>
                   </b-form-group>

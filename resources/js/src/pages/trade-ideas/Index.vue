@@ -36,6 +36,9 @@
         enabled: true,
       }"
     >
+      <div slot="selected-row-actions">
+        <button v-on:click="deleteIdea">Delete</button>
+      </div>
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field === 'id'">
           <a target="_blank" :href="'/trade-ideas/edit/' + props.row.id">{{
@@ -237,19 +240,17 @@ export default {
       });
     },
 
-    async deleteTestStrategy(item, button) {
-      var self = this;
+    deleteIdea: function (event, rows) {
+      let self = this;
       this.loading = true;
       axios.get("/sanctum/csrf-cookie").then((response) => {
         axios
-          .post("/api/test-strategy/delete-strategy-test", {
-            selRows: item,
-          })
+          .post("/api/ideas/delete", { selRows: this.selRows })
           .then((response) => {
             if (response.status) {
               console.log("Вызвали алерт");
-              this.loading = false;
               this.fetchRows();
+              this.loading = false;
             } else {
               console.log("Не работает");
               console.log(response.status);

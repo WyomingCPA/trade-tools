@@ -114,6 +114,7 @@ Route::group(['prefix' => 'ideas', 'middleware' => 'auth:sanctum'], function () 
 	Route::get('/index', 'IdeasController@index');
 	Route::get('/edit/{id}', 'IdeasController@edit');
 	Route::post('/update', 'IdeasController@update');
+	Route::post('/delete', 'IdeasController@delete');
 	Route::get('/get-idea/{id}', 'CalculateController@getIdea');
     Route::post('/store', 'IdeasController@store');
 	Route::post('/calculate-lots', 'CalculateController@calculateLotsForStock');

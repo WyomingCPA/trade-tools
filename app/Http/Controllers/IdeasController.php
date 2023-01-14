@@ -41,6 +41,18 @@ class IdeasController extends Controller
         ], 200);
     }
 
+    public function delete(Request $request)
+    {
+        $rows = $request->post('selRows');
+        foreach ($rows as $value) {
+            Idea::where('id', $value)->delete();
+        }
+        
+        return response()->json([
+            'status' => true,
+        ], 200);
+    }
+
     public function store(Request $request)
     {
         $model = Idea::create([
