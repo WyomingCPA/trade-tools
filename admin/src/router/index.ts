@@ -6,7 +6,7 @@ import Page404Layout from '../layouts/Page404Layout.vue'
 
 import RouteViewComponent from '../layouts/RouterBypass.vue'
 import UIRoute from '../pages/admin/ui/route'
-import store from '@/store'
+
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -218,19 +218,6 @@ const router = createRouter({
   routes,
 })
 
-router.beforeEach((to, from, next) => {
-  if (to.meta.middleware == "guest") {
-      if (store.state.auth.authenticated) {
-          next({ name: "dashboard" })
-      }
-      next()
-  } else {
-      if (store.state.auth.authenticated) {
-          next()
-      } else {
-          next({ name: "login" })
-      }
-  }
-})
+
 
 export default router
