@@ -35,4 +35,14 @@ export const useUserStore = defineStore("user", {
       this.user = user;
     },
   },
+  getters: {
+    authenticated(state) {
+      console.log(state)
+      return state.authenticated
+    },
+
+    user(state) {
+      return state.user
+    },
+  },
 });
