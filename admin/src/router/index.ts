@@ -225,6 +225,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const store = useUserStore();
+  console.log(store.fetchUser.toString());
   if (!to.meta.authRequired) {
     next();
   } else if (store.authenticated) {
