@@ -1,46 +1,29 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia'
+import { useApi } from '@/api/useAPI.js'
 
-export const useUserStore = defineStore("user", {
-  state: () => ({
-    user: null,
-  }),
+const api = useApi()
 
-  actions: {
-    async fetchUser() {
-      const res = await fetch("https://localhost:3000/user");
+export const useUserStore = defineStore({
+	id: 'user',
 
-      const user = await res.json();
-      this.user = user;
-    },
-    async signUp(email, password) {
-      const res = await fetch("https://localhost:3000/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-      const user = await res.json()
-      this.user = user;
-    },
-    async signIn(email, password) {
-      const res = await fetch("https://localhost:3000/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-      const user = await res.json();
-      this.user = user;
-    },
-  },
+	state: () => JSON.parse(localStorage.getItem('USER_INFO')) ?? {
+			id: null,
+			name: 'guest',
+			email: null,
+		},
 
-  getters: {
-    authenticated(state) {
-      console.log(state)
-      return state.authenticated
-    },
+	actions: {
+		updateState(payload) {
+			let newUserState = { ...this.state, ...payload }
+			localStorage.removeItem('USER_INFO')
+			localStorage.setItem('USER_INFO', JSON.stringify(newUserState))
+			this.$reset()
+		},
 
-  },
-});
+		async storeInfo() {
+			let { data: userInfo } = await api.get('/user')
+			localStorage.setItem('USER_INFO', JSON.stringify(userInfo))
+			this.$reset()
+		},
+	},
+})

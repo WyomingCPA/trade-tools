@@ -34,6 +34,7 @@
 <script setup lang="ts">
   import { computed, ref } from 'vue'
   import { useRouter } from 'vue-router'
+  import { useUserStore } from '../../../stores/user'
   import { useI18n } from 'vue-i18n'
   const { t } = useI18n()
 
@@ -43,6 +44,8 @@
   const emailErrors = ref<string[]>([])
   const passwordErrors = ref<string[]>([])
   const router = useRouter()
+  const userStore = useUserStore();
+
 
   const formReady = computed(() => !emailErrors.value.length && !passwordErrors.value.length)
 
@@ -51,7 +54,8 @@
 
     emailErrors.value = email.value ? [] : ['Email is required']
     passwordErrors.value = password.value ? [] : ['Password is required']
-
+    userStore.signIn(email, password);
+    alert('test');
     router.push({ name: 'dashboard' })
   }
 </script>
