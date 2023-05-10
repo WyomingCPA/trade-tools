@@ -9,6 +9,7 @@ import UIRoute from '../pages/admin/ui/route'
 
 import { useUserStore } from '../stores/user'
 
+import authMiddleware from './middleware/auth-middleware'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -222,7 +223,7 @@ const router = createRouter({
   //  mode: process.env.VUE_APP_ROUTER_MODE_HISTORY === 'true' ? 'history' : 'hash',
   routes,
 })
-
+/*
 router.beforeEach((to, from, next) => {
   const store = useUserStore();
   console.log(store.fetchUser.toString());
@@ -237,6 +238,7 @@ router.beforeEach((to, from, next) => {
     });
   }
 });
-
+*/
+router.beforeEach(authMiddleware)
 
 export default router

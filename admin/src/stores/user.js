@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { useApi } from '@/api/useAPI.js'
+import { useApi } from '../api/useAPI.js'
 
 const api = useApi()
 

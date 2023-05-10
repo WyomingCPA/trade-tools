@@ -1,4 +1,4 @@
-import { useAuthStore } from '@/stores/auth.js'
+import { useAuthStore } from '../stores/auth.js'
 /**
  * Middleware - if user lost authentication (401) it gets kicked out
  * FROM https://youtu.be/BWNcuB3LQz8?t=1119

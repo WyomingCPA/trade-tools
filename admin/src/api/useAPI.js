@@ -13,7 +13,8 @@ export const useApi = (endpoint = 'api') => {
 	let baseURL
 
 	if (endpoint === 'api') {
-		baseURL = API_HOST + API_PATH || 'http://localhost:8000/api'
+		baseURL = API_HOST + API_PATH || 'http://localhost/trade-tools/public/api'
+		console.log(baseURL);
 	} else if (endpoint === 'web') {
 		baseURL = API_HOST || 'http://localhost:8000'
 	}
