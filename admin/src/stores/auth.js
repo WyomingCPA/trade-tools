@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../stores/user.js'
 import { useApi } from '../api/useAPI'
-const web = useApi('web')
+const web = useApi('api')
 
 export const useAuthStore = defineStore({
 	id: 'auth',
