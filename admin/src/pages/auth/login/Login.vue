@@ -1,9 +1,9 @@
 <template>
   <form @submit.prevent="loginFn">
-    <va-input v-model="email" class="mb-3" type="email" :label="t('auth.email')" :error="!!emailErrors.length"
+    <va-input v-model.trim="credentials.email" class="mb-3" type="email" :label="t('auth.email')" :error="!!emailErrors.length"
       :error-messages="emailErrors" />
 
-    <va-input v-model="password" class="mb-3" type="password" :label="t('auth.password')" :error="!!passwordErrors.length"
+    <va-input v-model.trim="credentials.password" class="mb-3" type="password" :label="t('auth.password')" :error="!!passwordErrors.length"
       :error-messages="passwordErrors" />
 
     <div class="auth-layout__options d-flex align-center justify-space-between">
@@ -20,6 +20,7 @@
 </template>
 
 <script setup lang="ts">
+import { reactive } from 'vue'
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '../../../stores/auth.js'
@@ -34,8 +35,6 @@ const passwordErrors = ref<string[]>([])
 const router = useRouter()
 const auth = useAuthStore()
 
-
-
 const formReady = computed(() => !emailErrors.value.length && !passwordErrors.value.length)
 
 function onsubmit() {
@@ -46,9 +45,15 @@ function onsubmit() {
 
   router.push({ name: 'dashboard' })
 }
+
+const credentials = reactive({
+	email: null,
+	password: null,
+})
+
 const loginFn = async () => {
   try {
-    await auth.login(formReady)
+    await auth.login(credentials)
   } catch (error) {
     console.log(error)
   }
