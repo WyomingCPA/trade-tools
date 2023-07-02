@@ -56,7 +56,7 @@ export const COLOR_THEMES = [
 ]
 
 export function useTheme() {
-  const themeNameRef = ref(THEME_NAMES.LIGHT)
+  const themeNameRef = ref(THEME_NAMES.DARK)
   const { mergeGlobalConfig } = useGlobalConfig()
 
   const setTheme = (themeName: keyof typeof THEME_NAMES) => {

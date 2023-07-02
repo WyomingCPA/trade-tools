@@ -8,7 +8,25 @@ import router from './router'
 import vuesticGlobalConfig from './services/vuestic-ui/global-config'
 import App from './App.vue'
 
+import axios from 'axios'
+import middleware401 from './api/middleware401'
+import middlewareCSRF from './api/middlewareCSRF'
+
 const app = createApp(App)
+
+axios.defaults.withCredentials = true
+
+axios.defaults.baseURL = 'http://localhost/technique/public'
+//axios.defaults.baseURL = 'http://techniqueb1.simpleitrunner.ru/';
+
+axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
+axios.defaults.headers.common['Content-Type'] = 'application/json'
+const token = localStorage.getItem('token')
+if (token) {
+  axios.defaults.headers.common['Authorization'] = token
+}
+axios.interceptors.request.use(middlewareCSRF, (err) => Promise.reject(err))
+axios.interceptors.response.use((resp) => resp, middleware401)
 
 app.use(stores)
 app.use(router)

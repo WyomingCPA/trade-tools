@@ -42,7 +42,7 @@
   const page = ref(0)
 
   onMounted(() => {
-    loadContributorsList()
+    //loadContributorsList()
   })
 
   async function loadContributorsList() {
