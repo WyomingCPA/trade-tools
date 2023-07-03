@@ -19,6 +19,24 @@ export default {
       },
     },
     {
+      name: 'stocks',
+      displayName: 'menu.stocks',
+      meta: {
+        icon: 'vuestic-iconset-statistics',
+      },
+      disabled: true,
+      children: [
+        {
+          name: 'stock-all',
+          displayName: 'menu.stock-all',
+        },
+        {
+          name: 'menu.stock-favorite',
+          displayName: 'menu.stock-favorite',
+        },
+      ],
+    },
+    {
       name: 'statistics',
       displayName: 'menu.statistics',
       meta: {

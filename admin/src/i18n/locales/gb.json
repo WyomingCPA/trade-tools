@@ -337,7 +337,10 @@
     "line-maps": "Line Maps",
     "login-singup": "Login/Signup",
     "404-pages": "404 Pages",
-    "faq": "Faq"
+    "faq": "Faq",
+    "stocks": "Акций",
+    "stock-all": "Все акций",
+    "stock-favorite": "Избранные Акций"
   },
   "messages": {
     "all": "See all messages",
