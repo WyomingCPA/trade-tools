@@ -53,21 +53,21 @@ const routes: Array<RouteRecordRaw> = [
         ],
       },
       {
-        name: 'forms',
-        path: 'forms',
+        name: 'stocks',
+        path: 'stocks',
         component: RouteViewComponent,
         children: [
           {
-            name: 'form-elements',
-            path: 'form-elements',
+            name: 'stock-all',
+            path: 'stock-all',
             component: () => import('../pages/admin/forms/form-elements/FormElements.vue'),
             meta: {
               wikiLink: 'https://github.com/epicmaxco/vuestic-admin/wiki/inputs',
             },
           },
           {
-            name: 'medium-editor',
-            path: 'medium-editor',
+            name: 'stock-favorite',
+            path: 'stock-favorite',
             component: () => import('../pages/admin/forms/medium-editor/MediumEditor.vue'),
             meta: {
               wikiLink: 'https://github.com/epicmaxco/vuestic-admin/wiki/Medium-Editor',

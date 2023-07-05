@@ -340,7 +340,16 @@
     "faq": "Faq",
     "stocks": "Акций",
     "stock-all": "Все акций",
-    "stock-favorite": "Избранные Акций"
+    "algoritm-trading": "Algoritmic Trading",
+    "test-strategy": "Test Strategy",
+    "etf": "Фонды",
+    "bonds": "Облигаций",
+    "futures": "Фьючерсы",
+    "stock-favorite": "Избранные Акций",
+    "calculators": "Калькуляторы",
+    "trade-ideas": "Торговые идей",
+    "settings": "Settings",
+    "my-finance": "Мой Финансы"
   },
   "messages": {
     "all": "See all messages",
