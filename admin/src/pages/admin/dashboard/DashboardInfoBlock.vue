@@ -63,16 +63,6 @@
       </va-card>
     </div>
 
-    <div class="flex xs12 sm6 md6 xl3 lg3">
-      <va-card>
-        <va-image :src="images[currentImageIndex]" style="height: 200px" />
-        <va-card-title>
-          <va-button preset="plain" icon-right="fa-arrow-circle-right" @click="showModal">
-            {{ t('dashboard.info.exploreGallery') }}
-          </va-button>
-        </va-card-title>
-      </va-card>
-    </div>
     <va-modal v-model="modal">
       <va-carousel v-model="currentImageIndex" :items="images" class="gallery-carousel" />
     </va-modal>
