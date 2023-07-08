@@ -60,10 +60,7 @@ const routes: Array<RouteRecordRaw> = [
           {
             name: 'stock-all',
             path: 'stock-all',
-            component: () => import('../pages/admin/forms/form-elements/FormElements.vue'),
-            meta: {
-              wikiLink: 'https://github.com/epicmaxco/vuestic-admin/wiki/inputs',
-            },
+            component: () => import('../pages/admin/stock/All.vue'),
           },
           {
             name: 'stock-favorite',
