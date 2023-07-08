@@ -33,7 +33,8 @@ import { array } from '@amcharts/amcharts5'
 import axios from 'axios'
 import debounce from 'lodash/debounce.js'
 
-var qs = require("qs");
+import qs from 'qs'
+
 
 export default {
   name: 'ProductAll',
@@ -83,34 +84,6 @@ export default {
       this.input = param
     },
 
-    setLearn(id) {
-      this.loading = true;
-      this.idProduct = id;
-      console.log(id);
-      let self = this
-      axios.get('/sanctum/csrf-cookie').then((response) => {
-        axios
-          .post('/api/product/set-learn', {
-            id_product: self.idProduct,
-          })
-          .then((response) => {
-            if (response.status) {
-              console.log('Вызвали алерт')
-              this.getWashProduct()
-              this.loading = false
-            } else {
-              console.log('Не работает')
-              console.log(response.status)
-              this.loading = false
-            }
-          })
-          .catch(function (error) {
-            console.log(response)
-            console.error(error)
-            this.loading = false
-          })
-      })
-    },
     fetchRows() {
       let self = this;
       this.loading = true;
@@ -132,20 +105,6 @@ export default {
           console.log(error);
           self.loading = false;
         });
-    },
-    getWashProduct() {
-      let self = this
-      axios
-        .get('/api/product/smart')
-        .then(function (response) {
-          self.items = response.data.products;
-          self.listPrice = response.data.price;
-          console.log(response.data.groups);
-          self.loading = false;
-        })
-        .catch(function (error) {
-          console.error(error)
-        })
     },
     resetInfoModal() {
       this.infoModal.title = ''
@@ -190,9 +149,7 @@ export default {
       }
     },
   },
-  mounted: function () {
-    this.getWashProduct()
-  },
+
   created() {
     this.fetchRows();
   },
