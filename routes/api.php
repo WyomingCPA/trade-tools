@@ -127,6 +127,11 @@ Route::group(['prefix' => 'console',], function () {
 	Route::get('last-events-console', ['uses' => 'ConsoleLogController@getLastEventsConsole']);
 });
 
+//Роуты для работы с данными
+Route::group(['prefix' => 'data',], function () {
+	Route::post('/save-rus-stock', 'StockController@saveRusStock');
+});
+
 //Роуты для алготорговли
 Route::group(['prefix' => 'trader',], function () {
 	Route::post('/check-script', 'OrderController@checkScript');
