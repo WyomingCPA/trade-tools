@@ -30,25 +30,46 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('../pages/admin/dashboard/Dashboard.vue'),
       },
       {
-        name: 'statistics',
-        path: 'statistics',
+        name: 'algo-trading',
+        path: 'algo-trading',
         component: RouteViewComponent,
         children: [
           {
-            name: 'charts',
-            path: 'charts',
-            component: () => import('../pages/admin/statistics/charts/Charts.vue'),
-            meta: {
-              wikiLink: 'https://github.com/epicmaxco/vuestic-admin/wiki/Charts',
-            },
+            name: 'orders',
+            path: 'orders',
+            component: () => import('../pages/admin/algo-trading/Orders.vue'),
           },
           {
-            name: 'progress-bars',
-            path: 'progress-bars',
-            component: () => import('../pages/admin/statistics/progress-bars/ProgressBars.vue'),
-            meta: {
-              wikiLink: 'https://github.com/epicmaxco/vuestic-admin/wiki/Progress-Bars',
-            },
+            name: 'bots',
+            path: 'bots',
+            component: () => import('../pages/admin/algo-trading/Bots.vue'),
+          },
+          {
+            name: 'signals',
+            path: 'signals',
+            component: () => import('../pages/admin/algo-trading/Signals.vue'),
+          },
+          {
+            name: 'strategy',
+            path: 'strategy',
+            component: () => import('../pages/admin/algo-trading/ListStrategy.vue'),
+          },
+        ],
+      },
+      {
+        name: 'test-strategy',
+        path: 'test-strategy',
+        component: RouteViewComponent,
+        children: [
+          {
+            name: 'test-strategy-list',
+            path: 'test-strategy-list',
+            component: () => import('../pages/admin/test-strategy/ListStrategy.vue'),
+          },
+          {
+            name: 'test-strategy-create',
+            path: 'test-strategy-create',
+            component: () => import('../pages/admin/test-strategy/CreateStrategy.vue'),
           },
         ],
       },

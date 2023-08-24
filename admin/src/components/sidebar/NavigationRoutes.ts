@@ -19,20 +19,28 @@ export default {
       },
     },
     {
-      name: 'algoritm-trading',
-      displayName: 'menu.algoritm-trading',
+      name: 'algo-trading',
+      displayName: 'menu.algo-trading',
       meta: {
         icon: 'show_chart',
       },
       disabled: true,
       children: [
         {
-          name: 'stock-all',
-          displayName: 'menu.stock-all',
+          name: 'orders',
+          displayName: 'menu.algo-trading-orders',
         },
         {
-          name: 'stock-favorite',
-          displayName: 'menu.stock-favorite',
+          name: 'bots',
+          displayName: 'menu.algo-tradingy-bots',
+        },
+        {
+          name: 'signals',
+          displayName: 'menu.algo-trading-calls',
+        },
+        {
+          name: 'strategy',
+          displayName: 'menu.algo-trading-strategy',
         },
       ],
     },
@@ -45,12 +53,12 @@ export default {
       disabled: true,
       children: [
         {
-          name: 'stock-all',
-          displayName: 'menu.stock-all',
+          name: 'test-strategy-create',
+          displayName: 'menu.test-strategy-create',
         },
         {
-          name: 'stock-favorite',
-          displayName: 'menu.stock-favorite',
+          name: 'test-strategy-list',
+          displayName: 'menu.test-strategy-list',
         },
       ],
     },
