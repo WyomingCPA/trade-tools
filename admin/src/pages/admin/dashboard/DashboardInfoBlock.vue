@@ -96,7 +96,7 @@ export default defineComponent({
     },
   },
   created() {
-    this.fetchData();
+    //this.fetchData();
   },
 })
 
