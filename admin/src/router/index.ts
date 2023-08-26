@@ -86,10 +86,141 @@ const routes: Array<RouteRecordRaw> = [
           {
             name: 'stock-favorite',
             path: 'stock-favorite',
-            component: () => import('../pages/admin/forms/medium-editor/MediumEditor.vue'),
-            meta: {
-              wikiLink: 'https://github.com/epicmaxco/vuestic-admin/wiki/Medium-Editor',
-            },
+            component: () => import('../pages/admin/stock/Favorite.vue'),
+          },
+          {
+            name: 'stock-rus',
+            path: 'stock-rus',
+            component: () => import('../pages/admin/stock/RusStock.vue'),
+          },
+        ],
+      },
+      {
+        name: 'etf',
+        path: 'etf',
+        component: RouteViewComponent,
+        children: [
+          {
+            name: 'etf-all',
+            path: 'etf-all',
+            component: () => import('../pages/admin/etf/All.vue'),
+          },
+          {
+            name: 'etf-favorite',
+            path: 'etf-favorite',
+            component: () => import('../pages/admin/etf/Favorite.vue'),
+          },
+        ],
+      },
+      {
+        name: 'bonds',
+        path: 'bonds',
+        component: RouteViewComponent,
+        children: [
+          {
+            name: 'bonds-all',
+            path: 'bonds-all',
+            component: () => import('../pages/admin/bond/All.vue'),
+          },
+          {
+            name: 'bonds-favorite',
+            path: 'bonds-favorite',
+            component: () => import('../pages/admin/bond/Favorite.vue'),
+          },
+          {
+            name: 'bonds-new',
+            path: 'bonds-new',
+            component: () => import('../pages/admin/bond/New.vue'),
+          },
+          {
+            name: 'bonds-hide',
+            path: 'bonds-hide',
+            component: () => import('../pages/admin/bond/Hide.vue'),
+          },
+        ],
+      },
+      {
+        name: 'futures',
+        path: 'futures',
+        component: RouteViewComponent,
+        children: [
+          {
+            name: 'futures-all',
+            path: 'futures-all',
+            component: () => import('../pages/admin/futures/All.vue'),
+          },
+          {
+            name: 'futures-favorite',
+            path: 'futures-favorite',
+            component: () => import('../pages/admin/futures/Favorite.vue'),
+          },
+        ],
+      },
+      {
+        name: 'calculators',
+        path: 'calculators',
+        component: RouteViewComponent,
+        children: [
+          {
+            name: 'calculators-stock-average',
+            path: 'calculators-stock-average',
+            component: () => import('../pages/admin/calculators/StockAverage.vue'),
+          },
+          {
+            name: 'calculators-stock-aim-average',
+            path: 'calculators-stock-aim-average',
+            component: () => import('../pages/admin/calculators/StockAimAverage.vue'),
+          },
+          {
+            name: 'calculators-count-lots',
+            path: 'calculators-count-lots',
+            component: () => import('../pages/admin/calculators/CountLots.vue'),
+          },
+        ],
+      },
+      {
+        name: 'trade-ideas',
+        path: 'trade-ideas',
+        component: RouteViewComponent,
+        children: [
+          {
+            name: 'trade-ideas-list',
+            path: 'trade-ideas-list',
+            component: () => import('../pages/admin/trade-ideas/Index.vue'),
+          },
+          {
+            name: 'trade-ideas-add',
+            path: 'trade-ideas-add',
+            component: () => import('../pages/admin/trade-ideas/Add.vue'),
+          },
+        ],
+      },
+      {
+        name: 'settings',
+        path: 'settings',
+        component: RouteViewComponent,
+        children: [
+          {
+            name: 'settings-external-services',
+            path: 'settings-external-services',
+            component: () => import('../pages/admin/settings/ExternalServices.vue'),
+          },
+        ],
+      },
+      {
+        name: 'my-finance',
+        path: 'my-finance',
+        component: RouteViewComponent,
+        children: [
+          {
+            name: 'my-finance-all',
+            path: 'my-finance-all',
+            component: () => import('../pages/admin/my-finance/All.vue'),
+          },
+          {
+            name: 'my-finance-add',
+            path: 'my-finance-add',
+            component: () => import('../pages/admin/my-finance/Add.vue'),
           },
         ],
       },
