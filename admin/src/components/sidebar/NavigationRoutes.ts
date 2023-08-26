@@ -78,6 +78,10 @@ export default {
           name: 'stock-favorite',
           displayName: 'menu.stock-favorite',
         },
+        {
+          name: 'stock-rus',
+          displayName: 'menu.stock-rus',
+        },
       ],
     },
     {
@@ -89,12 +93,12 @@ export default {
       disabled: true,
       children: [
         {
-          name: 'stock-all',
-          displayName: 'menu.stock-all',
+          name: 'etf-all',
+          displayName: 'menu.etf-all',
         },
         {
-          name: 'stock-favorite',
-          displayName: 'menu.stock-favorite',
+          name: 'etf-favorite',
+          displayName: 'menu.etf-favorite',
         },
       ],
     },
@@ -107,12 +111,20 @@ export default {
       disabled: true,
       children: [
         {
-          name: 'stock-all',
-          displayName: 'menu.stock-all',
+          name: 'bonds-all',
+          displayName: 'menu.bonds-all',
         },
         {
-          name: 'stock-favorite',
-          displayName: 'menu.stock-favorite',
+          name: 'bonds-favorite',
+          displayName: 'menu.bonds-favorite',
+        },
+        {
+          name: 'bonds-new',
+          displayName: 'menu.bonds-new',
+        },
+        {
+          name: 'bonds-hide',
+          displayName: 'menu.bonds-hide',
         },
       ],
     },
@@ -125,12 +137,12 @@ export default {
       disabled: true,
       children: [
         {
-          name: 'stock-all',
-          displayName: 'menu.stock-all',
+          name: 'futures-all',
+          displayName: 'menu.futures-all',
         },
         {
-          name: 'stock-favorite',
-          displayName: 'menu.stock-favorite',
+          name: 'futures-favorite',
+          displayName: 'menu.futures-favorite',
         },
       ],
     },
@@ -143,12 +155,16 @@ export default {
       disabled: true,
       children: [
         {
-          name: 'stock-all',
-          displayName: 'menu.stock-all',
+          name: 'calculators-stock-average',
+          displayName: 'menu.calculators-stock-average',
         },
         {
-          name: 'stock-favorite',
-          displayName: 'menu.stock-favorite',
+          name: 'calculators-stock-aim-average',
+          displayName: 'menu.calculators-stock-aim-average',
+        },
+        {
+          name: 'calculators-count-lots',
+          displayName: 'menu.calculators-count-lots',
         },
       ],
     },
@@ -161,12 +177,12 @@ export default {
       disabled: true,
       children: [
         {
-          name: 'stock-all',
-          displayName: 'menu.stock-all',
+          name: 'trade-ideas-list',
+          displayName: 'menu.trade-ideas-list',
         },
         {
-          name: 'stock-favorite',
-          displayName: 'menu.stock-favorite',
+          name: 'trade-ideas-add',
+          displayName: 'menu.trade-ideas-add',
         },
       ],
     },
@@ -179,12 +195,8 @@ export default {
       disabled: true,
       children: [
         {
-          name: 'stock-all',
-          displayName: 'menu.stock-all',
-        },
-        {
-          name: 'stock-favorite',
-          displayName: 'menu.stock-favorite',
+          name: 'settings-external-services',
+          displayName: 'menu.settings-external-services',
         },
       ],
     },
@@ -197,12 +209,12 @@ export default {
       disabled: true,
       children: [
         {
-          name: 'stock-all',
-          displayName: 'menu.stock-all',
+          name: 'my-finance-all',
+          displayName: 'menu.my-finance-all',
         },
         {
-          name: 'stock-favorite',
-          displayName: 'menu.stock-favorite',
+          name: 'my-finance-add',
+          displayName: 'menu.my-finance-add',
         },
       ],
     },
