@@ -9,11 +9,28 @@
           </va-card-content>
         </va-card>
       </div>
-      <div class="col-md-4">
+    </div>
+    <div class="flex xl6 xs12 lg6">
+      <div class="col-md-4 grid-margin stretch-card">
         <va-card>
-          <va-card-title>Trade Parser Log</va-card-title>
+          <va-card-title>Сервис</va-card-title>
           <va-card-content>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            <va-list>
+              <va-list-item v-for="(item, index) in all_scripts" :key="index" class="list__item">
+                <va-list-item-section>
+                  <va-list-item-label>
+                    {{ item.name }}
+                  </va-list-item-label>
+
+                  <va-list-item-label caption>
+                    Last update {{ item.updated_at }}
+                  </va-list-item-label>
+                </va-list-item-section>
+                <va-list-item-section icon>
+                  <va-icon name="remove_red_eye" color="background-tertiary" />
+                </va-list-item-section>
+              </va-list-item>
+            </va-list>
           </va-card-content>
         </va-card>
       </div>
@@ -64,7 +81,23 @@ export default defineComponent({
       candles_last_ago: { type: String },
       count_all_orders: { type: Number },
       orders_last_ago: { type: String },
-      all_scripts: [],
+      all_scripts: [
+        {
+          name: "super_trend_5min",
+          updated_at: "21:45:35 8 January 2023",
+          status: 0,
+        },
+        {
+          name: "super_trend_5min",
+          updated_at: "21:45:35 8 January 2023",
+          status: 1,
+        },
+        {
+          name: "super_trend_5min",
+          updated_at: "21:45:35 8 January 2023",
+          status: 0,
+        },
+      ],
       dataUrl: { type: String },
       loading: false,
       id_order: 0,
@@ -73,6 +106,50 @@ export default defineComponent({
     }
   },
   methods: {
+    async deleteAllCandles() {
+      let self = this;
+      this.loading = true;
+      axios.get("/sanctum/csrf-cookie").then((response) => {
+        axios
+          .post("/api/dashboard/delete-all-candles", {})
+          .then((response) => {
+            if (response.status) {
+              self.loading = false;
+              this.fetchData();
+            } else {
+              console.log("Не работает");
+              console.log(response.status);
+              self.loading = false;
+            }
+          })
+          .catch(function (error) {
+            console.log(response);
+            console.error(error);
+          });
+      });
+    },
+    async deleteAllOrders() {
+      let self = this;
+      this.loading = true;
+      axios.get("/sanctum/csrf-cookie").then((response) => {
+        axios
+          .post("/api/dashboard/delete-all-orders", {})
+          .then((response) => {
+            if (response.status) {
+              self.loading = false;
+              this.fetchData();
+            } else {
+              console.log("Не работает");
+              console.log(response.status);
+              self.loading = false;
+            }
+          })
+          .catch(function (error) {
+            console.log(response);
+            console.error(error);
+          });
+      });
+    },
     fetchData() {
       let self = this;
       this.loading = true;
@@ -86,7 +163,7 @@ export default defineComponent({
           self.candles_last_ago = response.data.candles_last_ago;
           self.count_all_orders = response.data.count_all_orders;
           self.orders_last_ago = response.data.orders_last_ago;
-          self.all_scripts = response.data.all_scripts;
+          //self.all_scripts = response.data.all_scripts;
           self.loading = false;
           console.log(response.data.count_all_candles);
         })
@@ -94,9 +171,22 @@ export default defineComponent({
           console.error(error);
         });
     },
+    getStatusBadgeClass(status) {
+      if (status == "empty") {
+        return "badge badge-primary";
+      } else if (status == 1) {
+        return "badge badge-success";
+      } else if (status == 0) {
+        return "badge badge-danger";
+      } else if (status == "nothing") {
+        return "badge badge-info";
+      } else {
+        return "";
+      }
+    },
   },
   created() {
-    //this.fetchData();
+    this.fetchData();
   },
 })
 
