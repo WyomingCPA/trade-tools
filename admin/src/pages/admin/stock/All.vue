@@ -3,21 +3,31 @@
     <va-card-content>
       <div class="grid md:grid-cols-2 gap-6 mb-6">
         <va-input v-model="input" placeholder="Filter..." class="w-full" />
-
-        <div class="flex flex-col gap-6">
-          <va-checkbox v-model="isCustomFilteringFn" label="Use custom filtering function (looks for an exact match)" />
-          <va-checkbox v-model="isDebounceInput" label="Debounce input" />
+      </div>
+      <div class="row">
+        <div class="col">
+          <va-button @click="favorite">
+            Добавить в избранное
+          </va-button>
         </div>
-      </div>
-      <div class="flex flex-wrap gap-6 mb-6">
-        <span v-for="(thing, index) in listPrice" :key="index"><a href="#" @click="filterPrice(index)"> {{ index }}({{
-          thing }}) </a></span>
-      </div>
 
+      </div>
       <va-data-table :items="items" :columns="columns" :filter="filter" :filter-method="customFilteringFn"
-        @filtered="filteredCount = $event.items.length" :loading=loading>
-        <template #cell(actions)="{ rowData }">
-          <va-button @click="setLearn(rowData.id)">Повторил</va-button>
+        @filtered="filteredCount = $event.items.length" :loading=loading selectable selected-color="warning"
+        @selectionChange="selectedItemsEmitted = $event.currentSelectedItems">
+
+        <template #cell(name)="{ rowData }">
+          <a class="link" target="_blank" :href="'https://www.tinkoff.ru/invest/stocks/' + rowData.ticker">{{ rowData.name
+          }}</a>
+        </template>
+        <template #bodyAppend>
+          <tr>
+            <td colspan="6">
+              <div class="flex justify-center mt-4">
+                <va-pagination v-model="currentPage" :pages="pages" />
+              </div>
+            </td>
+          </tr>
         </template>
       </va-data-table>
 
@@ -32,23 +42,23 @@
 import { array } from '@amcharts/amcharts5'
 import axios from 'axios'
 import debounce from 'lodash/debounce.js'
-
 import qs from 'qs'
 
-
 export default {
-  name: 'ProductAll',
+  name: 'StockAll',
   components: {},
   data() {
     const items = [];
     const input = '';
     const columns = [
       { key: 'name', sortable: true },
-      { key: 'price', sortable: true },
-      { key: 'count_learn', sortable: true },
-      { key: 'actions', width: 80 },
+      { key: 'ticker', sortable: true },
+      { key: 'figi', sortable: true },
+      { key: 'currency', width: 80 },
+      { key: 'last_price', width: 80 },
     ]
     return {
+      count: { type: Number },
       loading: false,
       items,
       columns,
@@ -57,18 +67,37 @@ export default {
       isDebounceInput: false,
       isCustomFilteringFn: false,
       filteredCount: items.length,
+      filtered: items,
+      selectedItemsEmitted: [],
       listPrice: Array,
+      currentPage: 1,
       serverParams: {
         name: "",
       },
     }
   },
   methods: {
+
     filterExact(source) {
       if (this.filter === '') {
         return true
       }
       return source?.toString?.() === this.filter
+    },
+
+    onPageChange(params) {
+      console.log(this.currentPage);
+      this.updateParams({ page: this.currentPage });
+      this.fetchRows();
+    },
+    onPerPageChange(params) {
+      this.updateParams({ perPage: params.currentPerPage });
+      this.fetchRows();
+    },
+
+    onSearch(params) {
+      this.updateParams({ name: params });
+      this.fetchRows();
     },
 
     updateFilter(filter) {
@@ -110,34 +139,37 @@ export default {
       this.infoModal.title = ''
       this.infoModal.content = ''
     },
-    async handleSubmit() {
-      let self = this
-      axios.get('/sanctum/csrf-cookie').then((response) => {
+    favorite: function (event, rows) {
+      let self = this;
+      this.loading = true;
+      console.log(self.selectedItemsEmitted);
+      axios.get("/sanctum/csrf-cookie").then((response) => {
         axios
-          .post('/api/group/set-subscriber', {
-            count_subscriber: this.countSubscriber,
-            id_group: self.idGroup,
-          })
+          .post("/api/stock/favorite", { selRows: self.selectedItemsEmitted })
           .then((response) => {
             if (response.status) {
-              console.log('Вызвали алерт')
-              this.getGroups()
-              this.$refs['my-modal'].hide()
+              console.log("Вызвали алерт");
+              this.$vaToast.init({ message: 'Инструмент добавлен в избранное', color: 'success' })
+              this.fetchRows();
+              self.loading = false;
             } else {
-              console.log('Не работает')
-              console.log(response.status)
+              console.log("Не работает");
+              console.log(response.status);
+              self.loading = false;
             }
-          })
-          .catch(function (error) {
-            console.log(response)
-            console.error(error)
-          })
-      })
+          });
+      });
     },
   },
   computed: {
     customFilteringFn() {
       return this.isCustomFilteringFn ? this.filterExact : undefined
+    },
+    pages() {
+      console.log(this.count);
+      return this.perPage && this.perPage !== 0
+        ? Math.ceil(this.count / this.perPage)
+        : this.count;
     },
   },
   watch: {
@@ -174,6 +206,10 @@ export default {
   .va-input {
     display: block;
   }
+}
+
+.link {
+  color: #f5f5f5;
 }
 </style>
   
