@@ -27,8 +27,51 @@
                   </va-list-item-label>
                 </va-list-item-section>
                 <va-list-item-section icon>
-                  <va-badge v-if="item.is_run == 1" text="Работает" :color="getStatusBadgeColor(item.is_run)" class="mr-2" />
+                  <va-badge v-if="item.is_run == 1" text="Работает" :color="getStatusBadgeColor(item.is_run)"
+                    class="mr-2" />
                   <va-badge v-else text="Не работает" :color="getStatusBadgeColor(item.is_run)" class="mr-2" />
+                </va-list-item-section>
+              </va-list-item>
+            </va-list>
+            <va-list>
+              <va-list-label> Действия </va-list-label>
+
+              <va-list-item class="list__item">
+                <va-list-item-section>
+                  <va-icon :size="44" name="bar_chart_4_bars" color="background-tertiary" />
+                </va-list-item-section>
+                <va-list-item-section>
+                  <va-list-item-label>
+                    Общее количество свечей
+                  </va-list-item-label>
+                  <va-list-item-label caption>
+                    0
+                  </va-list-item-label>
+                </va-list-item-section>
+                <va-list-item-section icon>
+                  <va-button color="danger" gradient class="mr-6 mb-2">
+                    Удалить все
+                  </va-button>
+                </va-list-item-section>
+              </va-list-item>
+              <va-list-item class="list__item">
+                <va-list-item-section>
+                  <va-icon :size="44" name="done" color="background-tertiary" />
+                </va-list-item-section>
+
+                <va-list-item-section>
+                  <va-list-item-label>
+                    Общее количество ордеров
+                  </va-list-item-label>
+                  <va-list-item-label caption>
+                    0
+                  </va-list-item-label>
+                </va-list-item-section>
+
+                <va-list-item-section icon>
+                  <va-button color="danger" gradient class="mr-6 mb-2">
+                    Удалить все
+                  </va-button>
                 </va-list-item-section>
               </va-list-item>
             </va-list>
