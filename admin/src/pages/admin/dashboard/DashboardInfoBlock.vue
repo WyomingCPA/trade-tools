@@ -27,7 +27,8 @@
                   </va-list-item-label>
                 </va-list-item-section>
                 <va-list-item-section icon>
-                  <va-icon name="remove_red_eye" color="background-tertiary" />
+                  <va-badge v-if="item.is_run == 1" text="Работает" :color="getStatusBadgeColor(item.is_run)" class="mr-2" />
+                  <va-badge v-else text="Не работает" :color="getStatusBadgeColor(item.is_run)" class="mr-2" />
                 </va-list-item-section>
               </va-list-item>
             </va-list>
@@ -85,17 +86,17 @@ export default defineComponent({
         {
           name: "super_trend_5min",
           updated_at: "21:45:35 8 January 2023",
-          status: 0,
+          is_run: 0,
         },
         {
           name: "super_trend_5min",
           updated_at: "21:45:35 8 January 2023",
-          status: 1,
+          is_run: 1,
         },
         {
           name: "super_trend_5min",
           updated_at: "21:45:35 8 January 2023",
-          status: 0,
+          is_run: 0,
         },
       ],
       dataUrl: { type: String },
@@ -171,15 +172,16 @@ export default defineComponent({
           console.error(error);
         });
     },
-    getStatusBadgeClass(status) {
+    getStatusBadgeColor(status) {
+      console.log(status);
       if (status == "empty") {
-        return "badge badge-primary";
+        return "primary";
       } else if (status == 1) {
-        return "badge badge-success";
+        return "success";
       } else if (status == 0) {
-        return "badge badge-danger";
+        return "danger";
       } else if (status == "nothing") {
-        return "badge badge-info";
+        return "info";
       } else {
         return "";
       }
