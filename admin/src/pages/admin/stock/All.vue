@@ -33,7 +33,7 @@
 
       <va-alert class="!mt-6" color="info" outline>
         Number of filtered items:
-        <va-chip>{{ filteredCount }}</va-chip>
+        <va-chip>{{ count }}</va-chip>
       </va-alert>
     </va-card-content>
   </va-card>
@@ -84,7 +84,9 @@ export default {
       }
       return source?.toString?.() === this.filter
     },
-
+    updateParams(newProps) {
+      this.serverParams = Object.assign({}, this.serverParams, newProps);
+    },
     onPageChange(params) {
       console.log(this.currentPage);
       this.updateParams({ page: this.currentPage });
@@ -129,6 +131,7 @@ export default {
           self.items = response.data.stocks;
           self.count = response.data.count;
           self.loading = false;
+          console.log(this.pages);
         })
         .catch((error) => {
           console.log(error);
@@ -166,7 +169,6 @@ export default {
       return this.isCustomFilteringFn ? this.filterExact : undefined
     },
     pages() {
-      console.log(this.count);
       return this.perPage && this.perPage !== 0
         ? Math.ceil(this.count / this.perPage)
         : this.count;
@@ -177,9 +179,16 @@ export default {
       if (this.isDebounceInput) {
         this.debouncedUpdateFilter(newValue)
       } else {
+        console.log(newValue);
+        this.updateParams({ name: newValue });
+        this.fetchRows();
         this.updateFilter(newValue)
       }
     },
+    currentPage: function (page) {
+      this.updateParams({ page: page });
+      this.fetchRows();
+    }
   },
 
   created() {
