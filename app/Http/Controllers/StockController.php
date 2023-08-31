@@ -262,4 +262,17 @@ class StockController extends Controller
             'status' => true,
         ], 200);
     }
+    public function saveCandle(Request $request)
+    {   
+        $data = json_decode($request->value, true);
+        foreach ($data as $item)
+        {
+            //$test = $item["figi"];
+           
+        } 
+
+        return response()->json([
+            'status' => true,
+        ], 200);
+    }
 }

@@ -130,6 +130,7 @@ Route::group(['prefix' => 'console',], function () {
 //Роуты для работы с данными
 Route::group(['prefix' => 'data',], function () {
 	Route::post('/save-rus-stock', 'StockController@saveRusStock');
+	Route::post('/save-candle', 'StockController@saveCandle');
 });
 
 //Роуты для алготорговли
