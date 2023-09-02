@@ -239,10 +239,9 @@ class StockController extends Controller
     }
 
     public function saveRusStock(Request $request)
-    {   
+    {
         $data = json_decode($request->value, true);
-        foreach ($data as $item)
-        {
+        foreach ($data as $item) {
             //$test = $item["figi"];
             $model = Stock::firstOrCreate(
                 ['figi' => $item["figi"], 'name' => $item["name"]],
@@ -256,20 +255,33 @@ class StockController extends Controller
                     'is_dividend' => 0,
                 ]
             );
-        } 
+        }
 
         return response()->json([
             'status' => true,
         ], 200);
     }
     public function saveCandle(Request $request)
-    {   
-        $data = json_decode($request->value, true);
-        foreach ($data as $item)
-        {
-            //$test = $item["figi"];
-           
-        } 
+    {
+        $candles = json_decode($request->value, true);
+
+        foreach ($candles as $candle) {
+            try {
+                $model = Candle::firstOrCreate(
+                    ['tools_id' => $candle['tools_id'], 'tools_type' => 'stock', 'close' => $candle['Close'], 'time' => $candle['Time']],
+                    [
+                        'open' => $candle['Open'],
+                        'high' => $candle['High'],
+                        'low' => $candle['Low'],
+                        'volume' => $candle['Volume'],
+                        'interval' => $candle['interval'],
+                    ]
+                );
+            } catch (\Exception $e) {
+                $test = $candle;
+                echo $e->getMessage();
+            }
+        }
 
         return response()->json([
             'status' => true,
