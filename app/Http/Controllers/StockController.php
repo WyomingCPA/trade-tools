@@ -277,7 +277,6 @@ class StockController extends Controller
                     ]
                 );
             } catch (\Exception $e) {
-                $test = $candle;
                 echo $e->getMessage();
             }
         }
