@@ -45,11 +45,11 @@
                     Общее количество свечей
                   </va-list-item-label>
                   <va-list-item-label caption>
-                    0
+                    {{ count_all_candles }}
                   </va-list-item-label>
                 </va-list-item-section>
                 <va-list-item-section icon>
-                  <va-button color="danger" gradient class="mr-6 mb-2">
+                  <va-button v-on:click="deleteAllCandles" color="danger" gradient class="mr-6 mb-2">
                     Удалить все
                   </va-button>
                 </va-list-item-section>
@@ -64,7 +64,7 @@
                     Общее количество ордеров
                   </va-list-item-label>
                   <va-list-item-label caption>
-                    0
+                    {{ count_all_orders }}
                   </va-list-item-label>
                 </va-list-item-section>
 

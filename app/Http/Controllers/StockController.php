@@ -268,13 +268,12 @@ class StockController extends Controller
         foreach ($candles as $candle) {
             try {
                 $model = Candle::firstOrCreate(
-                    ['tools_id' => $candle['tools_id'], 'tools_type' => 'stock', 'close' => $candle['Close'], 'time' => $candle['Time']],
+                    ['tools_id' => $candle['tools_id'], 'interval' => $candle['interval'],  'tools_type' => $candle['tools_type'], 'close' => $candle['Close'], 'time' => $candle['Time']],
                     [
                         'open' => $candle['Open'],
                         'high' => $candle['High'],
                         'low' => $candle['Low'],
-                        'volume' => $candle['Volume'],
-                        'interval' => $candle['interval'],
+                        'volume' => $candle['Volume'],                       
                     ]
                 );
             } catch (\Exception $e) {

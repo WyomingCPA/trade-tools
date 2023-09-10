@@ -15,15 +15,28 @@ class EtfController extends Controller
 {
     public function all(Request $request)
     {
-        //$trash_ids = Auth::user()->trashEtf->pluck('id')->toArray();
         $favorite_ids = Auth::user()->favoritesEtf->pluck('id')->toArray();
-        //$notIn = array_merge(array_values($trash_ids), array_values($favorite_ids));
+        $objects = Etf::whereNotIn('id', $favorite_ids);
+        $count = $objects->count();
+        $sort = $request->get('sort');
+        $direction = $request->get('direction');
+        $name = $request->get('name');
+        $created_by = $request->get('created_by');
+        $type = $request->get('type');
+        $limit = 20;
+        $page = (int) $request->get('page');
+        $created_at = $request->get('created_at');
 
-        $models = Etf::whereNotIn('id', $favorite_ids)->get();
-
-        return response([
-            'etfs' => $models,
-        ], 200);
+        if ($name !== null) {
+            $objects->where('name', 'like', '%' . $name['searchTerm'] . '%');
+        }
+        $objects->offset($limit * ($page - 1))->limit($limit);
+        if ($request->isMethod('post')) {
+            return response()->json([
+                'etfs' => $objects->get()->toArray(),
+                'count' => $count
+            ]);
+        }
     }
 
     public function favorite(Request $request)
@@ -181,5 +194,37 @@ class EtfController extends Controller
                 'rsi_data' => $rsi_data,
             ]);
         }
+    }
+    public function saveRusEtf(Request $request)
+    {
+        $data = json_decode($request->value, true);
+        foreach ($data as $item) {
+            //$test = $item["figi"];
+            $model = Etf::firstOrCreate(
+                ['figi' => $item["figi"], 'name' => $item["name"]],
+                [
+                    'figi' => $item["figi"],
+                    'ticker' => $item["ticker"],
+                    'isin' => $item["isin"],
+                    'faceValue' => 0,
+                    'minPriceIncrement' => $item["minPriceIncrement"],
+                    'currency' => $item["currency"],
+                    'name' => $item["name"],
+                    'is_dividend' => 0,
+                ]
+            );
+        }
+
+        return response()->json([
+            'status' => true,
+        ], 200);
+    }
+    public function getFavoriteNotAuth(Request $request)
+    {
+        $user = User::select('id')->where('email', 'WyomingCPA@yandex.ru')->first();
+        $models = $user->favoritesEtf;
+        return response([
+            'etfs' => $models,
+        ], 200);
     }
 }

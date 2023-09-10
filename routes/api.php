@@ -39,7 +39,7 @@ Route::group(['prefix' => 'stock', 'middleware' => 'auth:sanctum'], function () 
 });
 //Роуты фондов
 Route::group(['prefix' => 'etf', 'middleware' => 'auth:sanctum'], function () {
-	Route::get('all', ['uses' => 'EtfController@all']);
+	Route::post('all', ['uses' => 'EtfController@all']);
 	Route::get('favorites', ['uses' => 'EtfController@favorite']);	
 	Route::post('favorite', ['uses' => 'EtfController@favoriteEtf']);
 	Route::post('unfavorite', ['uses' => 'EtfController@unFavoriteEtf']);
@@ -130,6 +130,7 @@ Route::group(['prefix' => 'console',], function () {
 //Роуты для работы с данными
 Route::group(['prefix' => 'data',], function () {
 	Route::post('/save-rus-stock', 'StockController@saveRusStock');
+	Route::post('/save-rus-etf', 'EtfController@saveRusEtf');
 	Route::post('/save-candle', 'StockController@saveCandle');
 });
 
@@ -141,4 +142,5 @@ Route::group(['prefix' => 'trader',], function () {
 	Route::post('/store-all-futures', 'FuturesController@storeAllFutures');
 	Route::get('favorites', ['uses' => 'FuturesController@getFavoriteNotAuth']);
 	Route::get('favorites-stock', ['uses' => 'StockController@getFavoriteNotAuth']);
+	Route::get('favorites-etf', ['uses' => 'EtfController@getFavoriteNotAuth']);
 });

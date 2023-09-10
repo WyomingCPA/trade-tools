@@ -28,7 +28,7 @@ class Etf extends Model
     public function getCciHourAttribute()
     {
         $models = Candle::where('tools_id', '=', $this->id)->where('tools_type', '=', 'etf')
-            ->where('interval', '=', 'hour')->where('time', '>=', Carbon::now()->subDay(5)->startOfDay())->orderBy('time', 'asc')->get();
+            ->where('interval', '=', '1h')->where('time', '>=', Carbon::now()->subDay(5)->startOfDay())->orderBy('time', 'asc')->get();
 
         $highs = [];
         $lows = [];
@@ -86,7 +86,7 @@ class Etf extends Model
     public function getEmaHourAttribute()
     {
         $models = Candle::where('tools_id', '=', $this->id)->where('tools_type', '=', 'etf')
-            ->where('interval', '=', 'hour')->where('time', '>=', Carbon::now()->subDay(5)->startOfDay())->orderBy('time', 'asc')->pluck('close')->toArray();
+            ->where('interval', '=', '1h')->where('time', '>=', Carbon::now()->subDay(5)->startOfDay())->orderBy('time', 'asc')->pluck('close')->toArray();
         $prices = [];
         foreach ($models as $close) {
             $prices[] = $close;
@@ -161,7 +161,7 @@ class Etf extends Model
 
     public function getRsiHourAttribute()
     {
-        $candles = Candle::where('tools_id', '=', $this->id)->where('tools_type', '=', 'etf')->where('interval', '=', 'hour')
+        $candles = Candle::where('tools_id', '=', $this->id)->where('tools_type', '=', 'etf')->where('interval', '=', '1h')
             ->where('created_at', '>=', Carbon::now()->subMonths(7)->startOfDay())->orderBy('time', 'asc')->get();
 
         $rsi_data = [];
