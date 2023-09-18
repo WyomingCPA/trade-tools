@@ -13,8 +13,8 @@ export const useApi = (endpoint = 'api') => {
 	let baseURL
 	
 	if (endpoint === 'api') {
-		baseURL = API_HOST + API_PATH || 'http://localhost/trade-tools/public/api'
-	    //baseURL = API_HOST + API_PATH || 'http://techniqueb1.simpleitrunner.ru/'
+		//baseURL = API_HOST + API_PATH || 'http://localhost/trade-tools/public/api'
+	    baseURL = API_HOST + API_PATH || 'http://trade-tools.simpleitrunner.ru:3000/'
         console.log(baseURL);
 	} else if (endpoint === 'web') {
 		baseURL = API_HOST || 'http://localhost:8000'
