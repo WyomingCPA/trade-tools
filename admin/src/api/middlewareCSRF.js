@@ -14,6 +14,8 @@ const getCookiesArray = () => document.cookie.split(';').reduce((cookieArray, co
  * @returns {Promise<AxiosRequestConfig>}
  */
 const middlewareCSFR = async axiosconfig => {
+	const { API_HOST, API_PATH } = import.meta.env
+
 	let cookies = getCookiesArray()
 	let isTokenMissing = !cookies.includes('XSRF-TOKEN')
 
@@ -25,6 +27,7 @@ const middlewareCSFR = async axiosconfig => {
 		let pathCSFR = '/sanctum/csrf-cookie'
 
 		let urlToCall = `${import.meta.env.API_HOST || 'http://localhost/trade-tools/public'}${pathCSFR}`
+		console.log(urlToCall);
 		await axios.get(urlToCall, {withCredentials:true})
 		// then continue with the request 
 		return axiosconfig
