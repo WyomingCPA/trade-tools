@@ -32,16 +32,19 @@ export default {
             let priceStock = parseFloat(this.GeneralPriceStock);
             
             let count = 1;
-            
+
+
             while (priceStock >= this.AimAveragePrice) {
                 //parseFloat((0.1 + 0.2+0.7).toFixed(10));
                 console.log("Текущая итерация" + count);
-                let firstAmountBougt = parseFloat(this.GeneralPriceStock * this.GeneralCountStock); 
-                let TotalAmountBought = parseFloat(count * this.ThisPriceStock + firstAmountBougt);
-                let totalCount = parseFloat(count + this.GeneralCountStock);
-                priceStock = parseFloat(TotalAmountBought / totalCount);
+
+                let firstAmountBougt = parseFloat((this.GeneralPriceStock * this.GeneralCountStock).toFixed(2));
+                let TotalAmountBought = parseFloat((count * this.ThisPriceStock + firstAmountBougt).toFixed(2));
+                let totalCount = parseFloat((count + this.GeneralCountStock).toFixed(2));
+                console.log(totalCount);
+                priceStock = parseFloat((TotalAmountBought / totalCount).toFixed(7));
                 console.log(priceStock);
-                if (count >= 200)
+                if (count >= 400)
                 {
                     break;
                 }
