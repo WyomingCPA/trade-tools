@@ -29,18 +29,22 @@ export default {
 
     methods: {
         handleCalculate(evt) {
-            evt.preventDefault();
-            let priceStock = parseFloat(this.GeneralPriceStock).toFixed(2);
+            let priceStock = parseFloat(this.GeneralPriceStock);
             
-            let count = parseFloat(1).toFixed(2);
-            console.log(count);
-            while (priceStock >= this.AimAveragePrice || count == 200) {
+            let count = 1;
+            
+            while (priceStock >= this.AimAveragePrice) {
                 //parseFloat((0.1 + 0.2+0.7).toFixed(10));
-                let firstAmountBougt = parseFloat(this.GeneralPriceStock * this.GeneralCountStock).toFixed(2); 
-                let TotalAmountBought = parseFloat(count * this.ThisPriceStock + firstAmountBougt).toFixed(2);
-                let totalCount = parseFloat(count + this.GeneralCountStock).toFixed(2);
-                priceStock = parseFloat(TotalAmountBought / totalCount).toFixed(2);
+                console.log("Текущая итерация" + count);
+                let firstAmountBougt = parseFloat(this.GeneralPriceStock * this.GeneralCountStock); 
+                let TotalAmountBought = parseFloat(count * this.ThisPriceStock + firstAmountBougt);
+                let totalCount = parseFloat(count + this.GeneralCountStock);
+                priceStock = parseFloat(TotalAmountBought / totalCount);
                 console.log(priceStock);
+                if (count >= 200)
+                {
+                    break;
+                }
                 count++;
             }
             this.Result = count;
