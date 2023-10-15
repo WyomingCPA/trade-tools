@@ -121,6 +121,12 @@ Route::group(['prefix' => 'ideas', 'middleware' => 'auth:sanctum'], function () 
 	Route::post('/calculate-lots', 'CalculateController@calculateLotsForStock');
 });
 
+//Роуты калькулятора
+Route::group(['prefix' => 'calculate', 'middleware' => 'auth:sanctum'], function () {
+	Route::post('/store', 'CalculatorController@store');
+	Route::get('/stock-average', 'CalculatorController@stockAverage');
+});
+
 //Роуты для алготорговли
 Route::group(['prefix' => 'console',], function () {
 	Route::post('/store', 'ConsoleLogController@store');
