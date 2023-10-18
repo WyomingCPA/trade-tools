@@ -21,7 +21,7 @@ class CalculatorController extends Controller
 
     public function stockAverage(Request $request)
     {
-        $calc_models = Calculator::where('type', 'stock_average')->get();
+        $calc_models = Calculator::where('type', 'stock_average')->latest()->take(5)->get();
         return response([
             'calc_models' => $calc_models,
             'status' => true,

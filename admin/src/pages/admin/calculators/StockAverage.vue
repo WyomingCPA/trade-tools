@@ -3,10 +3,9 @@
         <va-card-title>Stock Aim Average</va-card-title>
         <va-card-content>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 items-end">
-                <va-input inputClass="mb-6" v-model.number="countShares1" type="number" step="any" label="Кол-во акций" />
-                <va-input inputClass="mb-6" v-model.number="purcharesPrice1" type="number" step="any"
-                    label="Цена покупки" />
-                <va-input inputClass="mb-6" v-model.number="summPrice1" type="number" step="any" label="Сумма покупки" />
+                <va-input v-model.number="countShares1" type="number" step="any" label="Кол-во акций" />
+                <va-input v-model.number="purcharesPrice1" type="number" step="any" label="Цена покупки" />
+                <va-input v-model.number="summPrice1" type="number" step="any" label="Сумма покупки" />
             </div>
             <div class="flex-row">
                 <va-input v-model.number="countShares2" type="number" step="any" label="Кол-во акций" counter />
@@ -36,7 +35,6 @@
             </div>
 
             <va-button @click="handleCalculate"> Рассчитать </va-button>
-
             <va-data-table :items="items" :columns="columns" @filtered="filteredCount = $event.items.length"
                 :loading=loading selectable selected-color="warning">
                 <template #cell(actions)="{ row, isExpanded }">
@@ -46,27 +44,18 @@
                     </va-button>
                 </template>
                 <template #expandableRow="{ rowData }">
-                    <div class="flex gap-2">
-                        <va-avatar :src="`https://randomuser.me/api/portraits/men/${rowData.id}.jpg`" />
-                        <div class="pl-2">
-                            <div class="flex gap-1">
-                                <span>{{ rowData.name }}</span>
-                                <span class="va-link">@{{ rowData.username }}</span>
-                            </div>
-                            <div class="flex items-center">
-                                <va-icon size="small" name="phone" color="secondary" class="mr-2" />
-                                <span>{{ rowData.phone }}</span>
-                            </div>
-                            <div class="flex items-center">
-                                <va-icon size="small" name="email" color="secondary" class="mr-2" />
-                                <span>{{ rowData.email }}</span>
-                            </div>
-                            <div class="flex items-center">
-                                <va-icon size="small" name="language" color="secondary" class="mr-2" />
-                                <span class="va-link">{{ rowData.website }}</span>
-                            </div>
-                        </div>
-                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Кол-во акций</th>
+                                <th>Цена покупки</th>
+                                <th>Сумма покупки</th>
+                            </tr>
+                        </thead>
+                        <tbody v-html="formatJsonDataTable(rowData.data)">
+
+                        </tbody>
+                    </table>
                 </template>
             </va-data-table>
         </va-card-content>
@@ -148,6 +137,17 @@ export default {
             console.log(decreaseValue);
 
         },
+        formatJsonDataTable(data) {
+            const myObjStr = JSON.parse(data);
+            console.log(myObjStr);
+            var row1 = '<tr><td>'+ myObjStr['countShares1'] + '</td>' + '<td>'+ myObjStr['purcharesPrice1'].toFixed(2) + '</td>' + '<td>'+ myObjStr['summPrice1'].toFixed(2) + '</td></tr>';
+            var row2 = '<tr><td>'+ myObjStr['countShares2'] + '</td>' + '<td>'+ myObjStr['purcharesPrice2'].toFixed(2) + '</td>' + '<td>'+ myObjStr['summPrice2'].toFixed(2) + '</td></tr>';
+            var row3 = '<tr><td>'+ myObjStr['countShares3'] + '</td>' + '<td>'+ myObjStr['purcharesPrice3'].toFixed(2) + '</td>' + '<td>'+ myObjStr['summPrice3'].toFixed(2) + '</td></tr>';
+            var row4 = '<tr><td>'+ myObjStr['countShares4'] + '</td>' + '<td>'+ myObjStr['purcharesPrice4'].toFixed(2) + '</td>' + '<td>'+ myObjStr['summPrice4'].toFixed(2) + '</td></tr>';
+            var row5 = '<tr><td>'+ myObjStr['countShares5'] + '</td>' + '<td>'+ myObjStr['purcharesPrice5'].toFixed(2) + '</td>' + '<td>'+ myObjStr['summPrice5'].toFixed(2) + '</td></tr>';
+            var rowResult = '<tr><td> Result: '+ myObjStr['TotalSharesBought'] + '</td>' + '<td> Price Average Result: '+ myObjStr['AverageCost'] + '</td>' + '<td> % different result: '+ myObjStr['PercentPriceChange'] + '</td></tr>';
+            return row1+row2+row3+row4+row5+rowResult;
+        },
         async create() {
             let self = this;
             axios.get("/sanctum/csrf-cookie").then((response) => {
@@ -217,3 +217,9 @@ export default {
     },
 };
 </script>
+<style lang="scss" scoped>
+.va-input,
+.va-select {
+    width: auto;
+}
+</style>
