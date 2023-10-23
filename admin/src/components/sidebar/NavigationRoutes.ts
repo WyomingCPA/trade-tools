@@ -198,6 +198,10 @@ export default {
           name: 'settings-external-services',
           displayName: 'menu.settings-external-services',
         },
+        {
+          name: 'settings-global-log',
+          displayName: 'menu.settings-global-log',
+        },
       ],
     },
     {

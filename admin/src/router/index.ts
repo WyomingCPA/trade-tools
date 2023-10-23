@@ -205,6 +205,11 @@ const routes: Array<RouteRecordRaw> = [
             path: 'settings-external-services',
             component: () => import('../pages/admin/settings/ExternalServices.vue'),
           },
+          {
+            name: 'settings-global-log',
+            path: 'settings-global-log',
+            component: () => import('../pages/admin/settings/GlobalLog.vue'),
+          },
         ],
       },
       {

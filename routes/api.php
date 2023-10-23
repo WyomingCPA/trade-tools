@@ -127,10 +127,16 @@ Route::group(['prefix' => 'calculate', 'middleware' => 'auth:sanctum'], function
 	Route::get('/stock-average', 'CalculatorController@stockAverage');
 });
 
+//Роуты для страницы логов без авторизаций
+Route::group(['prefix' => 'log',], function () {
+	Route::post('/store', 'LogController@store');
+	Route::post('/global-log', 'LogController@globalLog');
+});
+
 //Роуты для алготорговли
 Route::group(['prefix' => 'console',], function () {
-	Route::post('/store', 'ConsoleLogController@store');
-	Route::get('last-events-console', ['uses' => 'ConsoleLogController@getLastEventsConsole']);
+	Route::post('/store', 'LogController@store');
+	Route::get('last-events-console', ['uses' => 'LogController@getLastEventsConsole']);
 });
 
 //Роуты для работы с данными
