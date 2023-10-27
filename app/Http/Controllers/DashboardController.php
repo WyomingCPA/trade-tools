@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
+use App\Log;
 use App\Order;
 use App\Candle;
 use App\StatusScript;
@@ -41,7 +42,8 @@ class DashboardController extends Controller
         {
             $orders_lastg_ago_text = $orders_last_ago->created_at;
         }
-        $all_scripts = StatusScript::all(); 
+        $all_scripts = StatusScript::all();
+        $all_logs_count = Log::all()->count(); 
 
         return response([
             'today_open_orders' => $today_open_orders,
@@ -52,6 +54,7 @@ class DashboardController extends Controller
             'count_all_orders' => $count_all_orders,
             'orders_last_ago' => $orders_lastg_ago_text ?? 'No',
             'all_scripts' => $all_scripts,
+            'all_logs_count' => $all_logs_count,
         ], 200);
     }
 }

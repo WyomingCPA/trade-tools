@@ -53,4 +53,11 @@ class LogController extends Controller
             ]);
         }
     }
+    public function deleteAll()
+    {
+        $model = Log::truncate();
+        return response()->json([
+            'status' => true,
+        ], 200);
+    }
 }

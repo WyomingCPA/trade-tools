@@ -74,6 +74,26 @@
                   </va-button>
                 </va-list-item-section>
               </va-list-item>
+              <va-list-item class="list__item">
+                <va-list-item-section>
+                  <va-icon :size="44" name="va-delete" color="background-tertiary" />
+                </va-list-item-section>
+
+                <va-list-item-section>
+                  <va-list-item-label>
+                    Общее количество записей лога
+                  </va-list-item-label>
+                  <va-list-item-label caption>
+                    {{ all_logs_count }}
+                  </va-list-item-label>
+                </va-list-item-section>
+
+                <va-list-item-section icon>
+                  <va-button v-on:click="deleteAllLog" color="danger" gradient class="mr-6 mb-2">
+                    Удалить все
+                  </va-button>
+                </va-list-item-section>
+              </va-list-item>
             </va-list>
           </va-card-content>
         </va-card>
@@ -120,6 +140,7 @@ export default defineComponent({
     return {
       today_open_orders: { type: Number },
       week_open_orders: { type: Number },
+      all_logs_count: { type: Number },
       month_open_orders: { type: Number },
       count_all_candles: { type: Number },
       candles_last_ago: { type: String },
@@ -150,6 +171,30 @@ export default defineComponent({
     }
   },
   methods: {
+    async deleteAllLog() {
+      let self = this;
+      this.loading = true;
+      axios.get("/sanctum/csrf-cookie").then((response) => {
+        axios
+          .post("/api/dashboard/delete-all-logs", {})
+          .then((response) => {
+            if (response.status) {
+              self.loading = false;
+              this.$vaToast.init('Архив логов удален!')
+              this.fetchData();
+            } else {
+              console.log("Не работает");
+              console.log(response.status);
+
+              self.loading = false;
+            }
+          })
+          .catch(function (error) {
+            console.log(response);
+            console.error(error);
+          });
+      });
+    },
     async deleteAllCandles() {
       let self = this;
       this.loading = true;
@@ -207,6 +252,7 @@ export default defineComponent({
           self.candles_last_ago = response.data.candles_last_ago;
           self.count_all_orders = response.data.count_all_orders;
           self.orders_last_ago = response.data.orders_last_ago;
+          self.all_logs_count = response.data.all_logs_count;
           //self.all_scripts = response.data.all_scripts;
           self.loading = false;
           console.log(response.data.count_all_candles);
