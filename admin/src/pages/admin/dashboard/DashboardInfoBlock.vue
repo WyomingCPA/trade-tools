@@ -3,9 +3,9 @@
     <div class="flex xl6 xs12 lg6">
       <div class="col-md-4 grid-margin stretch-card">
         <va-card>
-          <va-card-title>Trade Parser Log</va-card-title>
+          <va-card-title>Trade Log</va-card-title>
           <va-card-content>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            <MiniConsole />
           </va-card-content>
         </va-card>
       </div>
@@ -132,10 +132,15 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { VaCarousel, VaModal, VaCard, VaCardContent, VaCardTitle, VaButton, VaImage, useColors } from 'vuestic-ui'
+
+import MiniConsole from "./Components/SimpleConsole.vue";
 import axios from "axios";
 
 import { defineComponent } from 'vue'
 export default defineComponent({
+  components: {
+    MiniConsole,
+  },
   data() {
     return {
       today_open_orders: { type: Number },

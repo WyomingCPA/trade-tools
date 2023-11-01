@@ -1,4 +1,5 @@
 <template>
+  
     <div class="list-wrapper">
       <div class="preview-list">
         <div
@@ -83,14 +84,15 @@
           .get("/api/console/last-events-console")
           .then(function (response) {
             response.data.events.map(function (value, key) {
-              var exists = self.events.some(function (field) {
+              var exists = self.events.some(function (field) {                
                 return field.id === value.id;
               });
               if (!exists) {
-                value.data = JSON.parse(value.data);
-                console.log(value.data.message);
+                console.log(value);
+                //value.data = JSON.parse(value.data);
+                
   
-                self.events.unshift(value);
+                self.events.unshift(value.values());
               }
             });
           })
@@ -100,9 +102,9 @@
       },
     },
     mounted: function () {
-      this.timer = setInterval(() => {
-        this.getConsoleEvent();
-      }, 5000);
+      //this.timer = setInterval(() => {
+      //  this.getConsoleEvent();
+      //}, 5000);
     },
     beforeDestroy() {
       clearInterval(this.timer);

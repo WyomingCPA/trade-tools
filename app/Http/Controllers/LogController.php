@@ -60,4 +60,13 @@ class LogController extends Controller
             'status' => true,
         ], 200);
     }
+
+    public function getLastEventsConsole(Request $request)
+    {
+        $models = Log::latest()->take(20)->get();
+        return response([
+            'status' => true,
+            'events' => $models,
+        ], 200); 
+    }
 }
