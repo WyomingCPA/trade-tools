@@ -3,16 +3,23 @@ import i18n from './i18n'
 import { createVuestic } from 'vuestic-ui'
 import { createGtm } from '@gtm-support/vue-gtm'
 
+
 import stores from './stores'
 import router from './router'
 import vuesticGlobalConfig from './services/vuestic-ui/global-config'
 import App from './App.vue'
+
+// @ts-ignore
+import CanvasJSChart from '@canvasjs/vue-charts';
+
 
 import axios from 'axios'
 import middleware401 from './api/middleware401'
 import middlewareCSRF from './api/middlewareCSRF'
 
 const app = createApp(App)
+
+app.use(CanvasJSChart)
 
 axios.defaults.withCredentials = true
 

@@ -103,6 +103,28 @@ export default {
       ],
     },
     {
+      name: 'cryptocurrency',
+      displayName: 'menu.cryptocurrency',
+      meta: {
+        icon: 'work',
+      },
+      disabled: true,
+      children: [
+        {
+          name: 'cryptocurrency-all',
+          displayName: 'menu.cryptocurrency-all',
+        },
+        {
+          name: 'cryptocurrency-favorite',
+          displayName: 'menu.cryptocurrency-favorite',
+        },
+        {
+          name: 'liquidity-pools',
+          displayName: 'menu.liquidity-pools',
+        },
+      ],
+    },
+    {
       name: 'bonds',
       displayName: 'menu.bonds',
       meta: {
@@ -219,6 +241,20 @@ export default {
         {
           name: 'my-finance-add',
           displayName: 'menu.my-finance-add',
+        },
+      ],
+    },
+    {
+      name: 'bots',
+      displayName: 'menu.bots',
+      meta: {
+        icon: 'vuestic-iconset-statistics',
+      },
+      disabled: true,
+      children: [
+        {
+          name: 'bots-index',
+          displayName: 'menu.bots-index',
         },
       ],
     },

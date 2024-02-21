@@ -361,6 +361,10 @@
     "futures": "Фьючерсы",
     "futures-all": "Все",
     "futures-favorite": "Избранные",
+    "cryptocurrency": "Криптовалюта",
+    "cryptocurrency-all": "Все Монеты",
+    "cryptocurrency-favorite": "Избранные Монеты",
+    "liquidity-pools": "Пулы ликвидности",
     "calculators": "Калькуляторы",
     "calculators-stock-average": "Stock Average Calculator",
     "calculators-stock-aim-average": "Stock Aim Average Calculator",
@@ -373,7 +377,9 @@
     "settings-global-log": "Глобальный Лог",
     "my-finance": "Мой Финансы",
     "my-finance-all": "Все",
-    "my-finance-add": "Добавить"
+    "my-finance-add": "Добавить",
+    "bots": "Боты",
+    "bots-index": "Список ботов"
   },
   "messages": {
     "all": "See all messages",

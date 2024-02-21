@@ -3,6 +3,13 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CandleController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\LogController;
+use App\Http\Controllers\EtfController;
+use App\Http\Controllers\CryptocurrencyController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,14 +21,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post('/login', 'AuthController@login');
-Route::post('/register', 'AuthController@register');
-Route::get('/logout', 'AuthController@logout');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
+Route::get('/logout', [AuthController::class, 'logout']);
 //Роуты акций
 Route::group(['prefix' => 'stock', 'middleware' => 'auth:sanctum'], function () {
 	Route::post('all', ['uses' => 'StockController@all']);
@@ -39,11 +44,16 @@ Route::group(['prefix' => 'stock', 'middleware' => 'auth:sanctum'], function () 
 });
 //Роуты фондов
 Route::group(['prefix' => 'etf', 'middleware' => 'auth:sanctum'], function () {
-	Route::post('all', ['uses' => 'EtfController@all']);
+	Route::post('all', [EtfController::class, 'all']);
 	Route::get('favorites', ['uses' => 'EtfController@favorite']);	
 	Route::post('favorite', ['uses' => 'EtfController@favoriteEtf']);
 	Route::post('unfavorite', ['uses' => 'EtfController@unFavoriteEtf']);
 	Route::get('mini-charts/{id}', ['uses' => 'EtfController@miniCandleCharts']);
+});
+//Роуты пулов ликвидности
+Route::group(['prefix' => 'liquidity-pools', 'middleware' => 'auth:sanctum'], function () {
+	Route::get('chart-1h/{id}', [CryptocurrencyController::class, 'chartHour']);
+	Route::get('chart-1d/{id}', [CryptocurrencyController::class, 'chartDay']);
 });
 //Роуты Фьючерсов
 Route::group(['prefix' => 'futures', 'middleware' => 'auth:sanctum'], function () {
@@ -96,11 +106,12 @@ Route::group(['prefix' => 'test-strategy', 'middleware' => 'auth:sanctum'], func
 	Route::get('strategy-chart/{id}', ['uses' => 'TestStrategyController@chartStrategy']);
 	Route::get('open-orders/{id}', ['uses' => 'TestStrategyController@openOrders']);
 });
+//[AuthController::class, 'logout']
 Route::group(['prefix' => 'dashboard', 'middleware' => 'auth:sanctum'], function () {
-	Route::get('/index', 'DashboardController@index');
-	Route::post('/delete-all-candles', 'CandleController@deleteAll');
-	Route::post('/delete-all-orders', 'OrderController@deleteAll');
-	Route::post('/delete-all-logs', 'LogController@deleteAll');
+	Route::get('/index', [DashboardController::class, 'index']);
+	Route::post('/delete-all-candles', [CandleController::class, 'deleteAll']);
+	Route::post('/delete-all-orders', [OrderController::class, 'deleteAll']);
+	Route::post('/delete-all-logs', [LogController::class, 'deleteAll']);
 });
 
 //Роуты личных финансов
@@ -156,4 +167,21 @@ Route::group(['prefix' => 'trader',], function () {
 	Route::get('favorites', ['uses' => 'FuturesController@getFavoriteNotAuth']);
 	Route::get('favorites-stock', ['uses' => 'StockController@getFavoriteNotAuth']);
 	Route::get('favorites-etf', ['uses' => 'EtfController@getFavoriteNotAuth']);
+});
+
+//Роуты монет
+Route::group(['prefix' => 'cryptocurrency', 'middleware' => 'auth:sanctum'], function () {
+	Route::post('all', [CryptocurrencyController::class, 'all']);
+    Route::get('favorites', [CryptocurrencyController::class, 'favorite']);	
+	Route::post('favorite', [CryptocurrencyController::class, 'favoriteCryptocurrency']);
+	Route::post('unfavorite', [CryptocurrencyController::class, 'unFavoriteCryptocurrency']);
+	Route::post('update', [CryptocurrencyController::class, 'update']);
+	Route::get('edit/{id}', [CryptocurrencyController::class, 'edit']);
+});
+
+//Роуты для крипты
+Route::group(['prefix' => 'cryptocurrency-data',], function () {   
+    Route::post('/save-usdt-cryptocurrency', [CryptocurrencyController::class, 'saveUsdtCryptocurrency']);
+    Route::post('/save-candle', [CryptocurrencyController::class, 'saveCandle']);
+    Route::get('/favorites-cryptocurrency', [CryptocurrencyController::class, 'getFavoriteNotAuth']);
 });

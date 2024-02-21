@@ -61,4 +61,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Futures::class, 'futures_favorites', 'user_id', 'futures_id')->withTimeStamps();
     }
+
+    public function favoritesCryptocurrency()
+    {
+        return $this->belongsToMany(Cryptocurrency::class, 'cryptocurrency_favorites', 'user_id', 'cryptocurrencies_id')->withTimeStamps();
+    }
 }
