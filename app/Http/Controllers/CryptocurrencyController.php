@@ -127,6 +127,20 @@ class CryptocurrencyController extends Controller
             'models' => $models,
         ], 200);
     }
+
+    public function unFavoriteCryptocurrency(Request $request)
+    {
+        $rows = $request->post('selRows');
+        $select = [];
+        foreach ($rows as $value) {
+            $select[] = $value['id'];
+        }
+        Auth::user()->favoritesCryptocurrency()->detach(array_values($select));
+
+        return response()->json([
+            'status' => true,
+        ], 200);
+    }
     public function saveUsdtCryptocurrency(Request $request)
     {
         $data = json_decode($request->post()[0], true);
