@@ -82,8 +82,8 @@ class CheckPoolsTelegram extends Command
         }
 
         $chatId = '-414528593';
-        //$bot = new BotApi(env('TELEGRAM_TOKEN'));
-        //$bot->sendMessage($chatId, $messageText, 'HTML');
+        $bot = new BotApi(env('TELEGRAM_TOKEN'));
+        $bot->sendMessage($chatId, $messageText, 'HTML');
         echo $messageText;
 
         return 0;
