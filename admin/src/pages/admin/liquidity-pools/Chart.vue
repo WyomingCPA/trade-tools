@@ -1,6 +1,5 @@
 <template>
   <CanvasJSChart :options="options" :style="styleOptions" @chart-ref="chartInstance" />
-
 </template>  
 <script>
 
@@ -29,10 +28,16 @@ export default {
           yValueFormatString: "####.####",
           title: "Price in USD",
           stripLines: [
+
             {
-              startValue: 100,
-              endValue: 105,
-              color: "#d8d8d8"
+              value: 2600,
+              label: "empty",
+              color:"#FF0000",
+            },
+            {
+              value: 2700,
+              label: "empty",
+              color: "#00FF00",
             }
           ]
         },
@@ -76,9 +81,11 @@ export default {
             //console.log(data['time']);
             this.options.data[0].dataPoints.push({ x: new Date(data["time"]), y: [data["open"], data["high"], data["low"], data["close"]] });
           });
-          this.chart.data[0].axisY.stripLines[0].set("startValue", response.data.pool_min)
-          this.chart.data[0].axisY.stripLines[0].set("endValue", response.data.pool_max)
-          this.chart.title.set("text", response.data.symbol );
+          this.chart.data[0].axisY.stripLines[0].set("value", response.data.pool_min)
+          this.chart.data[0].axisY.stripLines[0].set("label", response.data.pool_min)
+          this.chart.data[0].axisY.stripLines[1].set("value", response.data.pool_max)
+          this.chart.data[0].axisY.stripLines[1].set("label", response.data.pool_max)
+          this.chart.title.set("text", response.data.symbol);
 
           //response.data.pool_min
           //response.data.pool_max

@@ -68,7 +68,14 @@ class CheckPoolsTelegram extends Command
                 $pool_max = $pool->max;
                 if (($pool_min <= $last_candle->close) && ($last_candle->close <= $pool_max)) {
                     //echo "Цена в диапазоне";
-                    $row = "$model->symbol: Range: $pool_min - $pool_max, Цена $last_candle->close в диапазоне\n\n";
+                    //Рассчет изменения цены до верхнего и нижнего диапазона
+                    $maxPrice = $pool_max;
+                    $minPrice = $pool_min;
+                    $current_price = $last_candle->close;
+                    $percentMaxChange = abs((1 - $maxPrice / $current_price) * 100);
+                    $percentMinChange = abs((1 - $minPrice / $current_price) * 100);
+                    //Рассчет изменения цены до нижнего диапазона
+                    $row = "$model->symbol: Range: $pool_min($percentMinChange %), - $pool_max($percentMaxChange %), Цена $last_candle->close в диапазоне\n\n";
                 } 
                 else {
                     //echo "Цена вне диапазона";
@@ -82,8 +89,8 @@ class CheckPoolsTelegram extends Command
         }
 
         $chatId = '-414528593';
-        $bot = new BotApi(env('TELEGRAM_TOKEN'));
-        $bot->sendMessage($chatId, $messageText, 'HTML');
+        //$bot = new BotApi(env('TELEGRAM_TOKEN'));
+        //$bot->sendMessage($chatId, $messageText, 'HTML');
         echo $messageText;
 
         return 0;
