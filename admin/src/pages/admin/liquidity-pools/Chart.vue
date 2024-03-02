@@ -28,7 +28,6 @@ export default {
           yValueFormatString: "####.####",
           title: "Price in USD",
           stripLines: [
-
             {
               value: 2600,
               label: "empty",
@@ -81,6 +80,7 @@ export default {
             //console.log(data['time']);
             this.options.data[0].dataPoints.push({ x: new Date(data["time"]), y: [data["open"], data["high"], data["low"], data["close"]] });
           });
+          
           this.chart.data[0].axisY.stripLines[0].set("value", response.data.pool_min)
           this.chart.data[0].axisY.stripLines[0].set("label", response.data.pool_min)
           this.chart.data[0].axisY.stripLines[1].set("value", response.data.pool_max)
