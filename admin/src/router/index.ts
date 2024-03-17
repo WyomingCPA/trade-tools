@@ -133,9 +133,9 @@ const routes: Array<RouteRecordRaw> = [
             component: () => import('../pages/admin/liquidity-pools/Index.vue'),
           },
           {
-            name: 'liquidity-pools',
-            path: 'liquidity-pools',
-            component: () => import('../pages/admin/liquidity-pools/Index.vue'),
+            name: 'calculators-pools',
+            path: 'calculators-pools',
+            component: () => import('../pages/admin/liquidity-pools/Calculator.vue'),
           },
           {
             path: 'chart-1h/:id',

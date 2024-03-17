@@ -122,6 +122,10 @@ export default {
           name: 'liquidity-pools',
           displayName: 'menu.liquidity-pools',
         },
+        {
+          name: 'calculators-pools',
+          displayName: 'menu.calculators-pools',
+        },
       ],
     },
     {

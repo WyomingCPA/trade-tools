@@ -38,7 +38,7 @@ class CryptocurrencyController extends Controller
             ]);
         }
     }
-    
+
     public function chartDay(Request $request)
     {
         $pool_min = 0;
@@ -46,8 +46,7 @@ class CryptocurrencyController extends Controller
         $id = $request->route('id');
         $model = Cryptocurrency::find($id);
         $pool = Pools::where('cryptocurrencies_id', $model->id)->first();
-        if (!is_null($pool))
-        {
+        if (!is_null($pool)) {
             $pool_min = $pool->min;
             $pool_max = $pool->max;
         }
@@ -58,12 +57,12 @@ class CryptocurrencyController extends Controller
         $list_data = [];
         foreach ($candles as $item) {
             $dataPoints = [];
-            $dataPoints ['time'] = $item->time;
-            $dataPoints ['open'] = $item->open;
-            $dataPoints ['high'] = $item->high;
-            $dataPoints ['low'] = $item->low;
-            $dataPoints ['close'] = $item->close;
-            $list_data [] = $dataPoints;
+            $dataPoints['time'] = $item->time;
+            $dataPoints['open'] = $item->open;
+            $dataPoints['high'] = $item->high;
+            $dataPoints['low'] = $item->low;
+            $dataPoints['close'] = $item->close;
+            $list_data[] = $dataPoints;
         }
         return response([
             'candles' => $list_data,
@@ -79,8 +78,7 @@ class CryptocurrencyController extends Controller
         $id = $request->route('id');
         $model = Cryptocurrency::find($id);
         $pool = Pools::where('cryptocurrencies_id', $model->id)->first();
-        if (!is_null($pool))
-        {
+        if (!is_null($pool)) {
             $pool_min = $pool->min;
             $pool_max = $pool->max;
         }
@@ -91,12 +89,12 @@ class CryptocurrencyController extends Controller
         $list_data = [];
         foreach ($candles as $item) {
             $dataPoints = [];
-            $dataPoints ['time'] = $item->time;
-            $dataPoints ['open'] = $item->open;
-            $dataPoints ['high'] = $item->high;
-            $dataPoints ['low'] = $item->low;
-            $dataPoints ['close'] = $item->close;
-            $list_data [] = $dataPoints;
+            $dataPoints['time'] = $item->time;
+            $dataPoints['open'] = $item->open;
+            $dataPoints['high'] = $item->high;
+            $dataPoints['low'] = $item->low;
+            $dataPoints['close'] = $item->close;
+            $list_data[] = $dataPoints;
         }
         return response([
             'candles' => $list_data,
@@ -164,8 +162,7 @@ class CryptocurrencyController extends Controller
         $candles = json_decode($request->post()[0], true);
 
         foreach ($candles as $candle) {
-            foreach ($candle as $item)
-            {
+            foreach ($candle as $item) {
                 try {
                     $model = Candle::firstOrCreate(
                         ['tools_id' => $item['tools_id'], 'interval' => $item['interval'],  'tools_type' => $item['tools_type'], 'close' => $item['Close'], 'time' => $item['Time']],
@@ -173,7 +170,7 @@ class CryptocurrencyController extends Controller
                             'open' => $item['Open'],
                             'high' => $item['High'],
                             'low' => $item['Low'],
-                            'volume' => $item['Volume'],                       
+                            'volume' => $item['Volume'],
                         ]
                     );
                 } catch (\Exception $e) {
@@ -198,6 +195,8 @@ class CryptocurrencyController extends Controller
 
     public function edit(Request $request, $id)
     {
+        $last_candle = Candle::where('tools_id', '=', $id)->where('tools_type', '=', 'coins')
+            ->where('interval', '=', '1h')->where('created_at', '>=', Carbon::now()->subMonths(1)->startOfDay())->orderBy('time', 'desc')->first();
         $model = Pools::firstOrCreate(
             ['cryptocurrencies_id' => $id,],
             [
@@ -208,6 +207,7 @@ class CryptocurrencyController extends Controller
         );
         return response([
             'model' => $model,
+            'last_candle' => $last_candle->close,
         ], 200);
     }
 
@@ -217,7 +217,7 @@ class CryptocurrencyController extends Controller
         $product->update([
             'min' => $request->minRange,
             'max' => $request->maxRange,
-            'balances' => $request->balance,
+            'balances' => $request->currentPrice,
         ]);
 
         return response([
