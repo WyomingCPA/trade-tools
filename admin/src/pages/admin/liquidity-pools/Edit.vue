@@ -1,9 +1,14 @@
 <template>
     <va-card>
         <va-card-content>
+            <VaSlider :min="minSlide" :max="maxSlide" v-model="value" class="mb-6" range track-label-visible
+                :track-label="processTrackLabel" @change="sliderChange()" />
+        </va-card-content>
+        <va-card-content>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 items-end">
                 <va-form class="flex flex-col gap-6" ref="formRef">
-                    <VaInput v-model="minRange" class="mb-6" label="Min Range" placeholder="min" />
+                    <VaInput @change="inputChange()" v-model="minRange" class="mb-6" label="Min Range"
+                        placeholder="min" />
                     <VaInput v-model="maxRange" class="mb-6" label="Max Range" placeholder="max" />
                     <VaInput v-model="currentPrice" class="mb-6" label="Balance" placeholder="Current Price" />
                     <va-button @click="update()"> Обновить </va-button>
@@ -27,6 +32,7 @@ export default {
     },
     data() {
         return {
+            value: [10, 25],
             loading: false,
             minRange: 0,
             maxRange: 0,
@@ -84,7 +90,36 @@ export default {
             }
         }
     },
+    computed: {
+        minSlide: function () {
+            return parseInt(this.minRange) - 500;
+        },
+        maxSlide: function () {         
+            let value = parseInt(this.maxRange) + 500
+            this.calculateTest();
+            return value;
+        }
+    },
     methods: {
+        inputChange() {
+            this.value = [this.minRange, this.maxRange];
+        },
+        sliderChange() {
+            this.minRange = this.value[0];
+            this.maxRange = this.value[1];
+            console.log(this.value);
+        },
+        processTrackLabel(value, order) {
+            //var newArray = [this.minRange, this.maxRange];
+            //console.log(newArray);
+            //value = newArray;
+            return order === 0 ? `min ${value}$` : `max ${value}$`;
+        },
+        calculateTest()
+        {
+            this.percentMaxChange = (this.maxRange - this.currentPrice) / this.currentPrice * 100.0;
+            this.percentMinChange = (this.currentPrice - this.minRange) / this.currentPrice * 100.0;
+        },
         calculate(self) {
             self.percentMaxChange = (self.maxRange - self.currentPrice) / self.currentPrice * 100.0;
             self.percentMinChange = (self.currentPrice - self.minRange) / self.currentPrice * 100.0;
@@ -105,6 +140,7 @@ export default {
         chartInstance(chart) {
             this.chart = chart;
             this.fetchRows();
+
         },
         fetchRows() {
             let self = this;
@@ -136,7 +172,9 @@ export default {
 
                     this.minRange = response.data.pool_min;
                     this.maxRange = response.data.pool_max;
-                    
+                    this.value = [this.minRange, this.maxRange];
+                    console.log(this.value);
+
                     self.percentMaxChange = (self.maxRange - self.currentPrice) / self.currentPrice * 100.0;
                     self.percentMinChange = (self.currentPrice - self.minRange) / self.currentPrice * 100.0;
 

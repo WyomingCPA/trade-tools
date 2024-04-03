@@ -83,8 +83,10 @@ class CryptocurrencyController extends Controller
             $pool_max = $pool->max;
         }
 
-        $candles = Candle::where('tools_id', '=', $id)->where('tools_type', '=', 'coins')->where('interval', '=', '1h')
-            ->where('created_at', '>=', Carbon::now()->subMonths(1)->startOfDay())->orderBy('time', 'asc')->get();
+        $candles = Candle::where('tools_id', '=', $id)->where('tools_type', '=', 'coins')
+            ->where('interval', '=', '1h')
+            ->where('created_at', '>=', Carbon::now()->subMonths(1)->startOfDay())
+            ->orderBy('time', 'asc')->get();
 
         $list_data = [];
         foreach ($candles as $item) {
