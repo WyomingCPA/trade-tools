@@ -365,6 +365,7 @@
     "cryptocurrency-all": "Все Монеты",
     "cryptocurrency-favorite": "Избранные Монеты",
     "liquidity-pools": "Пулы ликвидности",
+    "liquidity-pools-revert": "Пулы ликвидности(revert)",
     "calculators-pools": "Калькулятор ликвидности", 
     "calculators": "Калькуляторы",
     "calculators-stock-average": "Stock Average Calculator",

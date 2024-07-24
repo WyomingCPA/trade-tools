@@ -152,6 +152,11 @@ const routes: Array<RouteRecordRaw> = [
             path: 'edit/:id',
             component: () => import('../pages/admin/liquidity-pools/Edit.vue'),
           },
+          {
+            name: 'revert-pool',
+            path: 'pools',
+            component: () => import('../pages/admin/liquidity-pools/PoolsRevent.vue'),
+          },
         ],
       },
       {

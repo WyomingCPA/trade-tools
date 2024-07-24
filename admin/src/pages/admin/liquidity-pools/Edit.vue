@@ -2,7 +2,7 @@
     <va-card>
         <va-card-content>
             <VaSlider :min="minSlide" :max="maxSlide" v-model="value" class="mb-6" range track-label-visible
-                :track-label="processTrackLabel" @change="sliderChange()" />
+                :track-label="processTrackLabel" @change="sliderChange()" :step="0.1" />
         </va-card-content>
         <va-card-content>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 items-end">
@@ -92,10 +92,12 @@ export default {
     },
     computed: {
         minSlide: function () {
-            return parseInt(this.minRange) - 500;
+            var increase = 500;
+            //if ()
+            //    return parseInt(this.minRange) - 500;
         },
-        maxSlide: function () {         
-            let value = parseInt(this.maxRange) + 500
+        maxSlide: function () {
+            let value = parseInt(this.maxRange) + 500;
             this.calculateTest();
             return value;
         }
@@ -115,8 +117,7 @@ export default {
             //value = newArray;
             return order === 0 ? `min ${value}$` : `max ${value}$`;
         },
-        calculateTest()
-        {
+        calculateTest() {
             this.percentMaxChange = (this.maxRange - this.currentPrice) / this.currentPrice * 100.0;
             this.percentMinChange = (this.currentPrice - this.minRange) / this.currentPrice * 100.0;
         },

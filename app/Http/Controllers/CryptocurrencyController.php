@@ -226,4 +226,59 @@ class CryptocurrencyController extends Controller
             'status' => true,
         ], 200);
     }
+
+    public function pools(Request $request)
+    {
+        $objects = Pools::where('created_at', '>=', Carbon::now()->subDay(20)->startOfDay())->orderBy('updated_at', 'desc');
+
+        $count = $objects->count();
+        $sort = $request->get('sort');
+        $direction = $request->get('direction');
+        $name = $request->get('title');
+        $category_value = ['sexy'];
+        $created_by = $request->get('created_by');
+        $type = $request->get('type');
+        $limit = 50;
+        $page = (int) $request->get('page');
+        $created_at = $request->get('created_at');
+
+        return response([
+            'pools' => $objects->get()->toArray(),
+            'count' => $count,
+            'status' => true,
+        ], 200);
+    }
+    public function savePools(Request $request)
+    {
+        //$data = json_decode($request->post(), true);
+        $data = $request->post();
+
+        foreach ($data as $item) {
+            //$test = $item["figi"];
+            $model = Pools::create([
+                'name' => $item["name"],
+                'balances' => $item["assets_value"],
+                'uncollected' => $item["comission"],
+                'min' => 0,
+                'max' => 0,
+                'cryptocurrencies_id' => 0,
+            ]);
+        }
+        return response([
+            'status' => true,
+        ], 200);
+    }
+
+    public function poolsData(Request $request)
+    {
+        $last_pools_30_min = [];
+        $last_pools_30_min = Pools::where('created_at', '>', Carbon::now()->subMinutes(32)->toDateTimeString())->get()->unique('name')->toArray();
+        $today_pools = Pools::whereDate('created_at',  Carbon::today())->get()->toArray();
+        //$last_pools_30_min = array_unique($last_pools_30_min);
+        return response([
+            'last_pools_30_min' => $last_pools_30_min,
+            'today_commission_summ' => $today_pools,
+            'status' => true,
+        ], 200);
+    }
 }

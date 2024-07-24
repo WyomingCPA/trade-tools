@@ -126,6 +126,10 @@ export default {
           name: 'calculators-pools',
           displayName: 'menu.calculators-pools',
         },
+        {
+          name: 'revert-pool',
+          displayName: 'menu.liquidity-pools-revert',
+        },
       ],
     },
     {

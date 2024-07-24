@@ -177,11 +177,15 @@ Route::group(['prefix' => 'cryptocurrency', 'middleware' => 'auth:sanctum'], fun
 	Route::post('unfavorite', [CryptocurrencyController::class, 'unFavoriteCryptocurrency']);
 	Route::post('update', [CryptocurrencyController::class, 'update']);
 	Route::get('edit/{id}', [CryptocurrencyController::class, 'edit']);
+	Route::get('pools', [CryptocurrencyController::class, 'pools']);
+	
 });
 
 //Роуты для крипты
 Route::group(['prefix' => 'cryptocurrency-data',], function () {   
     Route::post('/save-usdt-cryptocurrency', [CryptocurrencyController::class, 'saveUsdtCryptocurrency']);
     Route::post('/save-candle', [CryptocurrencyController::class, 'saveCandle']);
+	Route::post('/save-pools', [CryptocurrencyController::class, 'savePools']);
     Route::get('/favorites-cryptocurrency', [CryptocurrencyController::class, 'getFavoriteNotAuth']);
+	Route::get('/pools-data', [CryptocurrencyController::class, 'poolsData']);
 });

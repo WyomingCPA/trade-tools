@@ -15,10 +15,12 @@ class CreatePoolsTable extends Migration
     {
         Schema::create('pools', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('cryptocurrencies_id');
+            $table->unsignedBigInteger('cryptocurrencies_id')->unsigned();
+            $table->string('name');
             $table->float('balances')->default('0');
-            $table->float('min');
-            $table->float('max');
+            $table->float('min')->unsigned();
+            $table->float('max')->unsigned();
+            $table->float('uncollected')->default('0');
             $table->timestamps();
         });
     }
