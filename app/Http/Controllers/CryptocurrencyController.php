@@ -273,11 +273,28 @@ class CryptocurrencyController extends Controller
     {
         $last_pools_30_min = [];
         $last_pools_30_min = Pools::where('created_at', '>', Carbon::now()->subMinutes(32)->toDateTimeString())->get()->unique('name')->toArray();
-        $today_pools = Pools::whereDate('created_at',  Carbon::today())->get()->toArray();
+        $today_pools = Pools::whereDate('created_at',  Carbon::today());
+        $today_pools_first_summ = null;
+        $today_pools_last_summ = null;
+        if ($today_pools->count() !==0)
+        {
+            $today_pools_first_time = $today_pools->first()->created_at;
+            $today_pools_last_time = $today_pools->orderBy('created_at', 'DESC')->first()->created_at;
+            $today_pools_first_summ = Pools::whereBetween('created_at', [Carbon::parse($today_pools_first_time)->subMinutes(2), Carbon::parse($today_pools_first_time)->addMinutes(2)])->get();
+            $today_pools_last_summ = Pools::whereBetween('created_at', [Carbon::parse($today_pools_last_time)->subMinutes(2), Carbon::parse($today_pools_last_time)->addMinutes(2)])->get();
+
+        }
+
+        
+        //Not working
+        //$today_pools_last = $today_pools->latest->first();
+        
         //$last_pools_30_min = array_unique($last_pools_30_min);
         return response([
             'last_pools_30_min' => $last_pools_30_min,
             'today_commission_summ' => $today_pools,
+            'today_pools_first_summ' => $today_pools_first_summ?->sum('balances'),
+            'today_pools_last_summ' => $today_pools_last_summ?->sum('balances'),
             'status' => true,
         ], 200);
     }
