@@ -285,12 +285,13 @@ class CryptocurrencyController extends Controller
             $today_pools_first_time = $today_pools->first()->created_at;
             $today_pools_last_time = $today_pools->orderBy('created_at', 'DESC')->first()->created_at;
             $today_pools_first_summ = Pools::whereBetween('created_at', [Carbon::parse($today_pools_first_time)->subMinutes(2), Carbon::parse($today_pools_first_time)->addMinutes(2)])->get();
+            $today_pools_last_summ = Pools::whereBetween('created_at', [Carbon::parse($today_pools_last_time)->subMinutes(2), Carbon::parse($today_pools_last_time)->addMinutes(2)])->get();
         }
 
         if ($week_pools->count() !==0)
         {
             $week_pools_first_time = $week_pools->first()->created_at;
-            $week_pools_first_summ = Pools::whereBetween('created_at', [Carbon::parse($week_pools_first_time)->subMinutes(2), Carbon::parse($week_pools_first_time)->addMinutes(2)])->get();
+            $week_pools_first_summ = Pools::whereBetween('created_at', [Carbon::parse($week_pools_first_time)->subMinutes(10), Carbon::parse($week_pools_first_time)->addMinutes(10)])->get();
         }
        
         //Not working
