@@ -274,11 +274,14 @@ class CryptocurrencyController extends Controller
         $last_pools_30_min = [];
         $last_pools_30_min = Pools::where('created_at', '>', Carbon::now()->subMinutes(32)->toDateTimeString())->get()->unique('name')->toArray();
         $today_pools = Pools::whereDate('created_at',  Carbon::today());
-        $week_pools = Pools::where('created_at', '>', Carbon::today())->where('created_at', '<=', Carbon::today()->addDays(7));
+        //$week_pools = Pools::where('created_at', '>', Carbon::today())->where('created_at', '<=', Carbon::today()->addDays(7));
+        $week_pools = Pools::whereDate('created_at', '>', now()->subDays(7))->get();
+        $month_pools = Pools::whereDate('created_at', '>', now()->subDays(31))->get();
 
         $today_pools_first_summ = null;
         $week_pools_first_summ = null;
         $today_pools_last_summ = null;
+        $month_pools_first_summ = null;
 
         if ($today_pools->count() !==0)
         {
@@ -291,7 +294,12 @@ class CryptocurrencyController extends Controller
         if ($week_pools->count() !==0)
         {
             $week_pools_first_time = $week_pools->first()->created_at;
-            $week_pools_first_summ = Pools::whereBetween('created_at', [Carbon::parse($week_pools_first_time)->subMinutes(10), Carbon::parse($week_pools_first_time)->addMinutes(10)])->get();
+            $week_pools_first_summ = Pools::whereBetween('created_at', [Carbon::parse($week_pools_first_time)->subMinutes(3), Carbon::parse($week_pools_first_time)->addMinutes(3)])->get();
+        }
+        if ($month_pools->count() !==0)
+        {
+            $month_pools_first_time = $month_pools->first()->created_at;
+            $month_pools_first_summ = Pools::whereBetween('created_at', [Carbon::parse($month_pools_first_time)->subMinutes(3), Carbon::parse($month_pools_first_time)->addMinutes(3)])->get();
         }
        
         //Not working
@@ -304,6 +312,7 @@ class CryptocurrencyController extends Controller
             'today_pools_first_summ' => $today_pools_first_summ?->sum('balances'),
             'today_pools_last_summ' => $today_pools_last_summ?->sum('balances'),
             'week_pools_first_summ' => $week_pools_first_summ?->sum('balances'),
+            'month_pools_first_summ' => $month_pools_first_summ?->sum('balances'),
             'status' => true,
         ], 200);
     }
