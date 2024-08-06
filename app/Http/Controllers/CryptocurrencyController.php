@@ -309,10 +309,10 @@ class CryptocurrencyController extends Controller
         return response([
             'last_pools_30_min' => $last_pools_30_min,
             'today_commission_summ' => $today_pools,
-            'today_pools_first_summ' => $today_pools_first_summ?->sum('balances'),
-            'today_pools_last_summ' => $today_pools_last_summ?->sum('balances'),
-            'week_pools_first_summ' => $week_pools_first_summ?->sum('balances'),
-            'month_pools_first_summ' => $month_pools_first_summ?->sum('balances'),
+            'today_pools_first_summ' => $today_pools_first_summ?->unique('name')->sum('balances'),
+            'today_pools_last_summ' => $today_pools_last_summ?->unique('name')->sum('balances'),
+            'week_pools_first_summ' => $week_pools_first_summ?->unique('name')->sum('balances'),
+            'month_pools_first_summ' => $month_pools_first_summ?->unique('name')->sum('balances'),
             'status' => true,
         ], 200);
     }
