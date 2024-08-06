@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('command:check-pools-telegramm')->hourly();
+        //$schedule->command('command:check-pools-telegramm')->hourly();
         $schedule->command('command:spotpools')->hourly();
     }
 
