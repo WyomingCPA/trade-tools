@@ -4,31 +4,15 @@
       Запуск бота 5 мин<code>
         nohup /var/www/trader/env/bin/python SuperTrend_MACD_TimeFrame_5min.py &
       </code>
-      <b-button
-        v-on:click="startScriptSuperTrend5min"
-        type="submit"
-        variant="success"
-        class="mr-2"
-        ><span v-show="!loading">Запустить</span>
-        <div
-          v-show="loading"
-          class="spinner-border spinner-border-sm"
-          role="status"
-        >
+      <b-button v-on:click="startScriptSuperTrend5min" type="submit" variant="success" class="mr-2"><span
+          v-show="!loading">Запустить</span>
+        <div v-show="loading" class="spinner-border spinner-border-sm" role="status">
           <span class="sr-only">Loading...</span>
         </div>
       </b-button>
-      <b-button
-        v-on:click="stopScriptSuperTrend5min"
-        type="submit"
-        variant="danger"
-        class="mr-2"
-        ><span v-show="!loading">Остановить</span>
-        <div
-          v-show="loading"
-          class="spinner-border spinner-border-sm"
-          role="status"
-        >
+      <b-button v-on:click="stopScriptSuperTrend5min" type="submit" variant="danger" class="mr-2"><span
+          v-show="!loading">Остановить</span>
+        <div v-show="loading" class="spinner-border spinner-border-sm" role="status">
           <span class="sr-only">Loading...</span>
         </div>
       </b-button>
@@ -41,37 +25,19 @@
       Запуск чекера стоп-ордеров<code>
         nohup /var/www/trader/env/bin/python check_stop_order.py &
       </code>
-      <b-button
-        v-on:click="startScriptCheckStopOrder"
-        type="submit"
-        variant="success"
-        class="mr-2"
-        ><span v-show="!loading">Запустить</span>
-        <div
-          v-show="loading"
-          class="spinner-border spinner-border-sm"
-          role="status"
-        >
+      <b-button v-on:click="startScriptCheckStopOrder" type="submit" variant="success" class="mr-2"><span
+          v-show="!loading">Запустить</span>
+        <div v-show="loading" class="spinner-border spinner-border-sm" role="status">
           <span class="sr-only">Loading...</span>
-        </div> </b-button
-      ><br />
+        </div>
+      </b-button><br />
       Проверка состояния процесса <code>ps -ef | grep python</code>
     </div>
-    <vue-good-table
-      @on-page-change="onPageChange"
-      @on-per-page-change="onPerPageChange"
-      @on-selected-rows-change="selectionChanged"
-      :isLoading="loading"
-      :totalRows="count"
-      theme="nocturnal"
-      :columns="columns"
-      :rows="items"
-      mode="remote"
-      :sort-options="{
+    <vue-good-table @on-page-change="onPageChange" @on-per-page-change="onPerPageChange"
+      @on-selected-rows-change="selectionChanged" :isLoading="loading" :totalRows="count" theme="nocturnal"
+      :columns="columns" :rows="items" mode="remote" :sort-options="{
         enabled: true,
-      }"
-      :line-numbers="true"
-      :pagination-options="{
+      }" :line-numbers="true" :pagination-options="{
         enabled: true,
         mode: 'records',
         perPage: 20,
@@ -86,11 +52,9 @@
         pageLabel: 'page', // for 'pages' mode
         allLabel: 'All',
         chunk: 5,
-      }"
-      :select-options="{
+      }" :select-options="{
         enabled: true,
-      }"
-    >
+      }">
       <div slot="selected-row-actions">
         <button v-on:click="successOrder">Успешная сделка</button>
       </div>
@@ -105,48 +69,25 @@
       </div>
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field === 'name'">
-          <a
-            target="_blank"
-            :href="'https://www.tinkoff.ru/invest/stocks/' + props.row.ticker"
-            >{{ props.row.name }}</a
-          >
+          <a target="_blank" :href="'https://www.tinkoff.ru/invest/stocks/' + props.row.ticker">{{ props.row.name }}</a>
         </span>
         <span v-else-if="props.column.field === 'spot-order-count'">
-          <a
-            target="_blank"
-            class="btn btn-primary"
-            :href="'/orders/spot-orders/' + props.row.id"
-            >{{ props.row["spot-order-count"] }}</a
-          >
+          <a target="_blank" class="btn btn-primary" :href="'/orders/spot-orders/' + props.row.id">{{
+        props.row["spot-order-count"] }}</a>
         </span>
         <span v-else-if="props.column.field === 'stop-order-count'">
-          <a
-            target="_blank"
-            class="btn btn-primary"
-            :href="'/orders/stop-orders/' + props.row.id"
-            >{{ props.row["stop-order-count"] }}</a
-          >
+          <a target="_blank" class="btn btn-primary" :href="'/orders/stop-orders/' + props.row.id">{{
+        props.row["stop-order-count"] }}</a>
         </span>
         <span v-else-if="props.column.field === 'created_at'">
           <span @click="getNote(props.row, props.row.id, $event.target)">
-            {{ props.row.created_at }}</span
-          >
+            {{ props.row.created_at }}</span>
         </span>
         <span v-else-if="props.column.field === 'graph5min'">
-          <a
-            target="_blank"
-            class="btn btn-primary"
-            :href="'/orders/order-chart/' + props.row.id"
-            >View</a
-          >
+          <a target="_blank" class="btn btn-primary" :href="'/orders/order-chart/' + props.row.id">View</a>
         </span>
         <span v-else-if="props.column.field === 'graph15min'">
-          <a
-            target="_blank"
-            class="btn btn-primary"
-            :href="'/orders/order-chart-15min/' + props.row.id"
-            >View</a
-          >
+          <a target="_blank" class="btn btn-primary" :href="'/orders/order-chart-15min/' + props.row.id">View</a>
         </span>
         <span v-else-if="props.column.field === 'status'">
           <span :class="getStatusBadgeClass(props.row.status)">
@@ -156,12 +97,7 @@
       </template>
     </vue-good-table>
     <!-- Info modal -->
-    <b-modal
-      ref="my-modal"
-      :id="infoModal.id"
-      :title="infoModal.title"
-      @hide="resetInfoModal"
-    >
+    <b-modal ref="my-modal" :id="infoModal.id" :title="infoModal.title" @hide="resetInfoModal">
       <span v-html="infoModal.content"></span>
     </b-modal>
   </div>
@@ -349,7 +285,7 @@ export default {
       // Trigger submit handler
       this.handleSubmit();
     },
-    handleSubmit() {},
+    handleSubmit() { },
     fetchRows() {
       let self = this;
       this.loading = true;

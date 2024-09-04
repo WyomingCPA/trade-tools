@@ -89,8 +89,8 @@ Route::group(['prefix' => 'orders', 'middleware' => 'auth:sanctum'], function ()
 	Route::post('set-fail', 'OrderController@setFail');
 	Route::post('set-nothing', 'OrderController@setNothing');
 	Route::post('delete', 'OrderController@delete');
-	Route::post('start-script-super-trend-5min', 'OrderController@startScriptSuperTrend5min');
-	Route::post('stop-script-super-trend-5min', 'OrderController@stopScriptSuperTrend5min');
+	Route::post('start-script-super-trend-15min', 'OrderController@startScriptSuperTrend15min');
+	Route::post('stop-script-super-trend-15min', 'OrderController@stopScriptSuperTrend15min');
 	Route::post('start-script-check-stop-order', 'OrderController@startScriptCheckStopOrder');
 	Route::get('/last-error', ['uses' => 'OrderController@lastError']);
 });

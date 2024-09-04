@@ -36,7 +36,7 @@ class OrderController extends Controller
         $objects->offset($limit * ($page - 1))->limit($limit);
         if ($request->isMethod('post')) {
             return response()->json([
-                'stocks'  => $objects->get()->toArray(),
+                'orders'  => $objects->get()->toArray(),
                 'count' => $count
             ]);
         }
@@ -90,7 +90,7 @@ class OrderController extends Controller
         $id = $request->route('id');
         $model = OrderSpot::find($id);
         $data = json_decode($model->data, true);
-        
+
         return response()->json([
             'status' => true,
             'type' => $model->type,
@@ -139,7 +139,7 @@ class OrderController extends Controller
             'status' => true,
         ], 200);
     }
-    
+
     public function chartOrders(Request $request)
     {
         $id = $request->route('id');
@@ -175,7 +175,7 @@ class OrderController extends Controller
                 $key_time[$timestamp] = $timestamp;
                 $rsi_raw['close'][] = $item->close;
                 $rsi_raw['time'][] = $timestamp;
-                $key_time_rsi[$timestamp] = $timestamp;   
+                $key_time_rsi[$timestamp] = $timestamp;
             }
         }
         if (array_key_exists('close', $rsi_raw)) {
@@ -223,7 +223,7 @@ class OrderController extends Controller
                 }
             }
         }
-        
+
 
         return response([
             'candles' => $list,
@@ -252,9 +252,21 @@ class OrderController extends Controller
             $time_frame = '15min';
         }
 
-        $candles = Candle::where('tools_id', '=', $stock_id)->where('tools_type', '=', 'stock')->where('interval', '=', '15min')
-            ->where('time', '>=', Carbon::create($order_time->year, $order_time->month, $order_time->day, 0))
-            ->where('time', '<=', Carbon::create($order_time->year, $order_time->month, $order_time->day, 24))->orderBy('time', 'asc')->get();
+        $candles = Candle::where('tools_id', '=', $id)->where('tools_type', '=', 'stock')
+            ->where('interval', '=', '15min')
+            ->where('created_at', '>=', Carbon::now()->subDays(3)->startOfDay())
+            ->orderBy('time', 'desc')->get();
+
+        $list_data = [];
+        foreach ($candles as $item) {
+            $dataPoints = [];
+            $dataPoints['time'] = $item->time;
+            $dataPoints['open'] = $item->open;
+            $dataPoints['high'] = $item->high;
+            $dataPoints['low'] = $item->low;
+            $dataPoints['close'] = $item->close;
+            $list_data[] = $dataPoints;
+        }
 
         $list = [];
         $rsi_data = [];
@@ -270,7 +282,7 @@ class OrderController extends Controller
                 $key_time[$timestamp] = $timestamp;
                 $rsi_raw['close'][] = $item->close;
                 $rsi_raw['time'][] = $timestamp;
-                $key_time_rsi[$timestamp] = $timestamp;   
+                $key_time_rsi[$timestamp] = $timestamp;
             }
         }
         if (array_key_exists('close', $rsi_raw)) {
@@ -318,10 +330,10 @@ class OrderController extends Controller
                 }
             }
         }
-        
+
 
         return response([
-            'candles' => $list,
+            'candles' => $list_data,
             'order' => $orders,
             'rsi_data' => $rsi_data,
             'list_take_profit1' => $list_take_profit1,
@@ -351,14 +363,13 @@ class OrderController extends Controller
         ]);
         return response([
             'status' => true,
-        ], 200);        
+        ], 200);
     }
 
     public function checkScript(Request $request)
     {
         $post  = $request->post();
-        foreach ($post as $name => $value)
-        {
+        foreach ($post as $name => $value) {
 
             $model = StatusScript::updateOrCreate(
                 ['name' => $name,],
@@ -366,22 +377,19 @@ class OrderController extends Controller
                     'is_run' => (int)$value,
                 ]
             );
-        } 
+        }
         return response([
             'status' => true,
-        ], 200);  
+        ], 200);
     }
 
     public function delete(Request $request)
     {
-        $rows = $request->post('selRows');
-        $select = [];
-        foreach ($rows as $value) {
-            $select[] = $value['id'];
-        }
-        $stop_orders = StopOrder::whereIn('order_id', $select)->delete();
-        $spot_orders = OrderSpot::whereIn('order_id', $select)->delete();
-        $orders = Order::whereIn('id', $select)->delete();
+        $id_order = $request->post('selRows');
+
+        $stop_orders = StopOrder::where('order_id', $id_order)->delete();
+        $spot_orders = OrderSpot::where('order_id', $id_order)->delete();
+        $orders = Order::where('id', $id_order)->delete();
 
         return response([
             'status' => true,
@@ -399,14 +407,13 @@ class OrderController extends Controller
         ], 200);
     }
 
-    public function startScriptSuperTrend5min(Request $request)
-    {     
+    public function startScriptSuperTrend15min(Request $request)
+    {
         $command = '';
-        $output=  '';
+        $output =  '';
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-
         } else {
-            $command = escapeshellcmd("/var/www/trader/env/bin/python /var/www/trader/SuperTrend_MACD_TimeFrame_5min.py");
+            $command = escapeshellcmd("/var/www/trader/env/bin/python /var/www/trader/SuperTrend_MACD_TimeFrame_15min.py");
             $output = shell_exec($command);
         }
 
@@ -416,14 +423,13 @@ class OrderController extends Controller
         ], 200);
     }
 
-    public function stopScriptSuperTrend5min(Request $request)
-    {     
+    public function stopScriptSuperTrend15min(Request $request)
+    {
         $command = '';
-        $output=  '';
+        $output =  '';
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-
         } else {
-            $command = escapeshellcmd("/var/www/trader/env/bin/python /var/www/trader/tools/bash_start_script/kill_process.py -sn SuperTrend_MACD_TimeFrame_5min");
+            $command = escapeshellcmd("/var/www/trader/env/bin/python /var/www/trader/tools/bash_start_script/kill_process.py -sn SuperTrend_MACD_TimeFrame_15min");
             $output = shell_exec($command);
         }
 
@@ -434,10 +440,9 @@ class OrderController extends Controller
     }
 
     public function startScriptCheckStopOrder(Request $request)
-    {     
+    {
         $command = '';
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-
         } else {
             $command = escapeshellcmd("/var/www/trader/env/bin/python /var/www/trader/check_stop_order.py");
             $output = shell_exec($command);

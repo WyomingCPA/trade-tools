@@ -40,6 +40,11 @@ const routes: Array<RouteRecordRaw> = [
             component: () => import('../pages/admin/algo-trading/Orders.vue'),
           },
           {
+            path: 'order-chart-15min/:id',
+            name: 'order-chart-15min',
+            component: () => import('../pages/admin/algo-trading/chart/Chart15min.vue'),
+          },
+          {
             name: 'bots',
             path: 'bots',
             component: () => import('../pages/admin/algo-trading/Bots.vue'),

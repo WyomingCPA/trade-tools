@@ -258,7 +258,7 @@ export default defineComponent({
           self.count_all_orders = response.data.count_all_orders;
           self.orders_last_ago = response.data.orders_last_ago;
           self.all_logs_count = response.data.all_logs_count;
-          //self.all_scripts = response.data.all_scripts;
+          self.all_scripts = response.data.all_scripts;
           self.loading = false;
           console.log(response.data.count_all_candles);
         })
