@@ -152,21 +152,6 @@ export default defineComponent({
       count_all_orders: { type: Number },
       orders_last_ago: { type: String },
       all_scripts: [
-        {
-          name: "super_trend_5min",
-          updated_at: "21:45:35 8 January 2023",
-          is_run: 0,
-        },
-        {
-          name: "super_trend_5min",
-          updated_at: "21:45:35 8 January 2023",
-          is_run: 1,
-        },
-        {
-          name: "super_trend_5min",
-          updated_at: "21:45:35 8 January 2023",
-          is_run: 0,
-        },
       ],
       dataUrl: { type: String },
       loading: false,

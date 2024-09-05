@@ -121,7 +121,7 @@
         axios
           .request({
             method: "post",
-            url: "/api/stock/all",
+            url: "/api/stock/rub",
             params: this.serverParams,
             paramsSerializer: (params) => {
               return qs.stringify(params);
@@ -148,7 +148,7 @@
         console.log(self.selectedItemsEmitted);
         axios.get("/sanctum/csrf-cookie").then((response) => {
           axios
-            .post("/api/stock/rub", { selRows: self.selectedItemsEmitted })
+            .post("/api/stock/favorite", { selRows: self.selectedItemsEmitted })
             .then((response) => {
               if (response.status) {
                 console.log("Вызвали алерт");

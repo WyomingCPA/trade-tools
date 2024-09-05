@@ -82,7 +82,8 @@ class StockController extends Controller
 
     public function stockRub(Request $request)
     {
-        $objects = Stock::where('currency', '=', 'RUB');
+        $favorite_ids = Auth::user()->favoritesStock->pluck('id')->toArray();
+        $objects = Stock::where('currency', '=', 'RUB')->whereNotIn('id', $favorite_ids);
         $count = $objects->count();
         $sort = $request->get('sort');
         $direction = $request->get('direction');
