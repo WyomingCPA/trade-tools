@@ -61,21 +61,21 @@ class StockController extends Controller
         $created_by = $request->get('created_by');
         $type = $request->get('type');
         //$limit      = (int)$request->get('limit');
-        $limit = 20;
+        $limit = 50;
         $page = (int) $request->get('page');
         $created_at = $request->get('created_at');
 
         //$favorite_ids = Auth::user()->favoritesBond->pluck('id')->toArray();
         //$models = Stock::where('currency', '=', 'RUB')->whereNotIn('id', $favorite_ids)->get();
         if ($name !== null) {
-            $objects->where('name', 'like', '%' . $name['searchTerm'] . '%');
+            $objects->where('name', 'like', '%' . $name . '%');
         }
         $objects->offset($limit * ($page - 1))->limit($limit);
 
         if ($request->isMethod('post')) {
             return response()->json([
                 'stocks' => $objects->get()->toArray(),
-                'count' => $count
+                'count' => $objects->count(),
             ]);
         }
     }
@@ -91,21 +91,22 @@ class StockController extends Controller
         $created_by = $request->get('created_by');
         $type = $request->get('type');
         //$limit      = (int)$request->get('limit');
-        $limit = 20;
+        $limit = 50;
         $page = (int) $request->get('page');
         $created_at = $request->get('created_at');
 
         //$favorite_ids = Auth::user()->favoritesBond->pluck('id')->toArray();
         //$models = Stock::where('currency', '=', 'RUB')->whereNotIn('id', $favorite_ids)->get();
         if ($name !== null) {
-            $objects->where('name', 'like', '%' . $name['searchTerm'] . '%');
+            $objects->where('name', 'like', '%' . $name . '%')
+                    ->orWhere('isin', 'like', '%' . $name . '%');
         }
         $objects->offset($limit * ($page - 1))->limit($limit);
 
         if ($request->isMethod('post')) {
             return response()->json([
                 'stocks' => $objects->get()->toArray(),
-                'count' => $count
+                'count' => $objects->count(),
             ]);
         }
     }
@@ -274,7 +275,7 @@ class StockController extends Controller
                         'open' => $candle['Open'],
                         'high' => $candle['High'],
                         'low' => $candle['Low'],
-                        'volume' => $candle['Volume'],                       
+                        'volume' => $candle['Volume'],
                     ]
                 );
             } catch (\Exception $e) {
