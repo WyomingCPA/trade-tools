@@ -3,11 +3,11 @@
         <va-card-content>
             <div class="grid md:grid-cols-2 gap-6 mb-6">
                 <VaAlert
-                    description="Запуск бота 15 мин<code>nohup /var/www/trader/env/bin/python SuperTrend_MACD_TimeFrame_15min.py &</code>" />
+                    description="Запуск бота 15 мин<code>nohup /var/www/trader/env/bin/python /var/www/trader/SuperTrend_MACD_TimeFrame_15min.py &</code>" />
             </div>
             <div class="grid md:grid-cols-2 gap-6 mb-6">
                 <VaAlert
-                    description="Запуск чекера стоп-ордеров<code> nohup /var/www/trader/env/bin/python check_stop_order.py &</code>" />
+                    description="Запуск чекера стоп-ордеров<code> nohup /var/www/trader/env/bin/python /var/www/trader/check_stop_order.py &</code>" />
             </div>
             <div class="grid md:grid-cols-2 gap-6 mb-6">
                 <VaAlert description="Проверка состояния процесса <code>ps -ef | grep python</code>" />

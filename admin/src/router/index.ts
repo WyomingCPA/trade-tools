@@ -98,6 +98,11 @@ const routes: Array<RouteRecordRaw> = [
             path: 'stock-rus',
             component: () => import('../pages/admin/stock/RusStock.vue'),
           },
+          {
+            path: 'stock-chart-15min/:id',
+            name: 'stock-chart-15min',
+            component: () => import('../pages/admin/stock/chart/Chart15min.vue'),
+          },
         ],
       },
       {

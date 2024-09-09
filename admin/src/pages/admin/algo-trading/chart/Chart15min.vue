@@ -22,8 +22,9 @@ export default {
           text: "Weekly Average"
         }],
         axisX: {
-          interval: 1,
-          intervalType: "day",
+          interval: 90,
+          intervalType: "minute",
+          labelFontSize: 10,
         },
         axisY: {
           prefix: "Р",
@@ -52,7 +53,9 @@ export default {
         },
         data: [{
           type: "candlestick",
-          xValueFormatString: "DD MMM YYYY",
+          risingColor: "green",
+          fallingColor: "red",
+          xValueFormatString: "DD MMM YYYY HH mm",
           dataPoints: []
         }]
       },

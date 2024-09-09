@@ -287,4 +287,66 @@ class StockController extends Controller
             'status' => true,
         ], 200);
     }
+
+    public function chart15Orders(Request $request)
+    {
+        $id = $request->route('id');
+
+        $stock_id = Stock::find($id)->id;
+        $candles = Candle::where('tools_id', '=', $stock_id)->where('tools_type', '=', 'stock')
+            ->where('interval', '=', '15min')
+            ->where('time', '>=', Carbon::now()->subDays(2)->startOfDay())
+            ->orderBy('time', 'asc')->get();
+
+        $test = $candles->count();
+
+        $list_data = [];
+        foreach ($candles as $item) {
+            $dataPoints = [];
+            $dataPoints['time'] = $item->time;
+            $dataPoints['open'] = $item->open;
+            $dataPoints['high'] = $item->high;
+            $dataPoints['low'] = $item->low;
+            $dataPoints['close'] = $item->close;
+            $list_data[] = $dataPoints;
+        }
+
+        $list = [];
+        $rsi_data = [];
+        $rsi_raw = [];
+        $key_time = [];
+        $orders = [];
+        $key_time_rsi = [];
+
+        foreach ($candles as $item) {
+            $timestamp = str_pad(Carbon::parse($item->time)->addHours(3)->timestamp, 13, "0");
+            if (!array_key_exists($timestamp, $key_time)) {
+                $list[] = array((int)$timestamp, $item->open, $item->high, $item->low, $item->close, $item->volume);
+                $key_time[$timestamp] = $timestamp;
+                $rsi_raw['close'][] = $item->close;
+                $rsi_raw['time'][] = $timestamp;
+                $key_time_rsi[$timestamp] = $timestamp;
+            }
+        }
+        if (array_key_exists('close', $rsi_raw)) {
+            $rsi = trader_rsi($rsi_raw['close'], 14);
+            if ($rsi != false) {
+                foreach ($rsi as $key => $value) {
+                    $time = $rsi_raw['time'][$key];
+                    $rsi_data[] = [$time, $value];
+                }
+            }
+        }
+
+        //[1617198300000, "Bay Ema Indicator", 0, "#34a853", 0.75],
+        //Делаем время начала и конец в timestamp
+
+        return response([
+            'candles' => $list_data,
+            'order' => $orders,
+            'rsi_data' => $rsi_data,
+
+        ], 200);
+    }
+
 }

@@ -40,7 +40,8 @@ Route::group(['prefix' => 'stock', 'middleware' => 'auth:sanctum'], function () 
 	Route::post('unfavorite', ['uses' => 'StockController@unFavoriteStock']);
 	Route::post('set-dividends', ['uses' => 'StockController@setDividends']);
 	Route::get('dividends', ['uses' => 'StockController@dividends']);
-	
+	Route::get('dividends', ['uses' => 'StockController@dividends']);
+	Route::get('chart-orders-15/{id}', ['uses' => 'StockController@chart15Orders']);
 });
 //Роуты фондов
 Route::group(['prefix' => 'etf', 'middleware' => 'auth:sanctum'], function () {

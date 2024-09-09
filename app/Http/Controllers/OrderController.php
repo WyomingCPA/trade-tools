@@ -252,10 +252,12 @@ class OrderController extends Controller
             $time_frame = '15min';
         }
 
-        $candles = Candle::where('tools_id', '=', $id)->where('tools_type', '=', 'stock')
+        $candles = Candle::where('tools_id', '=', $stock_id)->where('tools_type', '=', 'stock')
             ->where('interval', '=', '15min')
-            ->where('created_at', '>=', Carbon::now()->subDays(3)->startOfDay())
-            ->orderBy('time', 'desc')->get();
+            ->where('time', '>=', Carbon::now()->subDays(3)->startOfDay())
+            ->orderBy('time', 'asc')->get();
+
+        $test = $candles->count();
 
         $list_data = [];
         foreach ($candles as $item) {

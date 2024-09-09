@@ -21,6 +21,9 @@
                         rowData.name
                     }}</a>
                 </template>
+                <template #cell(graph15min)="{ rowData }">
+                    <a target="_blank" class="btn btn-primary" :href="'/admin/stocks/stock-chart-15min/' + rowData.id">View</a>
+                </template>
             </va-data-table>
 
             <va-alert class="!mt-6" color="info" outline>
@@ -46,6 +49,7 @@ export default {
             { key: 'name', sortable: true },
             { key: 'ticker', sortable: true },
             { key: 'figi', sortable: true },
+            { key: "graph15min", width: 80 },
             { key: 'currency', width: 80 },
             { key: 'average15day', width: 80 },
             { key: 'tutci', width: 80 },
