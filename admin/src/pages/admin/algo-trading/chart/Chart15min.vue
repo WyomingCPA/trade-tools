@@ -31,21 +31,7 @@ export default {
           yValueFormatString: "####.####",
           title: "Price in RUB",
           stripLines: [
-          {
-              value: 360,
-              label: "empty",
-              color: "#FF0000",
-            },
-            {
-              value: 2600,
-              label: "empty",
-              color: "#FF0000",
-            },
-            {
-              value: 2700,
-              label: "empty",
-              color: "#00FF00",
-            }
+
           ]
         },
         toolTip: {
@@ -90,11 +76,17 @@ export default {
             //console.log(data['time']);
             this.options.data[0].dataPoints.push({ x: new Date(data["time"]), y: [data["open"], data["high"], data["low"], data["close"]] });
           });
+          response.data.candles.forEach(data => {
+            //console.log(data['time']);
+            this.options.data[0].dataPoints.push({ x: new Date(data["time"]), y: [data["open"], data["high"], data["low"], data["close"]] });
+          });
 
-          //this.chart.data[0].axisY.stripLines[0].set("value", response.data.pool_min)
-          //this.chart.data[0].axisY.stripLines[0].set("label", response.data.pool_min)
-          //this.chart.data[0].axisY.stripLines[1].set("value", response.data.pool_max)
-          //this.chart.data[0].axisY.stripLines[1].set("label", response.data.pool_max)
+          response.data.list_stop_orders.forEach((data, index) => {
+            this.chart.data[0].axisY.addTo("stripLines", { value: data[1], label: data[0], color: "#FF0000" });
+          });
+          response.data.list_take_profit.forEach((data, index) => {
+            this.chart.data[0].axisY.addTo("stripLines", { value: data[1], label: data[0], color: "#00FF00" });
+          });
 
           this.chart.title.set("text", response.data.symbol);
 

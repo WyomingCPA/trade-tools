@@ -200,39 +200,23 @@ class OrderController extends Controller
 
         //Получаем список стоп-ордеоров, разделяя их на стоплосс и тайкпрофит
         $stop_orders_list = $order->stops;
-        $list_take_profit1 = [];
-        $list_take_profit2 = [];
-        $list_stop_orders1 = [];
-        $list_stop_orders2 = [];
+        $list_take_profit = [];
+        $list_stop_orders = [];
+
         foreach ($stop_orders_list as $item) {
             if ($item->expiration_type == 'StopOrderType.STOP_ORDER_TYPE_STOP_LOSS') {
-                for ($i = 1; $i <= 2; $i++) {
-                    if ($i == 1) {
-                        $list_stop_orders1 = [$start, $item->price];
-                    } else {
-                        $list_stop_orders2 = [$end, $item->price];
-                    }
-                }
+                $list_stop_orders[] = ['Stop Order', $item->price];
             } else {
-                for ($i = 1; $i <= 2; $i++) {
-                    if ($i == 1) {
-                        $list_take_profit1 = [$start, $item->price];
-                    } else {
-                        $list_take_profit2 = [$end, $item->price];
-                    }
-                }
+                $list_take_profit[] = ['Take Profit', $item->price];
             }
         }
-
 
         return response([
             'candles' => $list,
             'order' => $orders,
             'rsi_data' => $rsi_data,
-            'list_take_profit1' => $list_take_profit1,
-            'list_take_profit2' => $list_take_profit2,
-            'list_stop_orders1' => $list_stop_orders1,
-            'list_stop_orders2' => $list_stop_orders2,
+            'list_stop_orders' => $list_stop_orders,
+            'list_take_profit' => $list_take_profit,
         ], 200);
     }
     public function chart15Orders(Request $request)
@@ -309,27 +293,14 @@ class OrderController extends Controller
 
         //Получаем список стоп-ордеоров, разделяя их на стоплосс и тайкпрофит
         $stop_orders_list = $order->stops;
-        $list_take_profit1 = [];
-        $list_take_profit2 = [];
-        $list_stop_orders1 = [];
-        $list_stop_orders2 = [];
+        $list_take_profit = [];
+        $list_stop_orders = [];
+
         foreach ($stop_orders_list as $item) {
             if ($item->expiration_type == 'StopOrderType.STOP_ORDER_TYPE_STOP_LOSS') {
-                for ($i = 1; $i <= 2; $i++) {
-                    if ($i == 1) {
-                        $list_stop_orders1 = [$start, $item->price];
-                    } else {
-                        $list_stop_orders2 = [$end, $item->price];
-                    }
-                }
+                $list_stop_orders[] = ['Stop Order', $item->price];
             } else {
-                for ($i = 1; $i <= 2; $i++) {
-                    if ($i == 1) {
-                        $list_take_profit1 = [$start, $item->price];
-                    } else {
-                        $list_take_profit2 = [$end, $item->price];
-                    }
-                }
+                $list_take_profit[] = ['Take Profit', $item->price];
             }
         }
 
@@ -338,10 +309,8 @@ class OrderController extends Controller
             'candles' => $list_data,
             'order' => $orders,
             'rsi_data' => $rsi_data,
-            'list_take_profit1' => $list_take_profit1,
-            'list_take_profit2' => $list_take_profit2,
-            'list_stop_orders1' => $list_stop_orders1,
-            'list_stop_orders2' => $list_stop_orders2,
+            'list_stop_orders' => $list_stop_orders,
+            'list_take_profit' => $list_take_profit,
         ], 200);
     }
 
