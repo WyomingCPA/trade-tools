@@ -167,6 +167,11 @@ const routes: Array<RouteRecordRaw> = [
             path: 'pools',
             component: () => import('../pages/admin/liquidity-pools/PoolsRevent.vue'),
           },
+          {
+            name: 'list-chart-pools',
+            path: 'list-chart-pools',
+            component: () => import('../pages/admin/liquidity-pools/ListPoolsChart.vue'),
+          },
         ],
       },
       {

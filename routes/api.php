@@ -179,6 +179,7 @@ Route::group(['prefix' => 'cryptocurrency', 'middleware' => 'auth:sanctum'], fun
 	Route::post('update', [CryptocurrencyController::class, 'update']);
 	Route::get('edit/{id}', [CryptocurrencyController::class, 'edit']);
 	Route::get('pools', [CryptocurrencyController::class, 'pools']);
+	Route::get('list-chart-pools-data', [CryptocurrencyController::class, 'listChartPoolsData']);
 	
 });
 

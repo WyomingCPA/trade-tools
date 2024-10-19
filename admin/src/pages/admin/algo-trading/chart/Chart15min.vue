@@ -76,10 +76,7 @@ export default {
             //console.log(data['time']);
             this.options.data[0].dataPoints.push({ x: new Date(data["time"]), y: [data["open"], data["high"], data["low"], data["close"]] });
           });
-          response.data.candles.forEach(data => {
-            //console.log(data['time']);
-            this.options.data[0].dataPoints.push({ x: new Date(data["time"]), y: [data["open"], data["high"], data["low"], data["close"]] });
-          });
+
 
           response.data.list_stop_orders.forEach((data, index) => {
             this.chart.data[0].axisY.addTo("stripLines", { value: data[1], label: data[0], color: "#FF0000" });

@@ -1,16 +1,11 @@
 <template>
     <va-card>
         <va-card-content>
-            <VaSlider :min="minSlide" :max="maxSlide" v-model="value" class="mb-6" range track-label-visible
-                :track-label="processTrackLabel" @change="sliderChange()" :step="0.1" />
-        </va-card-content>
-        <va-card-content>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 items-end">
                 <va-form class="flex flex-col gap-6" ref="formRef">
-                    <VaInput @change="inputChange()" v-model="minRange" class="mb-6" label="Min Range"
-                        placeholder="min" />
+                    <VaInput v-model="minRange" class="mb-6" label="Min Range" placeholder="min" />
                     <VaInput v-model="maxRange" class="mb-6" label="Max Range" placeholder="max" />
-                    <VaInput v-model="currentPrice" class="mb-6" label="Balance" placeholder="Current Price" />
+                    <VaInput v-model="currentPrice" class="mb-6" label="Current Price" placeholder="Current Price" />
                     <va-button @click="update()"> Обновить </va-button>
                 </va-form>
             </div>

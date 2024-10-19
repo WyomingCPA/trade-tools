@@ -130,6 +130,10 @@ export default {
           name: 'revert-pool',
           displayName: 'menu.liquidity-pools-revert',
         },
+        {
+          name: 'list-chart-pools',
+          displayName: 'menu.list-chart-pools',
+        },
       ],
     },
     {

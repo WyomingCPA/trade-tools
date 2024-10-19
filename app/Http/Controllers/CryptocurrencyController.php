@@ -34,7 +34,7 @@ class CryptocurrencyController extends Controller
         if ($request->isMethod('post')) {
             return response()->json([
                 'models' => $objects->get()->toArray(),
-                'count' => $count
+                'count' => $count,
             ]);
         }
     }
@@ -202,11 +202,13 @@ class CryptocurrencyController extends Controller
         $model = Pools::firstOrCreate(
             ['cryptocurrencies_id' => $id,],
             [
+                'name' => (string)$id,
                 'balances' => 0,
                 'min' => 0,
                 'max' => 0,
             ]
         );
+
         return response([
             'model' => $model,
             'last_candle' => $last_candle->close,
@@ -313,6 +315,51 @@ class CryptocurrencyController extends Controller
             'today_pools_last_summ' => $today_pools_last_summ?->unique('name')->sum('balances'),
             'week_pools_first_summ' => $week_pools_first_summ?->unique('name')->sum('balances'),
             'month_pools_first_summ' => $month_pools_first_summ?->unique('name')->sum('balances'),
+            'status' => true,
+        ], 200);
+    }
+    public function listChartPoolsData(Request $request)
+    {
+        $list_chart = [];
+        $models = Auth::user()->favoritesCryptocurrency;
+        foreach ($models as $item)
+        {
+            $pool_min = [];
+            $pool_max = [];
+            $id = $item->id;
+            $model = Cryptocurrency::find($id);
+            $pool = Pools::where('cryptocurrencies_id', $model->id)->first();
+            if (!is_null($pool)) {
+                $pool_min [] = $pool->min;
+                $pool_max [] = $pool->max;
+            }
+    
+            $candles = Candle::where('tools_id', '=', $id)->where('tools_type', '=', 'coins')
+                ->where('interval', '=', '1h')
+                ->where('time', '>=', Carbon::now()->subDays(7)->startOfDay())
+                ->orderBy('time', 'asc')->get();
+    
+            $list_data = [];
+            foreach ($candles as $item) {
+                $dataPoints = [];
+                $dataPoints['time'] = $item->time;
+                $dataPoints['open'] = $item->open;
+                $dataPoints['high'] = $item->high;
+                $dataPoints['low'] = $item->low;
+                $dataPoints['close'] = $item->close;
+                $list_data[] = $dataPoints;
+            }
+
+            $chart = [];
+            $chart['candles'] = $list_data;
+            $chart['symbol'] = $model->symbol;
+            $chart['pool_min'] = $pool_min;
+            $chart['pool_max'] = $pool_max;
+
+            $list_chart [] = $chart;
+        }
+        return response([
+            'list_chart' => $list_chart,
             'status' => true,
         ], 200);
     }
