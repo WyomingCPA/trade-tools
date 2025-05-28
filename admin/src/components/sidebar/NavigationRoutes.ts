@@ -119,6 +119,13 @@ export default {
           displayName: 'menu.cryptocurrency-favorite',
         },
         {
+          name: 'cryptocurrency-table-indicator',
+          displayName: 'menu.cryptocurrency-table-indicator',
+          meta: {
+            authRequired: false
+          }
+        },
+        {
           name: 'liquidity-pools',
           displayName: 'menu.liquidity-pools',
         },

@@ -303,6 +303,7 @@ const routes: Array<RouteRecordRaw> = [
           },
         ],
       },
+
       {
         name: 'tables',
         path: 'tables',
@@ -371,6 +372,18 @@ const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+  {
+    path: '/public',
+    component: AppLayout,
+    children: [
+      {
+        name: 'cryptocurrency-table-indicator',
+        path: 'table-indicator',
+        component: () => import('../pages/admin/cryptocurrency/TableIndicator.vue'),
+      },
+    ],
+  },
+
   {
     path: '/404',
     component: Page404Layout,

@@ -285,31 +285,28 @@ class CryptocurrencyController extends Controller
         $today_pools_last_summ = null;
         $month_pools_first_summ = null;
 
-        if ($today_pools->count() !==0)
-        {
+        if ($today_pools->count() !== 0) {
             $today_pools_first_time = $today_pools->first()->created_at;
             $today_pools_last_time = $today_pools->orderBy('created_at', 'DESC')->first()->created_at;
             $today_pools_first_summ = Pools::whereBetween('created_at', [Carbon::parse($today_pools_first_time)->subMinutes(2), Carbon::parse($today_pools_first_time)->addMinutes(2)])->get();
             $today_pools_last_summ = Pools::whereBetween('created_at', [Carbon::parse($today_pools_last_time)->subMinutes(2), Carbon::parse($today_pools_last_time)->addMinutes(2)])->get();
         }
 
-        if ($week_pools->count() !==0)
-        {
+        if ($week_pools->count() !== 0) {
             $week_pools_first_time = $week_pools->first()->created_at;
             $week_pools_first_summ = Pools::whereBetween('created_at', [Carbon::parse($week_pools_first_time)->subMinutes(3), Carbon::parse($week_pools_first_time)->addMinutes(3)])->get();
         }
-        if ($month_pools->count() !==0)
-        {
+        if ($month_pools->count() !== 0) {
             $month_pools_first_time = $month_pools->first()->created_at;
             $month_pools_first_summ = Pools::whereBetween('created_at', [Carbon::parse($month_pools_first_time)->subMinutes(3), Carbon::parse($month_pools_first_time)->addMinutes(3)])->get();
         }
-       
+
         //Not working
         //$today_pools_last = $today_pools->latest->first();
-        
+
         //$last_pools_30_min = array_unique($last_pools_30_min);
         $user = User::select('id')->where('email', 'WyomingCPA@yandex.ru')->first();
-        $pools_list = $user->favoritesCryptocurrency; 
+        $pools_list = $user->favoritesCryptocurrency;
         return response([
             'pools_list' => $pools_list,
             'last_pools_30_min' => $last_pools_30_min,
@@ -325,23 +322,22 @@ class CryptocurrencyController extends Controller
     {
         $list_chart = [];
         $models = Auth::user()->favoritesCryptocurrency;
-        foreach ($models as $item)
-        {
+        foreach ($models as $item) {
             $pool_min = [];
             $pool_max = [];
             $id = $item->id;
             $model = Cryptocurrency::find($id);
             $pool = Pools::where('cryptocurrencies_id', $model->id)->first();
             if (!is_null($pool)) {
-                $pool_min [] = $pool->min;
-                $pool_max [] = $pool->max;
+                $pool_min[] = $pool->min;
+                $pool_max[] = $pool->max;
             }
-    
+
             $candles = Candle::where('tools_id', '=', $id)->where('tools_type', '=', 'coins')
                 ->where('interval', '=', '1h')
                 ->where('time', '>=', Carbon::now()->subDays(7)->startOfDay())
                 ->orderBy('time', 'asc')->get();
-    
+
             $list_data = [];
             foreach ($candles as $item) {
                 $dataPoints = [];
@@ -359,10 +355,20 @@ class CryptocurrencyController extends Controller
             $chart['pool_min'] = $pool_min;
             $chart['pool_max'] = $pool_max;
 
-            $list_chart [] = $chart;
+            $list_chart[] = $chart;
         }
         return response([
             'list_chart' => $list_chart,
+            'status' => true,
+        ], 200);
+    }
+
+    public function tableIndicator(Request $request)
+    {
+        $user = User::select('id')->where('email', 'WyomingCPA@yandex.ru')->first();
+        $models = $user->favoritesCryptocurrency;
+        return response([
+            'models' => $models,
             'status' => true,
         ], 200);
     }
