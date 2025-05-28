@@ -26,6 +26,11 @@
                         {{ rowData.rsi_hour }}
                     </va-chip>
                 </template>
+                <template #cell(rsi_day)="{ rowData }">
+                    <va-chip size="small" :color="getCellRsiLabel(rowData.rsi_day)">
+                        {{ rowData.rsi_day }}
+                    </va-chip>
+                </template>
             </va-data-table>
 
             <va-alert class="!mt-6" color="info" outline>
@@ -50,7 +55,12 @@ export default {
         const columns = [
             { key: 'id', sortable: true },
             { key: 'symbol', sortable: true },
+            { key: 'ema_hour', width: 80 },
+            { key: 'ema_day', width: 80 },
+            { key: 'cci_hour', width: 80 },
+            { key: 'cci_day', width: 80 },
             { key: 'rsi_hour', width: 80 },
+            { key: 'rsi_day', width: 80 },
         ]
         return {
             loading: false,
@@ -188,5 +198,4 @@ export default {
 .link {
     color: #f5f5f5;
 }
-
 </style>

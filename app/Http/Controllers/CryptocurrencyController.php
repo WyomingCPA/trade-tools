@@ -308,7 +308,10 @@ class CryptocurrencyController extends Controller
         //$today_pools_last = $today_pools->latest->first();
         
         //$last_pools_30_min = array_unique($last_pools_30_min);
+        $user = User::select('id')->where('email', 'WyomingCPA@yandex.ru')->first();
+        $pools_list = $user->favoritesCryptocurrency; 
         return response([
+            'pools_list' => $pools_list,
             'last_pools_30_min' => $last_pools_30_min,
             'today_commission_summ' => $today_pools,
             'today_pools_first_summ' => $today_pools_first_summ?->unique('name')->sum('balances'),
