@@ -67,7 +67,7 @@ class CheckCryptocurrencyIndicator extends Command
             if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
                 $page->navigate('http://localhost:3000/public/table-indicator')->waitForNavigation('networkIdle', 10000);
             } else {
-                $page->navigate('http://trade-tools.ani24.fun/public/table-indicator/')->waitForNavigation('networkIdle', 10000);
+                $page->navigate('http://trade-tools.simpleitrunner.ru/public/table-indicator/')->waitForNavigation('networkIdle', 10000);
             }
 
             $path = public_path() . '/storage/';
@@ -82,7 +82,7 @@ class CheckCryptocurrencyIndicator extends Command
         } finally {
             $browser->close();
         }
-        
+
         $messageText .= "test\n";
         $messageText .= "test  \n";
 
@@ -98,7 +98,7 @@ class CheckCryptocurrencyIndicator extends Command
                 $url = Storage::url($img);
                 echo $img . "\n";
                 echo $url . "\n";
-                $media->addItem(new InputMediaPhoto('http://trade-tools.ani24.fun/storage/' . $img));
+                $media->addItem(new InputMediaPhoto('http://trade-tools.simpleitrunner.ru/storage/' . $img));
             }
 
             $bot->sendMediaGroup($chatId, $media);
