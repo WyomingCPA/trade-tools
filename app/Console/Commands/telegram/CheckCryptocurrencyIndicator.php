@@ -97,9 +97,9 @@ class CheckCryptocurrencyIndicator extends Command
             foreach ($list_img as $img) {
                 
                 $url = Storage::url($img);
-                echo "http://trade-tools.simpleitrunner.ru/storage/" . $img;
+                echo "http://trade-tools.simpleitrunner.ru:3000/storage/$img";
 
-                $media->addItem(new InputMediaPhoto('http://trade-tools.simpleitrunner.ru:3000/storage/' . $img));
+                $media->addItem(new InputMediaPhoto("http://trade-tools.simpleitrunner.ru:3000/storage/$img"));
                 //$media->addItem(new InputMediaPhoto('http://localhost:3000/storage/' . $img));               
             }
 
