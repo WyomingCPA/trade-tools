@@ -48,7 +48,7 @@ class CheckCryptocurrencyIndicator extends Command
     public function handle()
     {
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            $chromeBinary = 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe';
+            $chromeBinary = 'C:\Program Files\Google\Chrome\Application\chrome.exe';
         } else {
             $chromeBinary = 'google-chrome';
         }
@@ -65,9 +65,9 @@ class CheckCryptocurrencyIndicator extends Command
             // creates a new page and navigate to an url
             $page = $browser->createPage();
             if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-                $page->navigate('http://localhost:3000/public/table-indicator')->waitForNavigation('networkIdle', 10000);
+                $page->navigate('http://localhost:3000/public/table-indicator')->waitForNavigation('networkIdle', 20000);
             } else {
-                $page->navigate('http://trade-tools.simpleitrunner.ru/public/table-indicator/')->waitForNavigation('networkIdle', 10000);
+                $page->navigate('http://trade-tools.simpleitrunner.ru/public/table-indicator/')->waitForNavigation('networkIdle', 20000);
             }
 
             $path = public_path() . '/storage/';
@@ -78,7 +78,7 @@ class CheckCryptocurrencyIndicator extends Command
                 'quality' => 100,
             ])->saveToFile($file_name);
             $list_img[] = $file;
-            echo $file . "\n";
+            echo $path . "\n";
         } finally {
             $browser->close();
         }
@@ -95,10 +95,12 @@ class CheckCryptocurrencyIndicator extends Command
             $bot->sendMessage($chatId, $messageText, 'HTML');
             $media = new ArrayOfInputMedia();
             foreach ($list_img as $img) {
+                
                 $url = Storage::url($img);
                 echo $img . "\n";
                 echo $url . "\n";
                 $media->addItem(new InputMediaPhoto('http://trade-tools.simpleitrunner.ru/storage/' . $img));
+                //$media->addItem(new InputMediaPhoto('http://localhost:3000/storage/' . $img));               
             }
 
             $bot->sendMediaGroup($chatId, $media);
