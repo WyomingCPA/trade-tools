@@ -67,7 +67,7 @@ class CheckCryptocurrencyIndicator extends Command
             if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
                 $page->navigate('http://localhost:3000/public/table-indicator')->waitForNavigation('networkIdle', 20000);
             } else {
-                $page->navigate('http://trade-tools.simpleitrunner.ru/public/table-indicator/')->waitForNavigation('networkIdle', 20000);
+                $page->navigate('https://trade-tools.simpleitrunner.ru/public/table-indicator/')->waitForNavigation('networkIdle', 20000);
             }
 
             $path = public_path() . '/storage/';
@@ -87,21 +87,21 @@ class CheckCryptocurrencyIndicator extends Command
         $messageText .= "test  \n";
 
         if (!empty($messageText)) {
-            $chatId = '-517188991';
+            $chatId = '-414528593';
             $bot = new BotApi(env('TELEGRAM_TOKEN'));
 
             $bot->setCurlOption(CURLOPT_TIMEOUT, 60);
 
             $bot->sendMessage($chatId, $messageText, 'HTML');
             $media = new ArrayOfInputMedia();
-            foreach ($list_img as $img) {
-                
-                $url = Storage::url($img);
-                echo "http://trade-tools.simpleitrunner.ru:3000/storage/$img";
+            //foreach ($list_img as $img) {            
+            //}
+            $url = Storage::url($list_img[0]);
+            echo $url;
 
-                $media->addItem(new InputMediaPhoto("http://trade-tools.simpleitrunner.ru:3000/storage/$img"));
-                //$media->addItem(new InputMediaPhoto('http://localhost:3000/storage/' . $img));               
-            }
+            $media->addItem(new InputMediaPhoto("http://trade-tools.simpleitrunner.ru:3000/storage/$img"));
+            //$media->addItem(new InputMediaPhoto("https://trade-tools.simpleitrunner.ru:3000/storage/1748634960.jpg"));
+            //$media->addItem(new InputMediaPhoto('http://localhost:3000/storage/' . $img));   
 
             $bot->sendMediaGroup($chatId, $media);
 
