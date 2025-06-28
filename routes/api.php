@@ -191,4 +191,5 @@ Route::group(['prefix' => 'cryptocurrency-data',], function () {
     Route::get('/favorites-cryptocurrency', [CryptocurrencyController::class, 'getFavoriteNotAuth']);
 	Route::get('/pools-data', [CryptocurrencyController::class, 'poolsData']);
 	Route::get('/table-indicator', [CryptocurrencyController::class, 'tableIndicator']);
+	Route::get('/telegramm-indicator', [CryptocurrencyController::class, 'telegrammIndicator']);
 });

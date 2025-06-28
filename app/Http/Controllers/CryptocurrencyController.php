@@ -372,4 +372,13 @@ class CryptocurrencyController extends Controller
             'status' => true,
         ], 200);
     }
+    public function telegrammIndicator(Request $request)
+    {
+        $user = User::select('id')->where('email', 'WyomingCPA@yandex.ru')->first();
+        $models = $user->favoritesCryptocurrency;
+        return response([
+            'models' => $models,
+            'status' => true,
+        ], 200);
+    }
 }
